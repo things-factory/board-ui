@@ -50,10 +50,10 @@ class BoardPlayerPage extends connect(store)(PageView) {
     this._playGroupId = state.app.resourceId
   }
 
-  get tools() {
-    return html`
-      <label>${this._playGroupId}</label>
-    `
+  get context() {
+    return {
+      title: this._playGroupId
+    }
   }
 
   render() {

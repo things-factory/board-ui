@@ -41,10 +41,10 @@ class BoardViewerPage extends connect(store)(PageView) {
     ]
   }
 
-  get tools() {
-    return html`
-      <label>${this._boardId}</label>
-    `
+  get context() {
+    return {
+      title: this._boardId
+    }
   }
 
   render() {
