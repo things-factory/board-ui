@@ -11,6 +11,10 @@ export default {
     {
       tagname: 'board-player-page',
       page: 'board-player'
+    },
+    {
+      tagname: 'board-modeller-page',
+      page: 'board-modeller'
     }
   ],
   bootstrap

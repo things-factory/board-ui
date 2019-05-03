@@ -6,6 +6,8 @@ import { ReferenceMap, create, error } from '@hatiolab/things-scene'
 
 import '@things-shell/board-player'
 
+import('./things-scene-components.import')
+
 class BoardPlayerPage extends connect(store)(PageView) {
   static get properties() {
     return {
