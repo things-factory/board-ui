@@ -25,9 +25,11 @@
   "devDependencies": {
     "@things-factory/auth-provider-session": "*",
     "@things-factory/auth-ui-session": "*",
+    "@things-factory/layout-ui": "*",
     "@things-factory/menu-provider": "*",
     "@things-factory/menu-ui": "*",
     "@things-factory/more-ui": "*",
+    "@things-factory/print-ui": "*",
     "@things-factory/resource-ui-mobile": "*",
     "@things-factory/system-ui": "*",
     "@things-factory/tester": "*",
