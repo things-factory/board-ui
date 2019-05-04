@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element'
+import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 
 import '@polymer/paper-dialog/paper-dialog'
@@ -6,22 +6,26 @@ import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
 import { saveAs } from 'file-saver'
 
 import { store, PageView, togglefullscreen } from '@things-factory/shell'
-import { createBoard, updateBoard } from '@things-factory/board-base'
+import { createBoard, updateBoard, ADD_BOARD_COMPONENTS } from '@things-factory/board-base'
 import { i18next } from '@things-factory/i18n-base'
 
 import '@things-shell/board-modeller'
 
-class BoardModellerPage extends connect(store)(LitElement) {
+class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
 
-    import(/* webpackChunkName: "components-with-tools" */
-    /* webpackMode: "lazy" */
-    './things-scene-components-with-tools.import')
-      .then(elements => {
+    import(
+      /* webpackChunkName: "components-with-tools" */
+      /* webpackMode: "lazy" */
+      './things-scene-components-with-tools.import'
+    )
+      .then(exported => {
+        let components = exported.default
+
         /* 각 모듈의 locale정보로 resource bundle을 추가한다. */
-        for (let element in elements) {
-          let locales = elements[element].locales
+        for (let component in components) {
+          let locales = components[component].locales
 
           locales &&
             Object.keys(locales).forEach(lng => {
@@ -30,8 +34,8 @@ class BoardModellerPage extends connect(store)(LitElement) {
         }
 
         store.dispatch({
-          type: 'MODULE-PLUGIN',
-          elements
+          type: ADD_BOARD_COMPONENTS,
+          components
         })
       })
       .catch(error => 'An error occurred while loading the component')
@@ -111,29 +115,19 @@ class BoardModellerPage extends connect(store)(LitElement) {
   }
 
   stateChanged(state) {
-    if (state.route.page !== 'modeller') {
-      this.boardName = null
-      this.model = null
-      this.baseUrl = null
-      this.board = state.boardCurrent
-
-      return
-    }
-
-    this.componentGroupList = state.component.groupList
-    this.fonts = state.fontList
-    this.boardGroupList = state.boardGroupList
-    this.group = state.boardGroupCurrent
-    this.propertyEditor = state.propertyEditor
-
-    if (this.board !== state.boardCurrent) {
-      this.board = state.boardCurrent
-      this.boardName = this.board.name
-      this.model = {
-        ...this.board.model
-      }
-      this.baseUrl = state.route.rootPath
-    }
+    // this.componentGroupList = state.component.groupList
+    // this.fonts = state.fontList
+    // this.boardGroupList = state.boardGroupList
+    // this.group = state.boardGroupCurrent
+    // this.propertyEditor = state.propertyEditor
+    // if (this.board !== state.boardCurrent) {
+    //   this.board = state.boardCurrent
+    //   this.boardName = this.board.name
+    //   this.model = {
+    //     ...this.board.model
+    //   }
+    //   this.baseUrl = state.route.rootPath
+    // }
   }
 
   render() {

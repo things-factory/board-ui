@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element'
+import { html, css } from 'lit-element'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView } from '@things-factory/shell'
