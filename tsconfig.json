@@ -14,6 +14,6 @@
     "baseUrl": "./",
     "lib": ["esnext.asynciterable", "es7", "es2017"]
   },
-  "include": ["./server/**/*", "./node_modules/@things-factory/shell/server/**/*"],
+  "include": ["./server/**/*"],
   "exclude": ["**/*.spec.ts"]
 }
