@@ -1,5 +1,5 @@
 import { Entity, Index, Column } from 'typeorm'
-import { DomainBaseEntity } from '@things-factory/shell/server'
+import { DomainBaseEntity } from '@things-factory/shell'
 
 @Entity('tryouts')
 @Index('ix_tryout_0', (tryout: TryOut) => [tryout.category, tryout.name], { unique: true })
