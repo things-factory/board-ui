@@ -7,7 +7,9 @@ export class TryOut extends DomainBaseEntity {
   @Column('text')
   name: string
 
-  @Column('text')
+  @Column('text', {
+    nullable: true
+  })
   category: string
 
   @Column('text', {
