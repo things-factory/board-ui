@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -13,7 +13,7 @@
     "build:server": "tsc",
     "clean": "rm -rf dist-server dist-client",
     "prepublish": "npm run clean && npm run build:server",
-    "migration": "things-factory-migration",
+    "migration": "npm run clean && npm run build:server && things-factory-migration",
     "migration:create": "node ./node_modules/typeorm/cli.js migration:create",
     "migration:generate": "node ./node_modules/typeorm/cli.js migration:generate",
     "migration:run": "node ./node_modules/typeorm/cli.js migration:run",

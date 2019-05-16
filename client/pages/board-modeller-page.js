@@ -9,6 +9,8 @@ import { store, PageView, togglefullscreen } from '@things-factory/shell'
 import { createBoard, updateBoard, ADD_BOARD_COMPONENTS } from '@things-factory/board-base'
 import { i18next } from '@things-factory/i18n-base'
 
+import { provider } from '../board-provider'
+
 import '@things-shell/board-modeller'
 
 class BoardModellerPage extends connect(store)(PageView) {
@@ -60,7 +62,7 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.baseUrl = ''
     this.selected = []
     this.mode = 1
-    this.provider = null
+    // this.provider = null
     this.hideProperty = false
     this.overlay = null
     this.scene = null
@@ -79,7 +81,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       baseUrl: String,
       selected: Array,
       mode: Number,
-      provider: Object,
+      // provider: Object,
       hideProperty: Boolean,
       overlay: String,
       scene: Object,
@@ -165,7 +167,7 @@ class BoardModellerPage extends connect(store)(PageView) {
           this.selected = e.detail.value
         }}
         .baseUrl=${this.baseUrl}
-        .provider=${this.provider}
+        .provider=${provider}
         @save-model=${e => this.saveBoard()}
         .componentGroupList=${this.componentGroupList}
         .fonts=${this.fonts}
