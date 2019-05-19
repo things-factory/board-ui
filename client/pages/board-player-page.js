@@ -60,12 +60,6 @@ class BoardPlayerPage extends connect(store)(PageView) {
       <board-player .boards=${this._boards} .provider=${provider}></board-player>
     `
   }
-
-  // connectedCallback() {
-  //   super.connectedCallback()
-
-  //   this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
-  // }
 }
 
 customElements.define('board-player-page', BoardPlayerPage)
