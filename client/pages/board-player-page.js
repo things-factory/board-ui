@@ -40,7 +40,7 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   async updated(changed) {
     if (changed.has('active')) {
-      this._boards = (await fetchBoardList(this._playGroupId)).boards
+      this._boards = (await fetchBoardList(this._playGroupId)).boards.items
     }
   }
 

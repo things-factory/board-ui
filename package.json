@@ -23,24 +23,17 @@
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
-    "@hatiolab/things-scene": "*",
-    "@things-factory/board-base": "*",
-    "@things-factory/menu-base": "*",
-    "@things-factory/shell": "*",
-    "@things-shell/board-modeller": "*",
-    "@things-shell/board-player": "*",
-    "@things-shell/board-viewer": "*",
+    "@hatiolab/things-scene": "2.5.25",
+    "@things-factory/board-base": "0.1.28",
+    "@things-factory/menu-base": "0.1.22",
+    "@things-factory/shell": "0.2.98",
+    "@things-shell/board-modeller": "0.3.12",
+    "@things-shell/board-player": "0.4.4",
+    "@things-shell/board-viewer": "0.4.5",
     "file-saver": "^2.0.1"
   },
   "devDependencies": {
-    "@things-factory/auth-provider-jwt": "*",
-    "@things-factory/auth-ui-jwt": "*",
-    "@things-factory/layout-ui": "*",
-    "@things-factory/menu-ui": "*",
-    "@things-factory/more-ui": "*",
-    "@things-factory/print-ui": "*",
-    "@things-factory/resource-ui": "*",
-    "@things-factory/system-ui": "*",
+    "@things-factory/tester": "*",
     "@things-scene/half-roundrect": "*",
     "@things-scene/wheel-sorter": "*"
   }
