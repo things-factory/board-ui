@@ -5,6 +5,10 @@ export default {
   route,
   routes: [
     {
+      tagname: 'board-list-page',
+      page: 'board-list'
+    },
+    {
       tagname: 'board-viewer-page',
       page: 'board-viewer'
     },
