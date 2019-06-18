@@ -1,25 +1,49 @@
-import { html, LitElement } from 'lit-element'
+import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store, PageView } from '@things-factory/shell'
+import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
-import logo from '../../assets/images/hatiolab-logo.png'
+import '../components/group-bar'
+import '../components/board-tile-list'
 
 class BoardListPage extends connect(store)(PageView) {
+  static get styles() {
+    return [
+      ScrollbarStyles,
+      css`
+        :host {
+          display: flex;
+          flex-direction: column;
+
+          overflow: hidden;
+        }
+
+        board-tile-list {
+          flex: 1;
+          overflow-y: auto;
+        }
+      `
+    ]
+  }
+
   static get properties() {
     return {
-      boardList: String
+      groupId: String,
+      groups: Array
     }
   }
+
   render() {
     return html`
-      <section>
-        <h2>board-list</h2>
-        <img src=${logo}></img>
-      </section>
+      <group-bar .groups=${this.groups} .groupId=${this.groupId}></group-bar>
+
+      <board-tile-list .groupId="${this.groupId}"></board-tile-list>
     `
   }
 
-  stateChanged(state) {}
+  stateChanged(state) {
+    this.groups = state.board.groups
+    this.groupId = state.route.resourceId
+  }
 }
 
 window.customElements.define('board-list-page', BoardListPage)

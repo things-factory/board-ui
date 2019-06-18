@@ -1,0 +1,34 @@
+<style>
+  #scene {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div id="scene"></div>
+
+<script>
+  var model = <%- JSON.stringify(model) %>;
+
+  var el = document.getElementById('scene');
+  var s = scene.create({
+    model,
+    mode: 0,
+    refProvider: null //self.provider
+  });
+  s.target = el;
+
+  function resize() {
+    s.fit('ratio');
+  }
+
+  resize();
+
+  addEventListener('resize', function() {
+    if (requestAnimationFrame) {
+      requestAnimationFrame(resize);
+    } else {
+      setTimeout(resize, 66);
+    }
+  }, false);
+</script>

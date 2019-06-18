@@ -1,0 +1,119 @@
+<style>
+  #scene {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div id="scene"></div>
+
+<script>
+  var model = <%- JSON.stringify(model) %>;
+
+  var el = document.getElementById('scene')
+  var s = scene.create({
+    model,
+    mode: 0,
+    refProvider: null //self.provider
+  })
+  s.target = el
+
+  function imageDataToGrf(width, height) {
+    const R = 0
+    const G = 1
+    const B = 2
+    const A = 3
+    const THRESHOLD = 95
+
+    var imageData = getImageData(width, height) // 이미지 데이터
+
+    // 이미지의 가로 한 줄당 바이트
+    var bytesPerLine = width + 7 >> 3 // var bytesPerLine = Math.ceil(width / 8)
+
+    // 바이트와 실제 너비 차이
+    var diff = (width & 7 ^ 7) + 1
+
+    // GRF 사이즈 = 가로 바이트 사이즈 * 세로
+    var grfSize = bytesPerLine * height
+
+    // GRF 사이즈 만큼의 배열 생성, GRF 문자열을 만들 때 사용, 메모리 확보
+    var grfArray = new Uint8Array(grfSize)
+
+    var zippedArray = []
+    var count = 0 // 반복 문자 수
+    var sourceData = 0
+    var compareData = 0
+
+    // 도트 단위 처리를 위해 이미지 크기만큼 루프
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        let j = width * y + x // 현재 도트 좌표 (처리중인 도트)
+        let i = j << 2 // 이미지 데이터의 도트 좌표 (도트 * 4)
+
+        // 도트의 밝기
+        let luminance = imageData[i + R] * 0.21 + imageData[i + G] * 0.71 + imageData[i + B] * 0.07
+        // Alpha 값이 낮을 수록 luminance가 높아지는 것으로 본다.
+        luminance = luminance + ((255 - imageData[i + A]) * (255 - luminance)) / 255
+
+        let k = ((bytesPerLine << 3) * y + x) >> 3 // GRF 배열에서 사용할 요소 인덱스
+        grfArray[k] <<= 1 // 도트 좌표 이동
+        if (luminance < THRESHOLD) grfArray[k] |= 1 // THRESHOLD 값으로 칠할지 여부 판단, 어두우면 칠함
+
+        // 4도트마다 압축 로직 적용
+        if ((x & 3) == 3) {
+          compareData = grfArray[k] & 15
+          if (sourceData === compareData) {
+            count++
+          } else {
+            if ( count != 0 ) zippedArray.push(sourceData.toString(16) + count)
+            count = 1
+            sourceData = compareData
+          }
+        }
+      }
+
+      // 끝의 8도트는 남는 도트 수만큼 왼쪽으로 밀어줌
+      var lastByteOfLine = grfArray[(y + 1) * bytesPerLine - 1]
+      lastByteOfLine <<= diff
+
+      if (diff != 0) {
+        if (diff > 4) {
+          if (sourceData == (lastByteOfLine >> 4)) {
+            count++
+          } else {
+            zippedArray.push(sourceData.toString(16) + count)
+            count = 1
+            sourceData = lastByteOfLine >> 4
+          }
+        }
+        if (sourceData == (lastByteOfLine & 15)) {
+          count++
+        } else {
+          zippedArray.push(sourceData.toString(16) + count)
+          count = 1
+          sourceData = lastByteOfLine & 15
+        }
+      }
+    }
+    zippedArray.push(sourceData.toString(16) + count)
+    return zippedArray
+  }
+
+  function getImageData(width, height) {
+    return s._container.model_layer.canvas.getContext('2d').getImageData(0, 0, width, height).data
+  }
+
+  function resize() {
+    s.fit('ratio')
+  }
+
+  resize()
+
+  addEventListener('resize', function () {
+    if (requestAnimationFrame) {
+      requestAnimationFrame(resize)
+    } else {
+      setTimeout(resize, 66)
+    }
+  }, false)
+</script>

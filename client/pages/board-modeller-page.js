@@ -18,7 +18,7 @@ class BoardModellerPage extends connect(store)(PageView) {
     super()
 
     import(
-      /* webpackChunkName: "components-with-tools" */
+      /* webpackChunkName: "scene-components-with-tools" */
       /* webpackMode: "lazy" */
       './things-scene-components-with-tools.import'
     )

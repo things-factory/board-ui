@@ -8,6 +8,8 @@ import { provider } from '../board-provider'
 
 import '@things-shell/board-viewer'
 
+/* webpackChunkName: "scene-components" */
+/* webpackMode: "lazy" */
 import('./things-scene-components.import')
 
 class BoardViewerPage extends connect(store)(PageView) {
