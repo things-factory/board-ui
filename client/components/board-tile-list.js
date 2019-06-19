@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit-element'
 
 import '@material/mwc-icon/mwc-icon'
 
-import { i18next } from '@things-factory/i18n-base'
+import { fetchBoardList } from '@things-factory/board-base'
 
 export default class BoardTileList extends LitElement {
   static get styles() {
@@ -121,18 +121,7 @@ export default class BoardTileList extends LitElement {
   }
 
   render() {
-    var groupId = this.groupId
-    var boards = []
-
-    if (!groupId) {
-      /* all boards */
-      boards = []
-    } else if (groupId === 'favor') {
-      /* favorite boards */
-      boards = []
-    } else {
-      boards = []
-    }
+    var boards = this.boards || []
 
     return html`
       <ul>
@@ -153,6 +142,16 @@ export default class BoardTileList extends LitElement {
         )}
       </ul>
     `
+  }
+
+  updated(change) {
+    change.has('groupId') && this.onChangeGroup()
+  }
+
+  async onChangeGroup() {
+    this.boards = (await fetchBoardList('group', this.groupId)).group.boards
+
+    console.log(this.boards)
   }
 }
 

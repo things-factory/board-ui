@@ -70,6 +70,12 @@ class BoardList extends connect(store)(localize(i18next)(LitElement)) {
     ]
   }
 
+  get context() {
+    return {
+      title: 'Board List'
+    }
+  }
+
   stateChanged(state) {
     this.boardList = state.boardList
     this.group = state.boardGroupCurrent
@@ -101,10 +107,6 @@ class BoardList extends connect(store)(localize(i18next)(LitElement)) {
 
   render() {
     return html`
-      <page-toolbar>
-        <things-search-input .value=${this.keyword} .label=${i18next.t('label.keyword')}> </things-search-input>
-      </page-toolbar>
-
       <div id="list">
         <things-sortable .group=${this.group.id} ?disabled=${this.group.type !== 'playGroup'}>
           ${this.boardList.map(

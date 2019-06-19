@@ -66,7 +66,7 @@ export default class GroupBar extends LitElement {
           <a href="/board-list/favor"><mwc-icon>star</mwc-icon></a>
         </li>
 
-        ${this.groups.map(
+        ${(this.groups || []).map(
           group => html`
             <li ?active=${this.groupId === group.id}>
               <a href=${`/board-list/${group.id}`}>${group.name}</a>

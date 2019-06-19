@@ -2,6 +2,8 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
+import { fetchGroupList } from '@things-factory/board-base'
+
 import '../components/group-bar'
 import '../components/board-tile-list'
 
@@ -32,6 +34,12 @@ class BoardListPage extends connect(store)(PageView) {
     }
   }
 
+  get context() {
+    return {
+      title: 'Board List'
+    }
+  }
+
   render() {
     return html`
       <group-bar .groups=${this.groups} .groupId=${this.groupId}></group-bar>
@@ -40,8 +48,11 @@ class BoardListPage extends connect(store)(PageView) {
     `
   }
 
+  async firstUpdated() {
+    this.groups = (await fetchGroupList()).groups.items
+  }
+
   stateChanged(state) {
-    this.groups = state.board.groups
     this.groupId = state.route.resourceId
   }
 }
