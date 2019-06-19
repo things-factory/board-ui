@@ -7,9 +7,19 @@ import { provider } from '../board-provider'
 
 import '@things-shell/board-player'
 
-import('./things-scene-components.import')
-
 class BoardPlayerPage extends connect(store)(PageView) {
+  constructor() {
+    super()
+
+    import(
+      /* webpackChunkName: "scene-components" */
+      /* webpackMode: "lazy" */
+      './things-scene-components.import'
+    )
+      .then(exported => {})
+      .catch(error => 'An error occurred while loading scene-components')
+  }
+
   static get properties() {
     return {
       _playGroupId: String,
