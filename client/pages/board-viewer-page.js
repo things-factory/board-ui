@@ -57,7 +57,15 @@ class BoardViewerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._boardId
+      title: this._board && this._board.name,
+      printable: true,
+      exportable: {
+        allowed: 'json',
+        name: this._boardId,
+        data: () => {
+          this._board.model
+        }
+      }
     }
   }
 

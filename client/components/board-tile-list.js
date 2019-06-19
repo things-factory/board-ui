@@ -129,7 +129,7 @@ export default class BoardTileList extends LitElement {
           board =>
             html`
               <li class="text" style="grid-row: span 2">
-                <a href="board-view/${board.id}">${board.name}</a>
+                <a href="board-viewer/${board.id}">${board.name}</a>
                 ${Math.random() > 0.5
                   ? html`
                       <mwc-icon>star_border</mwc-icon>
