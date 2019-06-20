@@ -29,6 +29,14 @@ export default class BoardTileList extends LitElement {
           position: relative;
         }
 
+        img {
+          display: block;
+
+          margin: auto;
+          max-width: 100%;
+          max-height: 70%;
+        }
+
         mwc-icon {
           position: absolute;
           right: 8px;
@@ -43,11 +51,11 @@ export default class BoardTileList extends LitElement {
           text-shadow: 1px 1px 1px var(--secondary-dark-color);
         }
 
-        li.text a {
+        li a {
           color: #fff;
           text-decoration: none;
 
-          font-size: 1.5em;
+          font-size: 1em;
           word-wrap: break-word;
           word-break: break-all;
 
@@ -57,31 +65,31 @@ export default class BoardTileList extends LitElement {
           height: 100%;
         }
 
-        li.text:nth-child(7n + 1) {
+        li:nth-child(7n + 1) {
           background-color: #4397de;
         }
 
-        li.text:nth-child(7n + 2) {
+        li:nth-child(7n + 2) {
           background-color: #33b8d0;
         }
 
-        li.text:nth-child(7n + 3) {
+        li:nth-child(7n + 3) {
           background-color: #4ab75f;
         }
 
-        li.text:nth-child(7n + 4) {
+        li:nth-child(7n + 4) {
           background-color: #93796f;
         }
 
-        li.text:nth-child(7n + 5) {
+        li:nth-child(7n + 5) {
           background-color: #f1ac42;
         }
 
-        li.text:nth-child(7n + 6) {
+        li:nth-child(7n + 6) {
           background-color: #ea6361;
         }
 
-        li.text:nth-child(7n + 7) {
+        li:nth-child(7n + 7) {
           background-color: #7386c3;
         }
 
@@ -128,8 +136,9 @@ export default class BoardTileList extends LitElement {
         ${boards.map(
           board =>
             html`
-              <li class="text" style="grid-row: span 2">
-                <a href="board-viewer/${board.id}">${board.name}</a>
+              <li style="grid-row: span 2">
+                <a href="board-viewer/${board.id}"> <img src=${board.thumbnail} />${board.name} </a>
+
                 ${Math.random() > 0.5
                   ? html`
                       <mwc-icon>star_border</mwc-icon>

@@ -12,11 +12,7 @@ class BoardViewerPage extends connect(store)(PageView) {
   constructor() {
     super()
 
-    import(
-      /* webpackChunkName: "scene-components" */
-      /* webpackMode: "lazy" */
-      './things-scene-components.import'
-    )
+    import('./things-scene-components.import')
       .then(exported => {})
       .catch(error => 'An error occurred while loading scene-components')
   }
@@ -60,10 +56,10 @@ class BoardViewerPage extends connect(store)(PageView) {
       title: this._board && this._board.name,
       printable: true,
       exportable: {
-        allowed: 'json',
+        allowed: ['json'],
         name: this._boardId,
         data: () => {
-          this._board.model
+          return this._board.model
         }
       }
     }

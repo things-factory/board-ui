@@ -17,11 +17,7 @@ class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
 
-    import(
-      /* webpackChunkName: "scene-components-with-tools" */
-      /* webpackMode: "lazy" */
-      './things-scene-components-with-tools.import'
-    )
+    import('./things-scene-components-with-tools.import')
       .then(exported => {
         let components = exported.default
 
