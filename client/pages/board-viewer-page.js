@@ -55,7 +55,12 @@ class BoardViewerPage extends connect(store)(PageView) {
     return {
       title: this._board && this._board.name,
       printable: {
-        accept: ['paper', 'label']
+        accept: ['paper', 'label'],
+        name: this._board && this._board.name,
+        content: () => {
+          return this._board
+        },
+        options: {}
       },
       exportable: {
         accept: ['json'],
