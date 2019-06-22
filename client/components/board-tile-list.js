@@ -2,8 +2,6 @@ import { css, html, LitElement } from 'lit-element'
 
 import '@material/mwc-icon/mwc-icon'
 
-import { fetchBoardList } from '@things-factory/board-base'
-
 export default class BoardTileList extends LitElement {
   static get styles() {
     return [
@@ -123,7 +121,6 @@ export default class BoardTileList extends LitElement {
 
   static get properties() {
     return {
-      groupId: String,
       boards: Array
     }
   }
@@ -151,16 +148,6 @@ export default class BoardTileList extends LitElement {
         )}
       </ul>
     `
-  }
-
-  updated(change) {
-    change.has('groupId') && this.onChangeGroup()
-  }
-
-  async onChangeGroup() {
-    this.boards = (await fetchBoardList('group', this.groupId)).group.boards
-
-    console.log(this.boards)
   }
 }
 

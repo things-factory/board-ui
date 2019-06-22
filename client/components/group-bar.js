@@ -13,7 +13,7 @@ export default class GroupBar extends LitElement {
         }
 
         ul {
-          display: block;
+          display: flex;
           list-style: none;
           margin: 5px 5px 0px 5px;
           padding: 5px 5px 0px 5px;
@@ -39,6 +39,14 @@ export default class GroupBar extends LitElement {
         li[active] a {
           color: rgba(255, 255, 255, 1);
           font-weight: bold;
+        }
+
+        li[padding] {
+          flex: 1;
+        }
+
+        li[refresh] * {
+          color: rgba(255, 255, 255, 0.5);
         }
 
         mwc-icon {
@@ -73,6 +81,12 @@ export default class GroupBar extends LitElement {
             </li>
           `
         )}
+
+        <li padding></li>
+
+        <li refresh>
+          <mwc-icon @click=${this._onClickRefresh.bind(this)}>refresh</mwc-icon>
+        </li>
       </ul>
     `
   }
@@ -82,6 +96,10 @@ export default class GroupBar extends LitElement {
     this.scrollLeft -= delta * 40
 
     e.preventDefault()
+  }
+
+  _onClickRefresh(e) {
+    this.dispatchEvent(new CustomEvent('refresh'))
   }
 
   firstUpdated() {

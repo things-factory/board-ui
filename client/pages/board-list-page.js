@@ -2,7 +2,7 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
-import { fetchGroupList } from '@things-factory/board-base'
+import { fetchGroupList, fetchBoardList } from '@things-factory/board-base'
 
 import '../components/group-bar'
 import '../components/board-tile-list'
@@ -30,7 +30,8 @@ class BoardListPage extends connect(store)(PageView) {
   static get properties() {
     return {
       groupId: String,
-      groups: Array
+      groups: Array,
+      boards: Array
     }
   }
 
@@ -42,14 +43,51 @@ class BoardListPage extends connect(store)(PageView) {
 
   render() {
     return html`
-      <group-bar .groups=${this.groups} .groupId=${this.groupId}></group-bar>
+      <group-bar .groups=${this.groups} .groupId=${this.groupId} @refresh=${this.refresh.bind(this)}></group-bar>
 
-      <board-tile-list .groupId="${this.groupId}"></board-tile-list>
+      <board-tile-list .boards=${this.boards}></board-tile-list>
     `
   }
 
-  async firstUpdated() {
+  firstUpdated() {
+    this.refresh()
+  }
+
+  async refresh() {
     this.groups = (await fetchGroupList()).groups.items
+    await this.refreshBoards()
+  }
+
+  async refreshBoards() {
+    var listParam = {
+      filters: this.groupId
+        ? [
+            {
+              name: 'groupId',
+              operator: 'eq',
+              value: this.groupId
+            }
+          ]
+        : [],
+      sortings: [
+        {
+          name: 'name',
+          desc: true
+        }
+      ],
+      pagination: {
+        skip: 0,
+        take: 10
+      }
+    }
+
+    this.boards = (await fetchBoardList(listParam)).boards.items
+  }
+
+  updated(change) {
+    if (change.has('groupId')) {
+      this.refreshBoards()
+    }
   }
 
   stateChanged(state) {
