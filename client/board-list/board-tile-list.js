@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit-element'
 
-import '@material/mwc-icon/mwc-icon'
+import '@material/mwc-icon'
 
 export default class BoardTileList extends LitElement {
   static get styles() {
@@ -22,7 +22,7 @@ export default class BoardTileList extends LitElement {
 
         ul > li {
           margin: var(--menu-list-item-margin);
-          padding: 10px;
+          padding: 12px;
 
           position: relative;
         }
@@ -32,10 +32,10 @@ export default class BoardTileList extends LitElement {
 
           margin: auto;
           max-width: 100%;
-          max-height: 70%;
+          max-height: 100%;
         }
 
-        mwc-icon {
+        mwc-icon[star] {
           position: absolute;
           right: 8px;
           top: 8px;
@@ -44,13 +44,13 @@ export default class BoardTileList extends LitElement {
           font-size: 1em;
         }
 
-        mwc-icon[selected] {
+        mwc-icon[star][selected] {
           color: white;
           text-shadow: 1px 1px 1px var(--secondary-dark-color);
         }
 
         li a {
-          color: #fff;
+          display: block;
           text-decoration: none;
 
           font-size: 1em;
@@ -58,9 +58,37 @@ export default class BoardTileList extends LitElement {
           word-break: break-all;
 
           margin: 0px;
-          display: block;
+        }
+
+        [name] {
+          color: #fff;
+          text-transform: uppercase;
+        }
+
+        [description] {
+          color: var(--secondary-dark-color);
+        }
+
+        [thumbnail] {
           width: 100%;
-          height: 100%;
+          height: 80%;
+        }
+
+        [edit] {
+          display: none;
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+        }
+
+        [edit] mwc-icon {
+          color: var(--secondary-dark-color);
+          font-size: 1.3em;
+          vertical-align: middle;
+        }
+
+        li:hover [edit] {
+          display: block;
         }
 
         li:nth-child(7n + 1) {
@@ -134,15 +162,22 @@ export default class BoardTileList extends LitElement {
           board =>
             html`
               <li style="grid-row: span 2">
-                <a href="board-viewer/${board.id}"> <img src=${board.thumbnail} />${board.name} </a>
+                <a href="board-viewer/${board.id}" thumbnail> <img src=${board.thumbnail} /> </a>
+
+                <div name>${board.name}</div>
+                <div description>${board.description}</div>
 
                 ${Math.random() > 0.5
                   ? html`
-                      <mwc-icon>star_border</mwc-icon>
+                      <mwc-icon star>star_border</mwc-icon>
                     `
                   : html`
-                      <mwc-icon selected>star</mwc-icon>
+                      <mwc-icon star selected>star</mwc-icon>
                     `}
+
+                <a .href=${'board-modeller/' + board.id} edit>
+                  <mwc-icon>edit</mwc-icon>
+                </a>
               </li>
             `
         )}

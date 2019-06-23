@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit-element'
 import { connect } from 'pwa-helpers'
 
-import '@material/mwc-icon/mwc-icon'
+import '@material/mwc-icon'
 
 import { store } from '@things-factory/shell'
 

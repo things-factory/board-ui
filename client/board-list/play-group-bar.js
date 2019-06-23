@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit-element'
 
-import '@material/mwc-icon/mwc-icon'
+import '@material/mwc-icon'
 
 export default class PlayGroupBar extends LitElement {
   static get styles() {

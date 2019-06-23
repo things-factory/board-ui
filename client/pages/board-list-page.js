@@ -4,7 +4,7 @@ import '@material/mwc-fab'
 
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
-import { fetchGroupList, fetchBoardList, fetchPlayGroupList } from '@things-factory/board-base'
+import { fetchGroupList, fetchBoardList } from '@things-factory/board-base'
 
 import '../board-list/group-bar'
 import '../board-list/board-tile-list'

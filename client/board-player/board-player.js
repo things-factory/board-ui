@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 
-import '@material/mwc-fab/mwc-fab'
-import '@material/mwc-icon/mwc-icon'
+import '@material/mwc-fab'
+import '@material/mwc-icon'
 
 import './board-wrapper'
 

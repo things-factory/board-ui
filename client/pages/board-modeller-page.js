@@ -6,12 +6,14 @@ import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
 import { saveAs } from 'file-saver'
 
 import { store, PageView, togglefullscreen } from '@things-factory/shell'
-import { createBoard, updateBoard, ADD_BOARD_COMPONENTS } from '@things-factory/board-base'
+import { fetchBoard, createBoard, updateBoard, ADD_BOARD_COMPONENTS } from '@things-factory/board-base'
 import { i18next } from '@things-factory/i18n-base'
 
 import { provider } from '../board-provider'
 
-import '@things-shell/board-modeller'
+import '../board-modeller/board-modeller'
+import '../board-modeller/edit-toolbar'
+import '../layout/page-toolbar'
 
 class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
@@ -112,20 +114,39 @@ class BoardModellerPage extends connect(store)(PageView) {
     }
   }
 
+  async refresh() {
+    var response = await fetchBoard(this.boardId)
+    var board = response.board
+
+    this.board = {
+      ...board,
+      model: JSON.parse(board.model)
+    }
+
+    this.boardName = this.board.name
+    this.model = {
+      ...this.board.model
+    }
+  }
+
+  onPageActive(active) {
+    if (active) {
+      this.refresh()
+    } else {
+      this.shadowRoot.querySelector('board-modeller').close()
+    }
+  }
+
   stateChanged(state) {
+    this.boardId = state.route.resourceId
+    this.baseUrl = state.route.rootPath
+
     // this.componentGroupList = state.component.groupList
     // this.fonts = state.fontList
+
     // this.boardGroupList = state.boardGroupList
     // this.group = state.boardGroupCurrent
     // this.propertyEditor = state.propertyEditor
-    // if (this.board !== state.boardCurrent) {
-    //   this.board = state.boardCurrent
-    //   this.boardName = this.board.name
-    //   this.model = {
-    //     ...this.board.model
-    //   }
-    //   this.baseUrl = state.route.rootPath
-    // }
   }
 
   render() {
@@ -178,9 +199,9 @@ class BoardModellerPage extends connect(store)(PageView) {
         @iron-overlay-closed=${e => this.onSaveNewDialogClosed(e)}
         no-overlap
       >
-        <h2><things-i18n-msg msgid="label.save-new-board">Save New Board</things-i18n-msg></h2>
+        <h2><i18n-msg msgid="label.save-new-board">Save New Board</i18n-msg></h2>
         <paragraph>
-          <things-i18n-msg msgid="label.pls-name-board">Please, give a name for the new board.</things-i18n-msg>
+          <i18n-msg msgid="label.pls-name-board">Please, give a name for the new board.</i18n-msg>
         </paragraph>
 
         <paper-input
@@ -213,9 +234,9 @@ class BoardModellerPage extends connect(store)(PageView) {
         </select>
 
         <div class="buttons">
-          <paper-button dialog-dismiss> <things-i18n-msg msgid="button.cancel">Cancel</things-i18n-msg> </paper-button>
+          <paper-button dialog-dismiss> <i18n-msg msgid="button.cancel">Cancel</i18n-msg> </paper-button>
           <paper-button dialog-confirm autofocus>
-            <things-i18n-msg msgid="button.accept">Accept</things-i18n-msg>
+            <i18n-msg msgid="button.accept">Accept</i18n-msg>
           </paper-button>
         </div>
       </paper-dialog>

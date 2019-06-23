@@ -72,26 +72,26 @@ class BoardViewerPage extends connect(store)(PageView) {
     `
   }
 
-  async updated(changed) {
-    if (changed.has('active')) {
-      var response = await fetchBoard(this._boardId)
-      var board = response.board
-
-      this._board = {
-        ...board,
-        model: JSON.parse(board.model)
-      }
-    }
-  }
-
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
     this._boardId = state.route.resourceId
   }
 
-  onPageActive(active) {
-    if (!active) {
-      this.shadowRoot.querySelector('board-viewer').dispose()
+  async refresh() {
+    var response = await fetchBoard(this._boardId)
+    var board = response.board
+
+    this._board = {
+      ...board,
+      model: JSON.parse(board.model)
+    }
+  }
+
+  async onPageActive(active) {
+    if (active) {
+      this.refresh()
+    } else {
+      this.shadowRoot.querySelector('board-viewer').closeScene()
     }
   }
 }

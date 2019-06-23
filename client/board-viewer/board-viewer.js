@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 
-import '@material/mwc-fab/mwc-fab'
-import '@material/mwc-icon/mwc-icon'
+import '@material/mwc-fab'
+import '@material/mwc-icon'
 
 import { create } from '@hatiolab/things-scene'
 import { togglefullscreen, isIOS } from '@things-factory/shell'
@@ -95,7 +95,7 @@ class BoardViewer extends LitElement {
       if (this.board && this.board.id) {
         this.initScene()
       } else {
-        this.dispose()
+        this.closeScene()
       }
     }
   }
@@ -123,7 +123,7 @@ class BoardViewer extends LitElement {
     scene.release()
   }
 
-  dispose() {
+  closeScene() {
     if (this.scene) {
       this.unbindSceneEvents(this.scene)
 
