@@ -2,7 +2,7 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import '@material/mwc-fab'
 
-import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
+import { store, PageView, ScrollbarStyles, loadPage } from '@things-factory/shell'
 
 import { fetchPlayGroupList, fetchPlayGroup } from '@things-factory/board-base'
 
@@ -69,26 +69,34 @@ class PlayListPage extends connect(store)(PageView) {
   }
 
   firstUpdated() {
-    this.refresh()
+    // this.refresh()
   }
 
   async refresh() {
     this.groups = (await fetchPlayGroupList()).playGroups.items
 
-    await this.refreshBoards()
+    this.groups && (await this.refreshBoards())
   }
 
   async refreshBoards() {
+    if (!this.groups) {
+      await this.refresh()
+      return
+    }
+
     if (!this.groupId) {
-      // TODO route를 바꿔주는 방향으로 수정.
-      this.groupId = this.groups && this.groups[0] && this.groups[0].id
+      let groupId = this.groups && this.groups[0] && this.groups[0].id
+      if (groupId) {
+        await store.dispatch(loadPage('play-list', groupId, {}))
+      }
+      return
     }
 
     this.boards = this.groupId ? (await fetchPlayGroup(this.groupId)).playGroup.boards : []
   }
 
   updated(change) {
-    if (change.has('groupId')) {
+    if (change.has('groupId') || !this.groupId) {
       this.refreshBoards()
     }
   }
