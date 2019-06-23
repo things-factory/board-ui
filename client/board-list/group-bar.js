@@ -59,7 +59,8 @@ export default class GroupBar extends LitElement {
   static get properties() {
     return {
       groups: Array,
-      groupId: String
+      groupId: String,
+      targetPage: String
     }
   }
 
@@ -67,17 +68,17 @@ export default class GroupBar extends LitElement {
     return html`
       <ul>
         <li ?active=${this.groupId !== 0 && !this.groupId}>
-          <a href="/board-list"><mwc-icon>home</mwc-icon></a>
+          <a href="${this.targetPage}"><mwc-icon>home</mwc-icon></a>
         </li>
 
         <li ?active=${this.groupId === 'favor'}>
-          <a href="/board-list/favor"><mwc-icon>star</mwc-icon></a>
+          <a href="${this.targetPage}/favor"><mwc-icon>star</mwc-icon></a>
         </li>
 
         ${(this.groups || []).map(
           group => html`
             <li ?active=${this.groupId === group.id}>
-              <a href=${`/board-list/${group.id}`}>${group.name}</a>
+              <a href=${`${this.targetPage}/${group.id}`}>${group.name}</a>
             </li>
           `
         )}

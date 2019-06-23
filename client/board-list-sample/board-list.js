@@ -14,17 +14,13 @@ import BoardImporter from './board-importer'
 
 import { ScrollbarStyles } from '../../styles/scrollbar-styles'
 
-class BoardList extends connect(store)(localize(i18next)(LitElement)) {
+class BoardGroupList extends connect(store)(localize(i18next)(LitElement)) {
   constructor() {
     super()
 
     this.boardList = []
     this.group = {}
     this.keyword = ''
-  }
-
-  static get is() {
-    return 'board-list'
   }
 
   static get properties() {
@@ -72,7 +68,7 @@ class BoardList extends connect(store)(localize(i18next)(LitElement)) {
 
   get context() {
     return {
-      title: 'Board List'
+      title: 'Board Group List'
     }
   }
 
@@ -137,4 +133,4 @@ class BoardList extends connect(store)(localize(i18next)(LitElement)) {
   }
 }
 
-customElements.define(BoardList.is, BoardList)
+customElements.define('board-group-list', BoardGroupList)

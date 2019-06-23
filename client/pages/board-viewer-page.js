@@ -6,7 +6,7 @@ import { store, PageView } from '@things-factory/shell'
 import { fetchBoard } from '@things-factory/board-base'
 import { provider } from '../board-provider'
 
-import '@things-shell/board-viewer'
+import '../board-viewer/board-viewer'
 
 class BoardViewerPage extends connect(store)(PageView) {
   constructor() {
@@ -20,7 +20,6 @@ class BoardViewerPage extends connect(store)(PageView) {
   static get properties() {
     return {
       _board: Object,
-      // _provider: Object,
       _boardId: String,
       _baseUrl: String
     }
@@ -33,19 +32,14 @@ class BoardViewerPage extends connect(store)(PageView) {
           display: flex;
           flex-direction: column;
 
-          width: 100vw; /* 전체화면보기를 위해서 필요함. */
-          height: 100vh;
+          width: 100%; /* 전체화면보기를 위해서 필요함. */
+          height: 100%;
 
           overflow: hidden;
         }
 
         board-viewer {
           flex: 1;
-
-          width: 100vw; /* 전체화면보기를 위해서 필요함. */
-          height: 100vh;
-
-          position: relative;
         }
       `
     ]

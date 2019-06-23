@@ -9,6 +9,10 @@ export default {
       page: 'board-list'
     },
     {
+      tagname: 'play-list-page',
+      page: 'play-list'
+    },
+    {
       tagname: 'board-viewer-page',
       page: 'board-viewer'
     },

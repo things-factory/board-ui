@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -28,7 +28,6 @@
     "@things-factory/shell": "*",
     "@things-shell/board-modeller": "*",
     "@things-shell/board-player": "*",
-    "@things-shell/board-viewer": "*",
     "file-saver": "^2.0.1"
   },
   "devDependencies": {

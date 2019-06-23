@@ -4,12 +4,12 @@ import '@material/mwc-fab'
 
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
-import { fetchGroupList, fetchBoardList, fetchPlayGroupList } from '@things-factory/board-base'
+import { fetchPlayGroupList, fetchPlayGroup } from '@things-factory/board-base'
 
-import '../board-list/group-bar'
+import '../board-list/play-group-bar'
 import '../board-list/board-tile-list'
 
-class BoardListPage extends connect(store)(PageView) {
+class PlayListPage extends connect(store)(PageView) {
   static get styles() {
     return [
       ScrollbarStyles,
@@ -26,6 +26,12 @@ class BoardListPage extends connect(store)(PageView) {
           flex: 1;
           overflow-y: auto;
         }
+
+        #play {
+          position: absolute;
+          bottom: 15px;
+          right: 16px;
+        }
       `
     ]
   }
@@ -40,21 +46,25 @@ class BoardListPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: 'Board List',
+      title: 'Play List',
       'board-list': true
     }
   }
 
   render() {
     return html`
-      <group-bar
+      <play-group-bar
         .groups=${this.groups}
         .groupId=${this.groupId}
-        targetPage="board-list"
+        targetPage="play-list"
         @refresh=${this.refresh.bind(this)}
-      ></group-bar>
+      ></play-group-bar>
 
       <board-tile-list .boards=${this.boards}></board-tile-list>
+
+      <a id="play" href="board-player">
+        <mwc-fab icon="play_arrow" title="play"> </mwc-fab>
+      </a>
     `
   }
 
@@ -63,34 +73,18 @@ class BoardListPage extends connect(store)(PageView) {
   }
 
   async refresh() {
-    this.groups = (await fetchGroupList()).groups.items
+    this.groups = (await fetchPlayGroupList()).playGroups.items
+
     await this.refreshBoards()
   }
 
   async refreshBoards() {
-    var listParam = {
-      filters: this.groupId
-        ? [
-            {
-              name: 'groupId',
-              operator: 'eq',
-              value: this.groupId
-            }
-          ]
-        : [],
-      sortings: [
-        {
-          name: 'name',
-          desc: true
-        }
-      ],
-      pagination: {
-        skip: 0,
-        take: 10
-      }
+    if (!this.groupId) {
+      // TODO route를 바꿔주는 방향으로 수정.
+      this.groupId = this.groups && this.groups[0] && this.groups[0].id
     }
 
-    this.boards = (await fetchBoardList(listParam)).boards.items
+    this.boards = this.groupId ? (await fetchPlayGroup(this.groupId)).playGroup.boards : []
   }
 
   updated(change) {
@@ -104,4 +98,4 @@ class BoardListPage extends connect(store)(PageView) {
   }
 }
 
-window.customElements.define('board-list-page', BoardListPage)
+window.customElements.define('play-list-page', PlayListPage)
