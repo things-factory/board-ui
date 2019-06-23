@@ -2,10 +2,11 @@ import { html, css } from 'lit-element'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView } from '@things-factory/shell'
-import { fetchBoardList } from '@things-factory/board-base'
+import { fetchPlayGroup } from '@things-factory/board-base'
+
 import { provider } from '../board-provider'
 
-import '@things-shell/board-player'
+import '../board-player/board-player'
 
 class BoardPlayerPage extends connect(store)(PageView) {
   constructor() {
@@ -22,6 +23,7 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   static get properties() {
     return {
+      _playGroup: Object,
       _playGroupId: String,
       _boards: Array,
       _provider: Object,
@@ -35,8 +37,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
         :host {
           display: flex;
           flex-direction: column;
-          width: 100vw;
-          height: 100vh;
+          width: 100%;
+          height: 100%;
 
           overflow: hidden;
         }
@@ -50,7 +52,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   async updated(changed) {
     if (changed.has('active')) {
-      this._boards = (await fetchBoardList(this._playGroupId)).boards.items
+      this._playGroup = (await fetchPlayGroup(this._playGroupId)).playGroup
+      this._boards = this._playGroup.boards
     }
   }
 
@@ -61,7 +64,7 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._playGroupId
+      title: this._playGroup && this._playGroup.name
     }
   }
 
@@ -69,6 +72,12 @@ class BoardPlayerPage extends connect(store)(PageView) {
     return html`
       <board-player .boards=${this._boards} .provider=${provider}></board-player>
     `
+  }
+
+  onPageActive(active) {
+    if (!active) {
+      this.shadowRoot.querySelector('board-player').stop()
+    }
   }
 }
 

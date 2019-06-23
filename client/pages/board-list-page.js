@@ -58,16 +58,17 @@ class BoardListPage extends connect(store)(PageView) {
     `
   }
 
-  firstUpdated() {
-    this.refresh()
-  }
-
   async refresh() {
     this.groups = (await fetchGroupList()).groups.items
     await this.refreshBoards()
   }
 
   async refreshBoards() {
+    if (!this.groups) {
+      await this.refresh()
+      return
+    }
+
     var listParam = {
       filters: this.groupId
         ? [
@@ -100,7 +101,9 @@ class BoardListPage extends connect(store)(PageView) {
   }
 
   stateChanged(state) {
-    this.groupId = state.route.resourceId
+    if (this.active) {
+      this.groupId = state.route.resourceId
+    }
   }
 }
 

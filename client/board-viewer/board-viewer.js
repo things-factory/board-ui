@@ -95,21 +95,7 @@ class BoardViewer extends LitElement {
       if (this.board && this.board.id) {
         this.initScene()
       } else {
-        if (this.scene) {
-          this.unbindSceneEvents(this.scene)
-
-          this.scene.target = null
-          this.scene.release()
-
-          delete this.scene
-        }
-
-        // delete queued scenes
-        this.forward.forEach(scene => scene.release())
-        this.forward = []
-
-        this.backward.forEach(scene => scene.release())
-        this.backward = []
+        this.dispose()
       }
     }
   }
@@ -135,6 +121,24 @@ class BoardViewer extends LitElement {
 
     /* provider.add 시에 추가된 레퍼런스 카운트를 다운시켜주어야 함 */
     scene.release()
+  }
+
+  dispose() {
+    if (this.scene) {
+      this.unbindSceneEvents(this.scene)
+
+      this.scene.target = null
+      this.scene.release()
+
+      delete this.scene
+    }
+
+    // delete queued scenes
+    this.forward.forEach(scene => scene.release())
+    this.forward = []
+
+    this.backward.forEach(scene => scene.release())
+    this.backward = []
   }
 
   get target() {

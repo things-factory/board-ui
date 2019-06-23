@@ -88,6 +88,12 @@ class BoardViewerPage extends connect(store)(PageView) {
     this._baseUrl = state.app.baseUrl
     this._boardId = state.route.resourceId
   }
+
+  onPageActive(active) {
+    if (!active) {
+      this.shadowRoot.querySelector('board-viewer').dispose()
+    }
+  }
 }
 
 customElements.define('board-viewer-page', BoardViewerPage)

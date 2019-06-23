@@ -62,14 +62,10 @@ class PlayListPage extends connect(store)(PageView) {
 
       <board-tile-list .boards=${this.boards}></board-tile-list>
 
-      <a id="play" href="board-player">
+      <a id="play" .href=${'board-player/' + this.groupId}>
         <mwc-fab icon="play_arrow" title="play"> </mwc-fab>
       </a>
     `
-  }
-
-  firstUpdated() {
-    // this.refresh()
   }
 
   async refresh() {
@@ -96,13 +92,19 @@ class PlayListPage extends connect(store)(PageView) {
   }
 
   updated(change) {
+    /*
+     * play-list는 groupId 가 없는 경우에 대해 첫번째 그룹을 자동으로 가져오도록 처리하기 위해서,
+     * groupId가 없는 경우에 대한 처리가 필요했다.
+     */
     if (change.has('groupId') || !this.groupId) {
       this.refreshBoards()
     }
   }
 
   stateChanged(state) {
-    this.groupId = state.route.resourceId
+    if (this.active) {
+      this.groupId = state.route.resourceId
+    }
   }
 }
 
