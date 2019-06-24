@@ -3,7 +3,7 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView } from '@things-factory/shell'
 
-import { fetchBoard } from '@things-factory/board-base'
+import { fetchBoard, buildLabelPrintCommand } from '@things-factory/board-base'
 import { provider } from '../board-provider'
 
 import '../board-viewer/board-viewer'
@@ -52,7 +52,8 @@ class BoardViewerPage extends connect(store)(PageView) {
         accept: ['paper', 'label'],
         name: this._board && this._board.name,
         content: () => {
-          return this._board
+          // return this._board
+          return this.getGrf()
         },
         options: {}
       },
@@ -93,6 +94,15 @@ class BoardViewerPage extends connect(store)(PageView) {
     } else {
       this.shadowRoot.querySelector('board-viewer').closeScene()
     }
+  }
+
+  async getGrf() {
+    var { width, height, data } = (await this.shadowRoot.querySelector('board-viewer').getSceneImageData()) || {}
+    if (!width) {
+      throw 'Cannot get SceneImageData...ㅠㅠ'
+    }
+
+    return buildLabelPrintCommand(data, width, height)
   }
 }
 

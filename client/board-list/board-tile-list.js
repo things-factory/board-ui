@@ -74,20 +74,30 @@ export default class BoardTileList extends LitElement {
           height: 80%;
         }
 
-        [edit] {
+        [edit],
+        [delete] {
           display: none;
           position: absolute;
-          right: 10px;
           bottom: 10px;
         }
 
-        [edit] mwc-icon {
+        [edit] {
+          right: 10px;
+        }
+
+        [delete] {
+          right: 30px;
+        }
+
+        [edit] mwc-icon,
+        [delete] mwc-icon {
           color: var(--secondary-dark-color);
           font-size: 1.3em;
           vertical-align: middle;
         }
 
-        li:hover [edit] {
+        li:hover [edit],
+        li:hover [delete] {
           display: block;
         }
 
@@ -175,6 +185,17 @@ export default class BoardTileList extends LitElement {
                       <mwc-icon star selected>star</mwc-icon>
                     `}
 
+                <a
+                  href="#"
+                  @click=${e => {
+                    this.deleteBoard(board.id)
+                    e.preventDefault()
+                  }}
+                  delete
+                >
+                  <mwc-icon>delete</mwc-icon>
+                </a>
+
                 <a .href=${'board-modeller/' + board.id} edit>
                   <mwc-icon>edit</mwc-icon>
                 </a>
@@ -183,6 +204,14 @@ export default class BoardTileList extends LitElement {
         )}
       </ul>
     `
+  }
+
+  deleteBoard(boardId) {
+    this.dispatchEvent(
+      new CustomEvent('delete-board', {
+        detail: boardId
+      })
+    )
   }
 }
 

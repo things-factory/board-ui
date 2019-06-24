@@ -4,7 +4,7 @@ import '@material/mwc-fab'
 
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
-import { fetchGroupList, fetchBoardList } from '@things-factory/board-base'
+import { fetchGroupList, fetchBoardList, deleteBoard } from '@things-factory/board-base'
 
 import '../board-list/group-bar'
 import '../board-list/board-tile-list'
@@ -60,7 +60,7 @@ class BoardListPage extends connect(store)(PageView) {
         @refresh=${this.refresh.bind(this)}
       ></group-bar>
 
-      <board-tile-list .boards=${this.boards}></board-tile-list>
+      <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
 
       <a id="create" .href=${'board-modeller'}>
         <mwc-fab icon="add" title="create"> </mwc-fab>
@@ -119,8 +119,35 @@ class BoardListPage extends connect(store)(PageView) {
 
   async onPageActive(active) {
     if (active) {
-      !this.groups && this.refreshBoards()
+      this.refreshBoards()
     }
+  }
+
+  async onDeleteBoard(boardId) {
+    try {
+      await deleteBoard(boardId)
+
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'info',
+            message: 'deleted'
+          }
+        })
+      )
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'error',
+            message: ex,
+            ex: ex
+          }
+        })
+      )
+    }
+
+    this.refreshBoards()
   }
 }
 

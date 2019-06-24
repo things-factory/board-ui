@@ -4,7 +4,7 @@ import '@material/mwc-fab'
 import '@material/mwc-icon'
 
 import { create } from '@hatiolab/things-scene'
-import { togglefullscreen, isIOS } from '@things-factory/shell'
+import { togglefullscreen, isIOS, sleep } from '@things-factory/shell'
 
 import { style } from './board-viewer-style'
 
@@ -346,6 +346,46 @@ class BoardViewer extends LitElement {
     if (!url) return
 
     location.href = url
+  }
+
+  async getSceneImageData() {
+    if (!this.scene) {
+      return
+    }
+
+    var { width, height } = this.scene.model
+
+    var pixelRatio = window.devicePixelRatio
+
+    var div = document.createElement('div')
+    div.style.position = 'absolute'
+    div.style.width = `${width / pixelRatio}px`
+    div.style.height = `${height / pixelRatio}px`
+
+    document.body.appendChild(div)
+
+    var oldTarget = this.scene.target
+    this.scene.target = div
+
+    var oldFitMode = this.scene.fitMode
+    this.scene.fit('both')
+
+    await sleep(300)
+
+    var canvas = this.scene._container.model_layer.canvas
+
+    var data = canvas.getContext('2d').getImageData(0, 0, width, height).data
+
+    this.scene.target = oldTarget
+    this.scene.fit(oldFitMode)
+
+    document.body.removeChild(div)
+
+    return {
+      width,
+      height,
+      data
+    }
   }
 }
 
