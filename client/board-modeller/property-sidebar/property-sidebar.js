@@ -8,13 +8,13 @@ import '@material/mwc-icon'
 
 import '@polymer/paper-tabs/paper-tabs'
 
+import { ScrollbarStyles } from '@things-factory/shell'
+
 import './shapes/shapes'
 import './styles/styles'
 import './effects/effects'
 import './specifics/specifics'
 import './data-binding/data-binding'
-
-import { ScrollbarStyles } from '../styles/scrollbar-styles'
 
 class PropertySidebar extends LitElement {
   constructor() {

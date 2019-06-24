@@ -2,7 +2,9 @@ import { LitElement, html, css } from 'lit-element'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, createBoard } from '../../reducer/store'
-import { i18next, localize } from '@things-shell/client-i18n'
+
+import { ScrollbarStyles } from '@things-factory/shell'
+import { i18next, localize } from '@things-factory/i18n-base'
 
 import '../../components/things-sortable/things-sortable'
 
@@ -11,8 +13,6 @@ import '../../components/things-search-input'
 
 import BoardCard from './board-card'
 import BoardImporter from './board-importer'
-
-import { ScrollbarStyles } from '../../styles/scrollbar-styles'
 
 class BoardGroupList extends connect(store)(localize(i18next)(LitElement)) {
   constructor() {

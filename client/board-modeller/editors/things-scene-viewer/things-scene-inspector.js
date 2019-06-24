@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import Sortable from 'sortablejs'
 
-import { ScrollbarStyles } from '../../styles/scrollbar-styles'
+import { ScrollbarStyles } from '@things-factory/shell'
 
 export default class ThingsSceneInspector extends LitElement {
   constructor() {
