@@ -3,6 +3,8 @@ import { html } from 'lit-html'
 import { store } from '@things-factory/shell'
 import { addRoutingType } from '@things-factory/menu-base'
 
+import board from './reducers/board'
+
 import { APPEND_CONTEXT_TOOL, TOOL_POSITION } from '@things-factory/layout-base'
 
 export default function bootstrap() {
@@ -21,4 +23,6 @@ export default function bootstrap() {
       context: 'board-list'
     }
   })
+
+  store.addReducers({ board })
 }

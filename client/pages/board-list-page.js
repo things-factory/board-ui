@@ -26,6 +26,12 @@ class BoardListPage extends connect(store)(PageView) {
           flex: 1;
           overflow-y: auto;
         }
+
+        #create {
+          position: absolute;
+          bottom: 15px;
+          right: 16px;
+        }
       `
     ]
   }
@@ -55,6 +61,10 @@ class BoardListPage extends connect(store)(PageView) {
       ></group-bar>
 
       <board-tile-list .boards=${this.boards}></board-tile-list>
+
+      <a id="create" .href=${'board-modeller'}>
+        <mwc-fab icon="add" title="create"> </mwc-fab>
+      </a>
     `
   }
 

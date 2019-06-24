@@ -6,10 +6,12 @@ import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
 import { saveAs } from 'file-saver'
 
 import { store, PageView, togglefullscreen } from '@things-factory/shell'
-import { fetchBoard, createBoard, updateBoard, ADD_BOARD_COMPONENTS } from '@things-factory/board-base'
+import { fetchBoard, fetchGroupList, createBoard, updateBoard } from '@things-factory/board-base'
 import { i18next } from '@things-factory/i18n-base'
 
 import { provider } from '../board-provider'
+
+import { ADD_BOARD_COMPONENTS } from '../actions/board'
 
 import '../board-modeller/board-modeller'
 import '../board-modeller/edit-toolbar'
@@ -49,11 +51,6 @@ class BoardModellerPage extends connect(store)(PageView) {
     //       i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
     //     })
     // }
-
-    // store.dispatch({
-    //   type: 'MODULE-PLUGIN',
-    //   elements
-    // })
 
     this.boardName = ''
     this.model = null
@@ -115,8 +112,19 @@ class BoardModellerPage extends connect(store)(PageView) {
   }
 
   async refresh() {
-    var response = await fetchBoard(this.boardId)
-    var board = response.board
+    if (!this.boardId) {
+      var board = {
+        width: 800,
+        height: 600,
+        model: JSON.stringify({
+          width: 800,
+          height: 600
+        })
+      }
+    } else {
+      var response = await fetchBoard(this.boardId)
+      var board = response.board
+    }
 
     this.board = {
       ...board,
@@ -142,12 +150,11 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.baseUrl = state.route.rootPath
     this.propertyEditor = state.board.editors
 
-    // this.componentGroupList = state.component.groupList
+    this.componentGroupList = state.board.templates
     // this.fonts = state.fontList
 
     // this.boardGroupList = state.boardGroupList
     // this.group = state.boardGroupCurrent
-    // this.propertyEditor = PropertyEditor
   }
 
   render() {
@@ -291,12 +298,13 @@ class BoardModellerPage extends connect(store)(PageView) {
     }
   }
 
-  saveBoard() {
+  async saveBoard() {
     if (!this.board.name) {
       this.newBoardName = ''
       this.newBoardDescription = ''
-      this.newBoardGroup = this.group.id
+      this.newBoardGroup = this.group && this.group.id
 
+      this.boardGroupList = (await fetchGroupList()).groups.items
       this.shadowRoot.getElementById('save-new-dialog').open()
     } else {
       this.updateBoard()
