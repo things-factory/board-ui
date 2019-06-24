@@ -12,8 +12,7 @@ class BoardPlayerCarousel extends LitElement {
     return {
       axis: String,
       rows: Number,
-      columns: Number,
-      backfaceVisibility: Boolean
+      columns: Number
     }
   }
 
@@ -48,13 +47,6 @@ class BoardPlayerCarousel extends LitElement {
           transition: transform 1.5s;
         }
 
-        #carousel.backface-invisible > * {
-          -webkit-backface-visibility: hidden;
-          -moz-backface-visibility: hidden;
-          -o-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-
         #carousel > * {
           position: absolute;
           width: 100%;
@@ -65,6 +57,11 @@ class BoardPlayerCarousel extends LitElement {
           -moz-transition: opacity 1.5s, -moz-transform 1.5s;
           -o-transition: opacity 1.5s, -o-transform 1.5s;
           transition: opacity 1.5s, transform 1.5s;
+
+          -webkit-backface-visibility: hidden;
+          -moz-backface-visibility: hidden;
+          -o-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
       `
     ]
@@ -105,7 +102,6 @@ class BoardPlayerCarousel extends LitElement {
   }
 
   updated(change) {
-    change.has('backfaceVisibility') && this._onBackfaceVisibilityChanged(this.backfaceVisibility)
     change.has('axis') && this._onAxisChanged(this.axis)
   }
 
@@ -170,10 +166,6 @@ class BoardPlayerCarousel extends LitElement {
 
   _onAxisChanged(after) {
     this.start()
-  }
-
-  _onBackfaceVisibilityChanged(after) {
-    this.carousel.classList.toggle('backface-invisible')
   }
 
   _transform() {
