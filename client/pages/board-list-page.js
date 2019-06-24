@@ -2,6 +2,8 @@ import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import '@material/mwc-fab'
 
+import PullToRefresh from 'pulltorefreshjs'
+
 import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
 
 import { fetchGroupList, fetchBoardList, deleteBoard } from '@things-factory/board-base'
@@ -9,10 +11,13 @@ import { fetchGroupList, fetchBoardList, deleteBoard } from '@things-factory/boa
 import '../board-list/group-bar'
 import '../board-list/board-tile-list'
 
+import { pulltorefreshStyle } from './pulltorefresh-style'
+
 class BoardListPage extends connect(store)(PageView) {
   static get styles() {
     return [
       ScrollbarStyles,
+      pulltorefreshStyle,
       css`
         :host {
           display: flex;
@@ -120,6 +125,27 @@ class BoardListPage extends connect(store)(PageView) {
   async onPageActive(active) {
     if (active) {
       this.refreshBoards()
+    }
+
+    if (active) {
+      await this.requestUpdate
+      /*
+       * 첫번째 active 시에는 element가 생성되어있지 않으므로,
+       * 꼭 requestUpdate를 해서 update를 발생 시켜준 후에 mainElement설정을 해야한다.
+       */
+      this._ptr = PullToRefresh.init({
+        mainElement: this.shadowRoot.querySelector('board-tile-list'),
+        distIgnore: 30,
+        // instructionsPullToRefresh: 'uuu' /* Pull down to refresh */,
+        // instructionsRefreshing: 'xxx' /* Refreshing */,
+        // instructionsReleaseToRefresh: 'yyy' /* Release to refresh */,
+        onRefresh: () => {
+          this.refreshBoards()
+        }
+      })
+    } else {
+      this._ptr && this._ptr.destroy()
+      delete this._ptr
     }
   }
 
