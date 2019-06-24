@@ -80,8 +80,10 @@ class PlayListPage extends connect(store)(PageView) {
       return
     }
 
+    console.log('groupId', this.groupId)
     if (!this.groupId) {
       let groupId = this.groups && this.groups[0] && this.groups[0].id
+      console.log('groupId', this.groupId)
       if (groupId) {
         await store.dispatch(loadPage('play-list', groupId, {}))
       }

@@ -140,13 +140,14 @@ class BoardModellerPage extends connect(store)(PageView) {
   stateChanged(state) {
     this.boardId = state.route.resourceId
     this.baseUrl = state.route.rootPath
+    this.propertyEditor = state.board.editors
 
     // this.componentGroupList = state.component.groupList
     // this.fonts = state.fontList
 
     // this.boardGroupList = state.boardGroupList
     // this.group = state.boardGroupCurrent
-    // this.propertyEditor = state.propertyEditor
+    // this.propertyEditor = PropertyEditor
   }
 
   render() {
