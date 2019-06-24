@@ -100,7 +100,7 @@ class BoardListPage extends connect(store)(PageView) {
       ],
       pagination: {
         skip: 0,
-        take: 10
+        take: 30
       }
     }
 

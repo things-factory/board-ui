@@ -3,15 +3,9 @@ import { connect } from 'pwa-helpers/connect-mixin.js'
 
 import '@material/mwc-icon/mwc-icon'
 
-import {
-  store,
-  setRoute,
-  updateBoard,
-  deleteBoard,
-  leavePlayGroup,
-  fetchBoardList,
-  showContextmenu
-} from '@things-factory/board-base'
+import { store, setRoute, showContextmenu } from '@things-factory/shell'
+
+import { updateBoard, deleteBoard, leavePlayGroup, fetchBoardList, showContextmenu } from '@things-factory/board-base'
 
 import { i18next, localize } from '@things-shell/client-i18n'
 

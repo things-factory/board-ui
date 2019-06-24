@@ -5,7 +5,7 @@ import '@polymer/paper-dialog/paper-dialog'
 import '@polymer/paper-dialog-scrollable/paper-dialog-scrollable'
 import { saveAs } from 'file-saver'
 
-import { store, PageView, togglefullscreen } from '@things-factory/shell'
+import { store, PageView, togglefullscreen, loadPage } from '@things-factory/shell'
 import { fetchBoard, fetchGroupList, createBoard, updateBoard } from '@things-factory/board-base'
 import { i18next } from '@things-factory/i18n-base'
 
@@ -267,34 +267,59 @@ class BoardModellerPage extends connect(store)(PageView) {
     togglefullscreen(this)
   }
 
-  createBoard() {
+  async createBoard() {
     try {
-      store
-        .dispatch(
-          createBoard({
-            ...this.board,
-            model: this.scene.model
-          })
-        )
-        .then(dispatch => {
-          var state = store.getState()
-          dispatch(setRoute('modeller', state.boardCurrent.id))
+      this.board = (await createBoard({
+        ...this.board,
+        model: this.scene.model
+      })).createBoard
+
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'info',
+            message: 'new board created'
+          }
         })
-    } catch (e) {
-      if (this.showToastMsg) this.showToastMsg(e)
+      )
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'error',
+            message: ex,
+            ex: ex
+          }
+        })
+      )
     }
   }
 
-  updateBoard() {
+  async updateBoard() {
     try {
-      store.dispatch(
-        updateBoard({
-          ...this.board,
-          model: this.scene.model
+      var board = (await updateBoard({
+        ...this.board,
+        model: this.scene.model
+      })).updateBoard
+
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'info',
+            message: 'saved'
+          }
         })
       )
-    } catch (e) {
-      if (this.showToastMsg) this.showToastMsg(e)
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            type: 'error',
+            message: ex,
+            ex: ex
+          }
+        })
+      )
     }
   }
 
