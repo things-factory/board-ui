@@ -354,32 +354,32 @@ class BoardViewer extends LitElement {
     }
 
     var { width, height } = this.scene.model
-
     var pixelRatio = window.devicePixelRatio
+    console.log('pixelRatio', pixelRatio)
 
-    var div = document.createElement('div')
-    div.style.position = 'absolute'
-    div.style.width = `${width / pixelRatio}px`
-    div.style.height = `${height / pixelRatio}px`
+    // 1. Scene의 바운드에 근거하여, 오프스크린 캔바스를 만든다.
+    var canvas = document.createElement('canvas')
+    canvas.width = Number(width)
+    canvas.height = Number(height)
 
-    document.body.appendChild(div)
+    var root = this.scene.root
+    // 2. 모델레이어의 원래 위치와 스케일을 저장한다.
+    var translate = root.get('translate')
+    var scale = root.get('scale')
 
-    var oldTarget = this.scene.target
-    this.scene.target = div
+    // 3. 위치와 스케일 기본 설정.
+    root.set('translate', { x: 0, y: 0 })
+    root.set('scale', { x: 1 / pixelRatio, y: 1 / pixelRatio })
 
-    var oldFitMode = this.scene.fitMode
-    this.scene.fit('both')
+    // 4. 오프스크린 캔바스의 Context2D를 구한뒤, 모델레이어를 그 위에 그린다.
+    var context = canvas.getContext('2d')
 
-    await sleep(300)
+    root.draw(context)
 
-    var canvas = this.scene._container.model_layer.canvas
+    root.set('translate', translate)
+    root.set('scale', scale)
 
     var data = canvas.getContext('2d').getImageData(0, 0, width, height).data
-
-    this.scene.target = oldTarget
-    this.scene.fit(oldFitMode)
-
-    document.body.removeChild(div)
 
     return {
       width,
