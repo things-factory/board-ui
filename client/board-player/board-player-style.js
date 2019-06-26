@@ -7,8 +7,9 @@ export const style = css`
     flex-direction: column;
     width: 100%;
     height: 100%;
-
     overflow: hidden;
+    justify-content: center;
+    align-items: center;
   }
 
   :slotted(*) {
@@ -35,17 +36,18 @@ export const style = css`
 
   #control {
     position: absolute;
-    left: 55%;
-    bottom: 30px;
-    transform: translateX(-55%);
-
+    bottom: 1vh;
+    width: 100vw;
+    max-width: 435px;
+    display: grid;
+    grid-template-columns: 42px 42px 1fr;
     color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 12px;
-    padding: 7px 10px 7px 35px;
-    box-shadow: 0 0 5px #000;
-
-    min-width: 310px;
+    justify-content: center;
+    align-items: center;
+    grid-auto-flow: dense;
+    padding: 5px;
+    box-sizing: border-box;
+    grid-template-rows: 12px 60px 12px;
   }
 
   #control[hidden] {
@@ -57,17 +59,17 @@ export const style = css`
   }
 
   #joystick {
-    position: absolute;
-    left: -50px;
-    bottom: -15px;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 80px;
-    height: 80px;
-    float: left;
+    position: relative;
+    box-sizing: border-box;
     border: 2px solid tomato;
     background-color: #c34827;
     box-shadow: 0 0 5px #000;
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / span 2;
+    border-radius: 50%;
+    z-index: 2;
+    grid-row: 1 / span 3;
   }
 
   #joystick mwc-icon {
@@ -115,22 +117,35 @@ export const style = css`
     text-indent: -2px;
   }
 
+  #setting-container {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    gap: 0 10px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    box-shadow: rgb(0, 0, 0) 0px 0px 5px;
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    align-items: center;
+    padding-left: 60px;
+    padding-right: 5px;
+  }
+
   #setting {
-    float: left;
-    font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0 10px;
   }
 
   #setting mwc-icon {
-    position: relative;
-    top: 5px;
-    margin-left: 10px;
     font-size: 22px;
     color: rgba(255, 174, 53, 0.8);
-    cursor: default !important;
   }
 
   #setting input {
     width: 50px;
+    margin-right: 5px;
     font-size: 14px;
     background-color: transparent;
     border: none;
@@ -148,11 +163,23 @@ export const style = css`
     outline: none;
   }
 
+  #schedule-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #grid-setting-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   #etc {
-    float: left;
-    position: relative;
-    top: 3px;
-    margin-left: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
   }
 
   #etc mwc-icon {
@@ -161,5 +188,12 @@ export const style = css`
 
   #control [hidden] {
     display: none;
+  }
+
+  @media screen and (max-width: 400px) {
+    #setting {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
   }
 `

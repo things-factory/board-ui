@@ -4,16 +4,15 @@ import '@material/mwc-fab'
 
 import PullToRefresh from 'pulltorefreshjs'
 
-import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
+import { store, PageView, ScrollbarStyles, loadPage } from '@things-factory/shell'
 
-import { fetchGroupList, fetchBoardList, deleteBoard } from '@things-factory/board-base'
+import { fetchFontList, fetchPlayGroup, leavePlayGroup } from '@things-factory/font-base'
 
-import '../board-list/group-bar'
-import '../board-list/board-tile-list'
+import '../board-list/font-list'
 
 import { pulltorefreshStyle } from './pulltorefresh-style'
 
-class BoardListPage extends connect(store)(PageView) {
+class FontListPage extends connect(store)(PageView) {
   static get styles() {
     return [
       ScrollbarStyles,
@@ -27,12 +26,12 @@ class BoardListPage extends connect(store)(PageView) {
           overflow: hidden;
         }
 
-        board-tile-list {
+        font-list {
           flex: 1;
           overflow-y: auto;
         }
 
-        #create {
+        #play {
           position: absolute;
           bottom: 15px;
           right: 16px;
@@ -51,34 +50,32 @@ class BoardListPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: 'Board List',
+      title: 'Play List',
       'board-page': true
     }
   }
 
   render() {
     return html`
-      <group-bar
+      <font-search
         .groups=${this.groups}
         .groupId=${this.groupId}
-        targetPage="board-list"
+        targetPage="play-list"
         @refresh=${this.refresh.bind(this)}
-      ></group-bar>
+      ></font-search>
 
-      <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
+      <font-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></font-list>
 
-      <a id="create" .href=${'board-modeller'}>
-        <mwc-fab icon="add" title="create"> </mwc-fab>
+      <a id="play" .href=${'board-player/' + this.groupId}>
+        <mwc-fab icon="play_arrow" title="play"> </mwc-fab>
       </a>
     `
   }
 
   async refresh() {
-    this.groups = (await fetchGroupList()).groups.items
+    this.groups = (await fetchPlayGroupList()).playGroups.items
 
-    if (this.groups) {
-      await this.refreshBoards()
-    }
+    this.groups && (await this.refreshBoards())
   }
 
   async refreshBoards() {
@@ -87,44 +84,36 @@ class BoardListPage extends connect(store)(PageView) {
       return
     }
 
-    var listParam = {
-      filters: this.groupId
-        ? [
-            {
-              name: 'groupId',
-              operator: 'eq',
-              value: this.groupId
-            }
-          ]
-        : [],
-      sortings: [
-        {
-          name: 'name',
-          desc: true
-        }
-      ],
-      pagination: {
-        skip: 0,
-        take: 30
+    if (!this.groupId) {
+      let groupId = this.groups && this.groups[0] && this.groups[0].id
+      if (groupId) {
+        await store.dispatch(loadPage('play-list', groupId, {}))
       }
+      return
     }
 
-    this.boards = (await fetchBoardList(listParam)).boards.items
+    this.boards = this.groupId ? (await fetchPlayGroup(this.groupId)).playGroup.boards : []
   }
 
   updated(change) {
-    if (change.has('groupId')) {
+    /*
+     * play-list는 groupId 가 없는 경우에 대해 첫번째 그룹을 자동으로 가져오도록 처리하기 위해서,
+     * groupId가 없는 경우에 대한 처리가 필요했다.
+     */
+    if (change.has('groupId') || !this.groupId) {
       this.refreshBoards()
     }
   }
 
   stateChanged(state) {
-    this.groupId = state.route.resourceId
+    if (this.active) {
+      this.groupId = state.route.resourceId
+    }
   }
 
   async onPageActive(active) {
     if (active) {
-      this.refreshBoards()
+      !this.groups && this.refreshBoards()
     }
 
     if (active) {
@@ -134,7 +123,7 @@ class BoardListPage extends connect(store)(PageView) {
        * 꼭 requestUpdate를 해서 update를 발생 시켜준 후에 mainElement설정을 해야한다.
        */
       this._ptr = PullToRefresh.init({
-        mainElement: this.shadowRoot.querySelector('board-tile-list'),
+        mainElement: this.shadowRoot.querySelector('font-list'),
         distIgnore: 30,
         // instructionsPullToRefresh: 'uuu' /* Pull down to refresh */,
         // instructionsRefreshing: 'xxx' /* Refreshing */,
@@ -151,13 +140,13 @@ class BoardListPage extends connect(store)(PageView) {
 
   async onDeleteBoard(boardId) {
     try {
-      await deleteBoard(boardId)
+      await leavePlayGroup(boardId, this.groupId)
 
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
             type: 'info',
-            message: 'deleted'
+            message: 'deleted from this group'
           }
         })
       )
@@ -177,4 +166,4 @@ class BoardListPage extends connect(store)(PageView) {
   }
 }
 
-window.customElements.define('board-list-page', BoardListPage)
+window.customElements.define('play-list-page', FontListPage)

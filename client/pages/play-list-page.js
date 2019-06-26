@@ -52,7 +52,7 @@ class PlayListPage extends connect(store)(PageView) {
   get context() {
     return {
       title: 'Play List',
-      'board-list': true
+      'board-page': true
     }
   }
 
