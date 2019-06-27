@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.1.55",
+  "version": "0.1.56",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -46,7 +46,8 @@
     "file-saver": "^2.0.1",
     "pulltorefreshjs": "^0.1.17",
     "screenfull": "^4.2.0",
-    "sortablejs": "^1.10.0-rc2"
+    "sortablejs": "^1.10.0-rc2",
+    "zingtouch": "^1.0.6"
   },
   "devDependencies": {
     "@things-factory/board-test": "*"
