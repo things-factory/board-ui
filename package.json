@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.1.50",
+  "version": "0.1.51",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -45,6 +45,7 @@
     "codemirror": "^5.48.0",
     "file-saver": "^2.0.1",
     "pulltorefreshjs": "^0.1.17",
+    "screenfull": "^4.2.0",
     "sortablejs": "^1.10.0-rc2"
   },
   "devDependencies": {
