@@ -7,20 +7,9 @@ import { fetchPlayGroup } from '@things-factory/board-base'
 import { provider } from '../board-provider'
 
 import '../board-player/board-player'
+import './things-scene-components.import'
 
 class BoardPlayerPage extends connect(store)(PageView) {
-  constructor() {
-    super()
-
-    import(
-      /* webpackChunkName: "scene-components" */
-      /* webpackMode: "lazy" */
-      './things-scene-components.import'
-    )
-      .then(exported => {})
-      .catch(error => 'An error occurred while loading scene-components')
-  }
-
   static get properties() {
     return {
       _playGroup: Object,
@@ -74,7 +63,7 @@ class BoardPlayerPage extends connect(store)(PageView) {
     `
   }
 
-  onPageActive(active) {
+  activated(active) {
     if (!active) {
       this.shadowRoot.querySelector('board-player').stop()
     }

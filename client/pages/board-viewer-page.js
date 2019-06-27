@@ -7,16 +7,9 @@ import { fetchBoard, buildLabelPrintCommand } from '@things-factory/board-base'
 import { provider } from '../board-provider'
 
 import '../board-viewer/board-viewer'
+import './things-scene-components.import'
 
 class BoardViewerPage extends connect(store)(PageView) {
-  constructor() {
-    super()
-
-    import('./things-scene-components.import')
-      .then(exported => {})
-      .catch(error => 'An error occurred while loading scene-components')
-  }
-
   static get properties() {
     return {
       _board: Object,
@@ -88,7 +81,7 @@ class BoardViewerPage extends connect(store)(PageView) {
     }
   }
 
-  async onPageActive(active) {
+  async activated(active) {
     if (active) {
       this.refresh()
     } else {

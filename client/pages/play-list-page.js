@@ -112,7 +112,7 @@ class PlayListPage extends connect(store)(PageView) {
     }
   }
 
-  async onPageActive(active) {
+  async activated(active) {
     if (active) {
       !this.groups && this.refreshBoards()
     }

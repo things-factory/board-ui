@@ -17,40 +17,27 @@ import '../board-modeller/board-modeller'
 import '../board-modeller/edit-toolbar'
 import '../layout/page-toolbar'
 
+import './things-scene-components.import'
+import components from './things-scene-components-with-tools.import'
+
 class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
 
-    import('./things-scene-components-with-tools.import')
-      .then(exported => {
-        let components = exported.default
-
-        /* 각 모듈의 locale정보로 resource bundle을 추가한다. */
-        for (let component in components) {
-          let locales = components[component].locales
-
-          locales &&
-            Object.keys(locales).forEach(lng => {
-              i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
-            })
-        }
-
-        store.dispatch({
-          type: ADD_BOARD_COMPONENTS,
-          components
-        })
-      })
-      .catch(error => 'An error occurred while loading the component')
+    store.dispatch({
+      type: ADD_BOARD_COMPONENTS,
+      components
+    })
 
     /* 각 모듈의 locale정보로 resource bundle을 추가한다. */
-    // for (let element in elements) {
-    //   let locales = elements[element].locales
+    for (let component in components) {
+      let locales = components[component].locales
 
-    //   locales &&
-    //     Object.keys(locales).forEach(lng => {
-    //       i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
-    //     })
-    // }
+      locales &&
+        Object.keys(locales).forEach(lng => {
+          i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
+        })
+    }
 
     this.boardName = ''
     this.model = null
@@ -137,7 +124,7 @@ class BoardModellerPage extends connect(store)(PageView) {
     }
   }
 
-  onPageActive(active) {
+  activated(active) {
     if (active) {
       this.refresh()
     } else {

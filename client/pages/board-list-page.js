@@ -122,7 +122,7 @@ class BoardListPage extends connect(store)(PageView) {
     this.groupId = state.route.resourceId
   }
 
-  async onPageActive(active) {
+  async activated(active) {
     if (active) {
       this.refreshBoards()
     }
