@@ -1,5 +1,7 @@
 import { css, html, LitElement } from 'lit-element'
 
+import ScrollBooster from 'scrollbooster'
+
 import '@material/mwc-icon'
 
 export default class GroupBar extends LitElement {
@@ -103,8 +105,26 @@ export default class GroupBar extends LitElement {
     this.dispatchEvent(new CustomEvent('refresh'))
   }
 
+  updated(change) {
+    if (change.has('groups')) {
+      /* groups가 바뀔 때마다, contents의 폭이 달라지므로, 다시 폭을 계산해준다. */
+      this.__sb && this.__sb.updateMetrics()
+    }
+  }
+
   firstUpdated() {
-    this.addEventListener('mousewheel', this._onWheelEvent.bind(this), false)
+    var scrollTarget = this.shadowRoot.querySelector('ul')
+
+    scrollTarget.addEventListener('mousewheel', this._onWheelEvent.bind(this), false)
+
+    this.__sb = new ScrollBooster({
+      viewport: this,
+      content: scrollTarget,
+      mode: 'x',
+      onUpdate: data => {
+        this.scrollLeft = data.position.x
+      }
+    })
   }
 }
 

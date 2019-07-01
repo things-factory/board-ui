@@ -118,10 +118,10 @@ class PlayListPage extends connect(store)(PageView) {
     }
 
     if (active) {
-      await this.requestUpdate
+      await this.updateComplete
       /*
        * 첫번째 active 시에는 element가 생성되어있지 않으므로,
-       * 꼭 requestUpdate를 해서 update를 발생 시켜준 후에 mainElement설정을 해야한다.
+       * 꼭 updateComplete를 기다린 후에 mainElement설정을 해야한다.
        */
       this._ptr = PullToRefresh.init({
         mainElement: this.shadowRoot.querySelector('board-tile-list'),
