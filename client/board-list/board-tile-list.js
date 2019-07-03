@@ -76,7 +76,8 @@ export default class BoardTileList extends LitElement {
 
         [edit],
         [delete] {
-          display: none;
+          opacity: 0;
+
           position: absolute;
           bottom: 10px;
         }
@@ -98,7 +99,11 @@ export default class BoardTileList extends LitElement {
 
         li:hover [edit],
         li:hover [delete] {
-          display: block;
+          opacity: 1;
+          -webkit-transition: opacity 0.8s;
+          -moz-transition: opacity 0.8s;
+          -o-transition: opacity 0.8s;
+          transition: opacity 0.8s;
         }
 
         li:nth-child(7n + 1) {
@@ -204,6 +209,10 @@ export default class BoardTileList extends LitElement {
         )}
       </ul>
     `
+  }
+
+  updated(change) {
+    console.log(change)
   }
 
   deleteBoard(boardId) {
