@@ -406,19 +406,16 @@ import '@material/mwc-fab'
 
 import PullToRefresh from 'pulltorefreshjs'
 
-import { store, PageView, ScrollbarStyles, loadPage } from '@things-factory/shell'
-
+import { store, loadPage, PageView, ScrollbarStyles, PullToRefreshStyles } from '@things-factory/shell'
 import { fetchFontList, fetchPlayGroup, leavePlayGroup } from '@things-factory/font-base'
 
 import '../board-list/font-list'
-
-import { pulltorefreshStyle } from './pulltorefresh-style'
 
 class FontListPage extends connect(store)(PageView) {
   static get styles() {
     return [
       ScrollbarStyles,
-      pulltorefreshStyle,
+      PullToRefreshStyles,
       css`
         :host {
           display: flex;

@@ -4,20 +4,17 @@ import '@material/mwc-fab'
 
 import PullToRefresh from 'pulltorefreshjs'
 
-import { store, PageView, ScrollbarStyles } from '@things-factory/shell'
-
+import { store, PageView, ScrollbarStyles, PullToRefreshStyles } from '@things-factory/shell'
 import { fetchGroupList, fetchBoardList, deleteBoard } from '@things-factory/board-base'
 
 import '../board-list/group-bar'
 import '../board-list/board-tile-list'
 
-import { pulltorefreshStyle } from './pulltorefresh-style'
-
 class BoardListPage extends connect(store)(PageView) {
   static get styles() {
     return [
       ScrollbarStyles,
-      pulltorefreshStyle,
+      PullToRefreshStyles,
       css`
         :host {
           display: flex;
