@@ -35,7 +35,7 @@ class BoardModellerPage extends connect(store)(PageView) {
 
       locales &&
         Object.keys(locales).forEach(lng => {
-          i18next.addResourceBundle(lng, 'translations', locales[lng], true, true)
+          i18next.addResourceBundle(lng, 'board-ui', locales[lng], true, true)
         })
     }
 

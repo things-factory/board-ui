@@ -211,10 +211,6 @@ export default class BoardTileList extends LitElement {
     `
   }
 
-  updated(change) {
-    console.log(change)
-  }
-
   deleteBoard(boardId) {
     this.dispatchEvent(
       new CustomEvent('delete-board', {
