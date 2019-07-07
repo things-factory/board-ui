@@ -79,6 +79,8 @@ class BoardViewerPage extends connect(store)(PageView) {
       ...board,
       model: JSON.parse(board.model)
     }
+
+    this.updateContext()
   }
 
   async activated(active) {

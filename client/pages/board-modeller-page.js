@@ -15,7 +15,6 @@ import { ADD_BOARD_COMPONENTS } from '../actions/board'
 
 import '../board-modeller/board-modeller'
 import '../board-modeller/edit-toolbar'
-import '../layout/page-toolbar'
 
 import './things-scene-components.import'
 import components from './things-scene-components-with-tools.import'
@@ -122,6 +121,8 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.model = {
       ...this.board.model
     }
+
+    this.updateContext()
   }
 
   activated(active) {
@@ -146,20 +147,18 @@ class BoardModellerPage extends connect(store)(PageView) {
 
   render() {
     return html`
-      <page-toolbar>
-        <edit-toolbar
-          id="edittoolbar"
-          .scene=${this.scene}
-          .board=${this.board}
-          .selected=${this.selected}
-          ?hideProperty=${this.hideProperty}
-          @hide-property-changed=${e => (this.hideProperty = e.detail.value)}
-          @open-preview=${e => this.onOpenPreview(e)}
-          @download-model=${e => this.onDownloadModel(e)}
-          @modeller-fullscreen=${e => this.onFullscreen(e)}
-        >
-        </edit-toolbar>
-      </page-toolbar>
+      <edit-toolbar
+        id="edittoolbar"
+        .scene=${this.scene}
+        .board=${this.board}
+        .selected=${this.selected}
+        ?hideProperty=${this.hideProperty}
+        @hide-property-changed=${e => (this.hideProperty = e.detail.value)}
+        @open-preview=${e => this.onOpenPreview(e)}
+        @download-model=${e => this.onDownloadModel(e)}
+        @modeller-fullscreen=${e => this.onFullscreen(e)}
+      >
+      </edit-toolbar>
 
       <board-modeller
         .mode=${this.mode}
@@ -280,6 +279,8 @@ class BoardModellerPage extends connect(store)(PageView) {
         })
       )
     }
+
+    this.updateContext()
   }
 
   async updateBoard() {
@@ -308,6 +309,8 @@ class BoardModellerPage extends connect(store)(PageView) {
         })
       )
     }
+
+    this.updateContext()
   }
 
   async saveBoard() {
@@ -319,7 +322,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       this.boardGroupList = (await fetchGroupList()).groups.items
       this.shadowRoot.getElementById('save-new-dialog').open()
     } else {
-      this.updateBoard()
+      await this.updateBoard()
     }
   }
 

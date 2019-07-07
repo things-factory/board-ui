@@ -3,32 +3,23 @@
  */
 
 import { LitElement, html } from 'lit-element'
-import { i18next, localize } from '@things-factory/i18n-base'
-
-import '@material/icon-button'
 
 import { style } from './edit-toolbar-style'
 
-class EditToolbar extends localize(i18next)(LitElement) {
+class EditToolbar extends LitElement {
   constructor() {
     super()
 
     this.scene = null
     this.selected = []
     this.hideProperty = false
-    this.labelName = 'SAMPLE'
-    this.variables = {}
-    this.board = null
   }
 
   static get properties() {
     return {
       scene: Object,
       selected: Array,
-      hideProperty: Boolean,
-      labelName: String,
-      variables: Object,
-      board: Object
+      hideProperty: Boolean
     }
   }
 
@@ -37,6 +28,8 @@ class EditToolbar extends localize(i18next)(LitElement) {
   }
 
   firstUpdated() {
+    this.addEventListener('mousewheel', this.onWheelEvent.bind(this), false)
+
     window.addEventListener('paste', e => {
       this.cliped = e.clipboardData.getData('text/plain')
     })
@@ -90,128 +83,145 @@ class EditToolbar extends localize(i18next)(LitElement) {
 
   render() {
     return html`
-      <label>${this.board ? this.board.name : 'NO TITLE'}</label>
+      <div tools>
+        <span button id="undo" title="undo (${this.getShortcutString('cmd', 'z')})"> </span>
+        <span button id="redo" title="redo (${this.getShortcutString('cmd', 'shift', 'z')})"> </span>
 
-      <icon-button id="undo" title="undo (${this.getShortcutString('cmd', 'z')})"> </icon-button>
-      <icon-button id="redo" title="redo (${this.getShortcutString('cmd', 'shift', 'z')})"> </icon-button>
+        <span class="vline"></span>
 
-      <span class="vline"></span>
+        <span button id="cut" title="cut (${this.getShortcutString('cmd', 'x')})"> </span>
+        <span button id="copy" title="copy (${this.getShortcutString('cmd', 'c')})"> </span>
+        <span button id="paste" title="paste (${this.getShortcutString('cmd', 'v')})"> </span>
+        <span
+          button
+          id="delete"
+          title="delete (${this.getShortcutString('backspace')}, ${this.getShortcutString('delete')})"
+        >
+        </span>
 
-      <icon-button id="cut" title="cut (${this.getShortcutString('cmd', 'x')})"> </icon-button>
-      <icon-button id="copy" title="copy (${this.getShortcutString('cmd', 'c')})"> </icon-button>
-      <icon-button id="paste" title="paste (${this.getShortcutString('cmd', 'v')})"> </icon-button>
-      <icon-button
-        id="delete"
-        title="delete (${this.getShortcutString('backspace')}, ${this.getShortcutString('delete')})"
-      >
-      </icon-button>
+        <span class="vline"></span>
 
-      <span class="vline"></span>
-
-      <!-- TODO Implement style-copy
-        <icon-button id="style-copy" title="format painter"></icon-button>
+        <!-- TODO Implement style-copy
+        <span button id="style-copy" title="format painter"></span>
         <span class="vline"></span>
       -->
 
-      <icon-button
-        data-align="left"
-        id="align-left"
-        title="align left (${this.getShortcutString('alt', 'shift', 'l')})"
-      >
-      </icon-button>
-      <icon-button
-        data-align="center"
-        id="align-center"
-        title="align center (${this.getShortcutString('alt', 'shift', 'c')})"
-      >
-      </icon-button>
-      <icon-button
-        data-align="right"
-        id="align-right"
-        title="align right (${this.getShortcutString('alt', 'shift', 'r')})"
-      >
-      </icon-button>
+        <span
+          button
+          data-align="left"
+          id="align-left"
+          title="align left (${this.getShortcutString('alt', 'shift', 'l')})"
+        >
+        </span>
+        <span
+          button
+          data-align="center"
+          id="align-center"
+          title="align center (${this.getShortcutString('alt', 'shift', 'c')})"
+        >
+        </span>
+        <span
+          button
+          data-align="right"
+          id="align-right"
+          title="align right (${this.getShortcutString('alt', 'shift', 'r')})"
+        >
+        </span>
 
-      <icon-button data-align="top" id="align-top" title="align top (${this.getShortcutString('alt', 'shift', 't')})">
-      </icon-button>
-      <icon-button
-        data-align="middle"
-        id="align-middle"
-        title="align middle (${this.getShortcutString('alt', 'shift', 'm')})"
-      >
-      </icon-button>
-      <icon-button
-        data-align="bottom"
-        id="align-bottom"
-        title="align bottom (${this.getShortcutString('alt', 'shift', 'b')})"
-      >
-      </icon-button>
+        <span button data-align="top" id="align-top" title="align top (${this.getShortcutString('alt', 'shift', 't')})">
+        </span>
+        <span
+          button
+          data-align="middle"
+          id="align-middle"
+          title="align middle (${this.getShortcutString('alt', 'shift', 'm')})"
+        >
+        </span>
+        <span
+          button
+          data-align="bottom"
+          id="align-bottom"
+          title="align bottom (${this.getShortcutString('alt', 'shift', 'b')})"
+        >
+        </span>
 
-      <icon-button
-        data-distribute="HORIZONTAL"
-        id="distribute-horizontal"
-        title="distribute horizontally (${this.getShortcutString('alt', 'shift', 'h')})"
-      >
-      </icon-button>
+        <span
+          button
+          data-distribute="HORIZONTAL"
+          id="distribute-horizontal"
+          title="distribute horizontally (${this.getShortcutString('alt', 'shift', 'h')})"
+        >
+        </span>
 
-      <icon-button
-        data-distribute="VERTICAL"
-        id="distribute-vertical"
-        title="distribute vertically (${this.getShortcutString('alt', 'shift', 'v')})"
-      >
-      </icon-button>
+        <span
+          button
+          data-distribute="VERTICAL"
+          id="distribute-vertical"
+          title="distribute vertically (${this.getShortcutString('alt', 'shift', 'v')})"
+        >
+        </span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
 
-      <icon-button
-        id="front"
-        data-zorder="front"
-        title="bring to front (${this.getShortcutString('cmd', 'shift', 'f')})"
-      >
-      </icon-button>
-      <icon-button id="back" data-zorder="back" title="send to back (${this.getShortcutString('cmd', 'shift', 'b')})">
-      </icon-button>
-      <icon-button id="forward" data-zorder="forward" title="bring forward (${this.getShortcutString('cmd', 'f')})">
-      </icon-button>
-      <icon-button id="backward" data-zorder="backward" title="send backward (${this.getShortcutString('cmd', 'b')})">
-      </icon-button>
+        <span
+          button
+          id="front"
+          data-zorder="front"
+          title="bring to front (${this.getShortcutString('cmd', 'shift', 'f')})"
+        >
+        </span>
+        <span button id="back" data-zorder="back" title="send to back (${this.getShortcutString('cmd', 'shift', 'b')})">
+        </span>
+        <span button id="forward" data-zorder="forward" title="bring forward (${this.getShortcutString('cmd', 'f')})">
+        </span>
+        <span button id="backward" data-zorder="backward" title="send backward (${this.getShortcutString('cmd', 'b')})">
+        </span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
 
-      <icon-button id="symmetry-x" title="symmetry-x (${this.getShortcutString('alt', 'shift', 'x')})"> </icon-button>
-      <icon-button id="symmetry-y" title="symmetry-y (${this.getShortcutString('alt', 'shift', 'y')})"> </icon-button>
-      <icon-button id="rotate-cw" title="rotate clockwise (${this.getShortcutString('alt', 'shift', 'e')})">
-      </icon-button>
-      <icon-button id="rotate-ccw" title="rotate counter clockwise (${this.getShortcutString('alt', 'shift', 'w')})">
-      </icon-button>
+        <span button id="symmetry-x" title="symmetry-x (${this.getShortcutString('alt', 'shift', 'x')})"> </span>
+        <span button id="symmetry-y" title="symmetry-y (${this.getShortcutString('alt', 'shift', 'y')})"> </span>
+        <span button id="rotate-cw" title="rotate clockwise (${this.getShortcutString('alt', 'shift', 'e')})"> </span>
+        <span button id="rotate-ccw" title="rotate counter clockwise (${this.getShortcutString('alt', 'shift', 'w')})">
+        </span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
 
-      <icon-button id="group" title="group (${this.getShortcutString('cmd', 'g')})"> </icon-button>
-      <icon-button id="ungroup" title="ungroup (${this.getShortcutString('cmd', 'shift', 'g')})"> </icon-button>
+        <span button id="group" title="group (${this.getShortcutString('cmd', 'g')})"> </span>
+        <span button id="ungroup" title="ungroup (${this.getShortcutString('cmd', 'shift', 'g')})"> </span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
 
-      <icon-button id="font-increase" title="increase font size"></icon-button>
-      <icon-button id="font-decrease" title="decrease font size"></icon-button>
+        <span button id="font-increase" title="increase font size"></span>
+        <span button id="font-decrease" title="decrease font size"></span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
+        <span padding></span>
 
-      <icon-button id="fit-scene" title="fit scene (${this.getShortcutString('cmd', 'd')})"> </icon-button>
+        <span button id="fit-scene" title="fit scene (${this.getShortcutString('cmd', 'd')})"> </span>
 
-      <span class="vline"></span>
+        <span class="vline"></span>
 
-      <icon-button id="preview" title="preview (${this.getShortcutString('ctrl', 'p')})"> </icon-button>
+        <span button id="preview" title="preview (${this.getShortcutString('ctrl', 'p')})"> </span>
 
-      <icon-button id="fullscreen" title="fullscreen (${this.getShortcutString('f11')})"> </icon-button>
+        <span button id="fullscreen" title="fullscreen (${this.getShortcutString('f11')})"> </span>
 
-      <icon-button
-        id="toggle-property"
-        title="toggle property panel (${this.getShortcutString('cmd', 'h')})"
-        toggles="true"
-      >
-      </icon-button>
+        <span
+          button
+          id="toggle-property"
+          title="toggle property panel (${this.getShortcutString('cmd', 'h')})"
+          toggles="true"
+        >
+        </span>
+      </div>
     `
+  }
+
+  onWheelEvent(e) {
+    var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail))
+    this.scrollLeft -= delta * 40
+
+    e.preventDefault()
   }
 
   bindShortcutEvent(container) {

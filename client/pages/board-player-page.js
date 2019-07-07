@@ -39,11 +39,10 @@ class BoardPlayerPage extends connect(store)(PageView) {
     ]
   }
 
-  async updated(changed) {
-    if (changed.has('active')) {
-      this._playGroup = (await fetchPlayGroup(this._playGroupId)).playGroup
-      this._boards = this._playGroup.boards
-    }
+  async refresh() {
+    this._playGroup = (await fetchPlayGroup(this._playGroupId)).playGroup
+    this._boards = this._playGroup.boards
+    this.updateContext()
   }
 
   stateChanged(state) {
@@ -66,6 +65,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
   activated(active) {
     if (!active) {
       this.shadowRoot.querySelector('board-player').stop()
+    } else {
+      this.refresh()
     }
   }
 }

@@ -6,27 +6,31 @@ import { css } from 'lit-element'
 
 export const style = css`
   :host {
-    display: flex;
-    flex: 1;
-    flex-basis: 1280px;
-    flex-wrap: nowrap;
-    height: 100%;
-    align-items: center;
-    overflow: hidden;
-    padding: 10px;
+    background-color: var(--secondary-dark-color);
+
+    overflow-x: hidden;
   }
 
-  :host > * {
-    flex: 1;
+  [tools] {
+    display: flex;
+    align-items: center;
+    overflow: none;
+    padding: 0px 10px;
+  }
+
+  [tools] > * {
     padding: 0px;
   }
 
-  :host > paper-icon-button {
-    flex-basis: 32px;
-    min-width: 20px;
+  [tools] > span[button] {
+    min-width: 32px;
   }
 
-  :host > .vline {
+  [tools] > span[padding] {
+    flex: 1;
+  }
+
+  [tools] > .vline {
     display: block;
     flex: none;
     border-left: 1px solid rgba(255, 255, 255, 0.07);
@@ -42,7 +46,9 @@ export const style = css`
     font-size: 20px;
   }
 
-  paper-icon-button {
+  span[button] {
+    min-height: 40px;
+
     background: url(./assets/images/icon-htoolbar.png) no-repeat;
     background-position-x: 50%;
   }
