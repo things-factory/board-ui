@@ -333,7 +333,7 @@ class BoardViewer extends LitElement {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'error',
+            level: 'error',
             message: ex,
             ex
           }

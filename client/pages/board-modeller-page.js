@@ -264,7 +264,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'info',
+            level: 'info',
             message: 'new board created'
           }
         })
@@ -273,7 +273,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'error',
+            level: 'error',
             message: ex,
             ex: ex
           }
@@ -292,7 +292,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'info',
+            level: 'info',
             message: 'saved'
           }
         })
@@ -301,7 +301,7 @@ class BoardModellerPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'error',
+            level: 'error',
             message: ex,
             ex: ex
           }

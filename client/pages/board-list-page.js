@@ -153,7 +153,7 @@ class BoardListPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'info',
+            level: 'info',
             message: 'deleted'
           }
         })
@@ -162,7 +162,7 @@ class BoardListPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'error',
+            level: 'error',
             message: ex,
             ex: ex
           }

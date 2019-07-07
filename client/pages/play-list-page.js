@@ -144,7 +144,7 @@ class PlayListPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'info',
+            level: 'info',
             message: 'deleted from this group'
           }
         })
@@ -153,7 +153,7 @@ class PlayListPage extends connect(store)(PageView) {
       document.dispatchEvent(
         new CustomEvent('notify', {
           detail: {
-            type: 'error',
+            level: 'error',
             message: ex,
             ex: ex
           }
