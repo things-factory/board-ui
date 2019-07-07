@@ -411,6 +411,8 @@ import { fetchFontList, fetchPlayGroup, leavePlayGroup } from '@things-factory/f
 
 import '../board-list/font-list'
 
+import { MENU_TOOLS_CONTEXT } from '../layout/menu-tools'
+
 class FontListPage extends connect(store)(PageView) {
   static get styles() {
     return [
@@ -461,7 +463,8 @@ class FontListPage extends connect(store)(PageView) {
           title: button.text,
           action: button.action
         }
-      })
+      }),
+      board_topmenu: true
     }
   }
 

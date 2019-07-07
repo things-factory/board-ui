@@ -49,7 +49,7 @@ class BoardListPage extends connect(store)(PageView) {
   get context() {
     return {
       title: 'Board List',
-      'board-page': true
+      board_topmenu: true
     }
   }
 

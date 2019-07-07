@@ -4,7 +4,6 @@ import { store } from '@things-factory/shell'
 import { addRoutingType } from '@things-factory/menu-base'
 
 import board from './reducers/board'
-
 import {
   APPEND_CONTEXT_TOOL,
   REMOVE_CONTEXT_TOOL,
@@ -24,7 +23,7 @@ export default function bootstrap() {
     template: html`
       <menu-tools></menu-tools>
     `,
-    context: 'board-page'
+    context: 'board_topmenu'
   }
 
   const navbar = {
@@ -36,7 +35,7 @@ export default function bootstrap() {
 
   var width
 
-  store.subscribe(() => {
+  store.subscribe(async () => {
     var state = store.getState()
 
     if (state.layout.width == width) {

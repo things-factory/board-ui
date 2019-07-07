@@ -11,6 +11,8 @@ import { fetchPlayGroupList, fetchPlayGroup, leavePlayGroup } from '@things-fact
 import '../board-list/play-group-bar'
 import '../board-list/board-tile-list'
 
+import { MENU_TOOLS_CONTEXT } from '../layout/menu-tools'
+
 class PlayListPage extends connect(store)(PageView) {
   static get styles() {
     return [
@@ -50,7 +52,7 @@ class PlayListPage extends connect(store)(PageView) {
   get context() {
     return {
       title: 'Play List',
-      'board-page': true
+      board_topmenu: true
     }
   }
 
