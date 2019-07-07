@@ -1,56 +1,20 @@
 import { LitElement, html, css } from 'lit-element'
 import Sortable from 'sortablejs'
 
-import { ScrollbarStyles } from '@things-factory/shell'
-
-export default class ThingsSceneInspector extends LitElement {
+export default class SceneInspector extends LitElement {
   constructor() {
     super()
-
-    this.show = false
   }
 
   static get properties() {
     return {
-      scene: Object,
-      show: Boolean
+      scene: Object
     }
   }
 
   static get styles() {
     return [
-      ScrollbarStyles,
       css`
-        :host {
-          float: left;
-          position: relative;
-          top: 0;
-          left: 0;
-          background-color: transparent;
-          color: var(--third-color);
-
-          -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-          -moz-user-select: none; /* mozilla browsers */
-          -khtml-user-select: none; /* webkit (konqueror) browsers */
-          -ms-user-select: none; /* IE10+ */
-        }
-
-        .inspector {
-          background-color: #745a4f;
-          padding: 0 4px 0 4px;
-        }
-
-        #outliner {
-          position: relative;
-          top: 0;
-          left: 0;
-          min-width: 200px;
-          background-color: #222;
-          height: calc(100% - 24px);
-          overflow-y: auto;
-          opacity: 0.9;
-        }
-
         .component {
           display: block;
           overflow: hidden;
@@ -59,9 +23,10 @@ export default class ThingsSceneInspector extends LitElement {
         }
 
         .component[selected] {
-          background-color: rgba(0, 0, 0, 0.8);
-          border-top: 1px solid #ffaf02;
-          border-bottom: 1px solid #ffaf02;
+          background-color: rgba(0, 0, 0, 0.3);
+
+          border-top: 1px solid rgba(0, 0, 0, 0.5);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
         }
 
         span,
@@ -120,13 +85,7 @@ export default class ThingsSceneInspector extends LitElement {
 
   render() {
     return html`
-      <div class="inspector">${this.show ? '▼' : '▶'} inspector</div>
-
-      ${!this.show || !this.scene
-        ? html``
-        : html`
-            <div id="outliner" ?hidden=${!this.show}>${this.renderComponent(this.scene.root, 0)}</div>
-          `}
+      ${!this.scene ? html`` : this.renderComponent(this.scene.root, 0)}
     `
   }
 
@@ -154,6 +113,16 @@ export default class ThingsSceneInspector extends LitElement {
         this.extendedMap.set(this.scene.root, true)
 
         this.scene.on('selected', (after, before) => {
+          let selected = after
+
+          selected.forEach(component => {
+            let parent = component.parent
+            while (parent && !this.extendedMap.get(parent)) {
+              this.extendedMap.set(parent, true)
+              parent = parent.parent
+            }
+          })
+
           this.requestUpdate()
         })
 
@@ -345,10 +314,11 @@ export default class ThingsSceneInspector extends LitElement {
               `
             : html``}
         </span>
+
         ${extended.map(child => this.renderComponent(child, depth + 1))}
       </div>
     `
   }
 }
 
-customElements.define('things-scene-inspector', ThingsSceneInspector)
+customElements.define('scene-inspector', SceneInspector)

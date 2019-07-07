@@ -7,7 +7,6 @@ import { i18next } from '@things-factory/i18n-base'
 import '../board-viewer/board-viewer'
 
 import './editors/things-scene-viewer/things-scene-viewer'
-import './editors/things-scene-viewer/things-scene-inspector'
 
 import './component-toolbar/component-toolbar'
 import './property-sidebar/property-sidebar'
@@ -79,12 +78,6 @@ class BoardModeller extends LitElement {
           height: 100%;
         }
 
-        things-scene-inspector {
-          position: absolute;
-          left: 0px;
-          top: 0px;
-        }
-
         mwc-fab {
           position: absolute;
           right: 15px;
@@ -149,8 +142,6 @@ class BoardModeller extends LitElement {
           <things-scene-handler type="text-editor"></things-scene-handler>
           <things-scene-handler type="move-handler"></things-scene-handler>
         </things-scene-viewer>
-
-        <things-scene-inspector .scene=${this.scene}></things-scene-inspector>
 
         <mwc-fab icon="save" @click=${e => this.onTapSave(e)} title="save"> </mwc-fab>
       </div>

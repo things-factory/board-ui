@@ -15,6 +15,7 @@ import './styles/styles'
 import './effects/effects'
 import './specifics/specifics'
 import './data-binding/data-binding'
+import './inspector/inspector'
 
 class PropertySidebar extends LitElement {
   constructor() {
@@ -102,6 +103,7 @@ class PropertySidebar extends LitElement {
         <paper-tab> <mwc-icon>movie_filter</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>tune</mwc-icon> </paper-tab>
         <paper-tab> <mwc-icon>share</mwc-icon> </paper-tab>
+        <paper-tab> <mwc-icon>visibility</mwc-icon></paper-tab>
       </paper-tabs>
 
       <iron-pages .selected="${this.tabIndex}">
@@ -121,6 +123,7 @@ class PropertySidebar extends LitElement {
         </property-specific>
 
         <property-data-binding .scene=${this.scene} .value=${this.model}> </property-data-binding>
+        <scene-inspector .scene=${this.scene}></scene-inspector>
       </iron-pages>
     `
   }
