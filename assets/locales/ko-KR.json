@@ -312,7 +312,7 @@
   "label.options": "options",
   "label.padding": "여백",
   "label.passcode": "패스코드",
-  "label.password": "패스워드",
+  "field.password": "패스워드",
   "label.path": "경로",
   "label.pattern": "패턴",
   "label.period": "period",

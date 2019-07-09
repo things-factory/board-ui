@@ -313,7 +313,7 @@
   "label.options": "选项",
   "label.padding": "间隔",
   "label.passcode": "密码",
-  "label.password": "密码",
+  "field.password": "密码",
   "label.path": "路径",
   "label.pattern": "图案",
   "label.period": "期间",
