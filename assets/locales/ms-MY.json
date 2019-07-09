@@ -312,7 +312,7 @@
   "label.options": "options",
   "label.padding": "padding",
   "label.passcode": "passcode",
-  "label.password": "password",
+  "field.password": "password",
   "label.path": "path",
   "label.pattern": "pattern",
   "label.period": "period",
