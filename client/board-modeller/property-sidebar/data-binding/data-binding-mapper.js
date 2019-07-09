@@ -196,8 +196,6 @@ export default class DataBindingMapper extends LitElement {
     if (this._keep_saved_rule_params) {
       this._keep_saved_rule_params = false
     } else {
-      this.shadowRoot.querySelector('[data-mapping-accessor]').select()
-
       await this.renderComplete
 
       var rule = {}

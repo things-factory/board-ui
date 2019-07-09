@@ -140,7 +140,7 @@ export default class DataBindingValueMap extends LitElement {
       </div>
 
       <div data-record>
-        <input type="text" data-key .value="default" disabled /> ${
+        <input type="text" data-key data-default="" value="default" disabled /> ${
           this.valuetype == 'boolean'
             ? html`
                 <input
