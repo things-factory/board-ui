@@ -20,7 +20,7 @@ export class MenuTools extends connect(store)(LitElement) {
         :host {
           display: flex;
           flex-direction: row;
-          background-color: var(--secondary-dark-color);
+          background-color: var(--menu-tools-background-color);
           height: 100%;
         }
 
@@ -40,27 +40,30 @@ export class MenuTools extends connect(store)(LitElement) {
         }
 
         :host([wide]) li {
-          padding: 6px 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         a {
-          padding: 0px;
+          display: block;
+          padding: 5px 0px;
           text-align: center;
           text-decoration: none;
-          color: white;
+          color: var(--menu-tools-color);
         }
 
         a[active] {
-          color: tomato;
+          color: var(--menu-tools-active-color);
+          background-color: rgba(0, 0, 0, 0.2);
         }
 
         mwc-icon {
-          padding: 5px 20px 0px 20px;
+          padding: 5px 15px 0px 15px;
           vertical-align: bottom;
         }
 
         div {
-          font-size: 0.7em;
+          font-size: 0.6em;
         }
       `
     ]

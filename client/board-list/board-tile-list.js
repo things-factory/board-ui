@@ -9,6 +9,7 @@ export default class BoardTileList extends LitElement {
         :host {
           display: block;
           box-sizing: border-box;
+          background-color: var(--board-list-background-color);
         }
 
         ul {
@@ -17,14 +18,17 @@ export default class BoardTileList extends LitElement {
           grid-auto-rows: 110px;
           list-style: none;
           padding: 0;
-          margin: 0;
+          margin: var(--board-list-margin);
+          grid-gap: var(--board-list-margin);
         }
 
         ul > li {
-          margin: var(--menu-list-item-margin);
-          padding: 12px;
-
+          border-radius: var(--board-list-border-radius);
+          border: var(--board-list-box-border);
+          box-shadow: var(--board-list-box-shadow);
+          background-color: var(--board-list-tile-background-color);
           position: relative;
+          overflow: hidden;
         }
 
         img {
@@ -37,23 +41,20 @@ export default class BoardTileList extends LitElement {
 
         mwc-icon[star] {
           position: absolute;
-          right: 8px;
+          right: 10px;
           top: 8px;
 
-          color: var(--secondary-dark-color);
-          font-size: 1em;
+          color: var(--board-list-star-color);
+          font-size: 1.4em;
         }
 
         mwc-icon[star][selected] {
-          color: white;
-          text-shadow: 1px 1px 1px var(--secondary-dark-color);
+          color: var(--board-list-star-active-color);
         }
 
         li a {
           display: block;
           text-decoration: none;
-
-          font-size: 1em;
           word-wrap: break-word;
           word-break: break-all;
 
@@ -61,12 +62,14 @@ export default class BoardTileList extends LitElement {
         }
 
         [name] {
-          color: #fff;
-          text-transform: uppercase;
+          font: var(--board-list-tile-name-font);
+          color: var(--board-list-tile-name-color);
+          text-transform: capitalize;
         }
 
         [description] {
-          color: var(--secondary-dark-color);
+          font: var(--board-list-tile-description-font);
+          color: var(--board-list-tile-description-color);
         }
 
         [thumbnail] {
@@ -76,24 +79,24 @@ export default class BoardTileList extends LitElement {
 
         [edit],
         [delete] {
-          opacity: 0;
+          opacity: 0.5;
 
           position: absolute;
-          bottom: 10px;
+          margin-top: -25px;
         }
 
         [edit] {
-          right: 10px;
+          right: 3px;
         }
 
         [delete] {
-          right: 30px;
+          right: 27px;
         }
 
         [edit] mwc-icon,
         [delete] mwc-icon {
-          color: var(--secondary-dark-color);
-          font-size: 1.3em;
+          color: var(--board-list-tile-icon-color);
+          font-size: 1.5em;
           vertical-align: middle;
         }
 
@@ -106,33 +109,33 @@ export default class BoardTileList extends LitElement {
           transition: opacity 0.8s;
         }
 
-        li:nth-child(7n + 1) {
-          background-color: #4397de;
-        }
+        // li:nth-child(7n + 1) {
+        //   background-color: #4397de;
+        // }
 
-        li:nth-child(7n + 2) {
-          background-color: #33b8d0;
-        }
+        // li:nth-child(7n + 2) {
+        //   background-color: #33b8d0;
+        // }
 
-        li:nth-child(7n + 3) {
-          background-color: #4ab75f;
-        }
+        // li:nth-child(7n + 3) {
+        //   background-color: #4ab75f;
+        // }
 
-        li:nth-child(7n + 4) {
-          background-color: #93796f;
-        }
+        // li:nth-child(7n + 4) {
+        //   background-color: #93796f;
+        // }
 
-        li:nth-child(7n + 5) {
-          background-color: #f1ac42;
-        }
+        // li:nth-child(7n + 5) {
+        //   background-color: #f1ac42;
+        // }
 
-        li:nth-child(7n + 6) {
-          background-color: #ea6361;
-        }
+        // li:nth-child(7n + 6) {
+        //   background-color: #ea6361;
+        // }
 
-        li:nth-child(7n + 7) {
-          background-color: #7386c3;
-        }
+        // li:nth-child(7n + 7) {
+        //   background-color: #7386c3;
+        // }
 
         @media (min-width: 600px) {
           ul {
