@@ -88,7 +88,7 @@ class BoardListPage extends connect(store)(PageView) {
       filters: this.groupId
         ? [
             {
-              name: 'groupId',
+              name: 'group_id',
               operator: 'eq',
               value: this.groupId
             }
