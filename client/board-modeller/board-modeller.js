@@ -3,7 +3,6 @@ import { LitElement, html, css } from 'lit-element'
 import '@material/mwc-fab'
 
 import '@polymer/paper-dialog/paper-dialog'
-import { i18next } from '@things-factory/i18n-base'
 import '../board-viewer/board-viewer'
 
 import './editors/things-scene-viewer/things-scene-viewer'
@@ -11,17 +10,9 @@ import './editors/things-scene-viewer/things-scene-viewer'
 import './component-toolbar/component-toolbar'
 import './property-sidebar/property-sidebar'
 
-import en_US from '../../assets/locales/en-US.json'
-import ko_KR from '../../assets/locales/ko-KR.json'
-import zh_CN from '../../assets/locales/zh-CN.json'
-
 class BoardModeller extends LitElement {
   constructor() {
     super()
-
-    i18next.addResourceBundle('en-US', 'translations', en_US['en-US'], true, true)
-    i18next.addResourceBundle('ko-KR', 'translations', ko_KR['ko-KR'], true, true)
-    i18next.addResourceBundle('zh-CN', 'translations', zh_CN['zh-CN'], true, true)
 
     this.boardName = ''
     this.model = null
