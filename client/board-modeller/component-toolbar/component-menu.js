@@ -41,7 +41,7 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
     return html`
       <style>
         :host {
-          background-color: #eceff1;
+          background-color: var(--component-menu-background-color, #283644);
           margin: 0px;
           padding: 0px;
 

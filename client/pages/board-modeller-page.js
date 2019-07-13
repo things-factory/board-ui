@@ -28,16 +28,6 @@ class BoardModellerPage extends connect(store)(PageView) {
       components
     })
 
-    /* 각 모듈의 locale정보로 resource bundle을 추가한다. */
-    for (let component in components) {
-      let locales = components[component].locales
-
-      locales &&
-        Object.keys(locales).forEach(lng => {
-          i18next.addResourceBundle(lng, 'board-ui', locales[lng], true, true)
-        })
-    }
-
     this.boardName = ''
     this.model = null
     this.baseUrl = ''

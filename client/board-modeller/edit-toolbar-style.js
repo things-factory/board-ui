@@ -6,7 +6,7 @@ import { css } from 'lit-element'
 
 export const style = css`
   :host {
-    background-color: var(--secondary-dark-color);
+    background-color: var(--edit-toolbar-background-color, #394e64);
 
     overflow-x: hidden;
   }
