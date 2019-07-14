@@ -55,21 +55,24 @@ class PropertySidebar extends LitElement {
           width: 270px;
           display: flex;
           flex-direction: column;
-          background-color: var(--paper-blue-grey-50);
+          background-color: var(--property-sidebar-background-color);
         }
 
         paper-tabs {
           background-color: rgba(0, 0, 0, 0.08);
           max-height: 40px;
+          opacity: 0.85;
         }
 
         paper-tab.iron-selected {
-          background-color: var(--paper-blue-grey-50);
-          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          background-color: var(--property-sidebar-background-color);
+          border-left: 1px solid rgba(255, 255, 255, 0.5);
+          border-right: 1px solid rgba(0, 0, 0, 0.15);
+          opacity: 1;
         }
 
         paper-tabs mwc-icon {
-          color: var(--primary-color);
+          color: var(--property-sidebar-tab-icon-color);
         }
 
         iron-pages {

@@ -37,19 +37,19 @@ class ComponentToolbar extends LitElement {
           left: 0px;
           display: block;
 
-          width: 45px;
-          background-color: #ece6dd;
+          width: var(--component-toolbar-icon-size);
+          background-color: var(--component-toolbar-background-color);
         }
 
         span {
           display: flex;
           flex-direction: row;
 
-          width: 45px;
-          height: 48px;
+          width: var(--component-toolbar-icon-size);
+          height: var(--component-toolbar-icon-size);
           min-width: 50%;
 
-          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          border-bottom: var(--component-toolbar-border);
           margin: 0;
           background: url(./assets/images/icon-vtoolbar.png) -1px 0 no-repeat;
         }

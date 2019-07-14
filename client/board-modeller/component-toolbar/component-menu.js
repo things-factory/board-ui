@@ -41,16 +41,16 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
     return html`
       <style>
         :host {
-          background-color: var(--component-menu-background-color, #283644);
+          background-color: var(--component-menu-background-color);
           margin: 0px;
           padding: 0px;
 
-          width: 210px;
+          width: 180px;
           height: 100%;
 
           overflow: hidden;
 
-          border: 2px solid var(--secondary-dark-color);
+          border: 2px solid var(--component-menu-border-color);
           box-sizing: border-box;
 
           position: absolute;
@@ -58,14 +58,12 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
         }
 
         h2 {
-          background-color: var(--primary-dark-color);
+          background-color: var(--component-menu-border-color);
           padding: 1px 5px;
           margin: 0;
-          font-size: 11px;
+          font: var(--component-menu-title);
           color: #fff;
-          font-weight: 600;
           text-transform: capitalize;
-          line-height: initial;
         }
 
         .scroll {
@@ -79,26 +77,28 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
           margin-bottom: 1% !important;
           width: 100%;
           overflow-y: auto;
-          background-color: var(--secondary-dark-color);
+          background-color: var(--component-menu-background-color);
         }
 
         paper-item {
-          min-height: 20px;
-          padding: 0 5px;
+          min-height: var(--component-menu-item-icon-size);
+          padding: 0 5px 0 0;
           border-bottom: 1px solid rgba(0, 0, 0, 0.1);
           font-size: 11px;
-          color: #ccc;
+          color: var(--component-menu-item-color);
           text-align: left;
         }
-
-        paper-listbox paper-item:focus {
-          background-color: lightgray;
+        paper-item:hover,
+        paper-item:focus {
+          color: var(--component-menu-item-hover-color);
+          font-weight: bold;
+          cursor: pointer;
         }
 
         paper-item img {
           margin: 5px;
-          width: 20px;
-          height: 20px;
+          width: var(--component-menu-item-icon-size);
+          height: var(--component-menu-item-icon-size);
         }
       </style>
 

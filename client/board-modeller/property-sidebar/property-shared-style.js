@@ -9,16 +9,15 @@ export const PropertySharedStyle = css`
     border: none;
     margin: 4px;
     padding: 9px 4px 9px 4px;
-    border-bottom: 1px solid #cfd8dc;
-    color: var(--primary-text-color);
-    font-size: 12px;
+    border-bottom: var(--property-sidebar-fieldset-border);
+    color: var(--secondary-color);
+    font: var(--property-sidebar-fieldset-label);
   }
 
   fieldset legend {
     padding: 5px 0 0 5px;
-    font-size: 11px;
-    color: #e46c2e;
-    font-weight: bold;
+    color: var(--property-sidebar-fieldset-legend-color);
+    font: var(--property-sidebar-fieldset-legend);
     text-transform: capitalize;
   }
 
