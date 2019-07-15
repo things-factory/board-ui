@@ -22,6 +22,8 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
     return 'component-menu'
   }
 
+  static get styles() {}
+
   static get properties() {
     return {
       groups: Object,
@@ -40,6 +42,20 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
   static get template() {
     return html`
       <style>
+        ::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-thumb-color, rgba(0, 0, 0, 0.2));
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: var(--scrollbar-thumb-hover-color, #aa866a);
+        }
+
         :host {
           background-color: var(--component-menu-background-color);
           margin: 0px;
