@@ -10,7 +10,7 @@ export const PropertySharedStyle = css`
     margin: 4px;
     padding: 9px 4px 9px 4px;
     border-bottom: var(--property-sidebar-fieldset-border);
-    color: var(--secondary-color);
+    color: var(--property-sidebar-fieldset-legend-color);
     font: var(--property-sidebar-fieldset-label);
   }
 
