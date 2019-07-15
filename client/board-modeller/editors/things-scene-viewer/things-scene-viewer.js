@@ -244,10 +244,10 @@ export default class ThingsSceneViewer extends LitElement {
   }
 
   _onModeChanged(mode) {
-    // if (!this.scene) {
-    //   return
-    // }
-    // this.scene.mode = Number(mode)
+    if (!this.scene) {
+      return
+    }
+    this.scene.mode = Number(mode)
   }
 
   _onDataChanged(data) {
