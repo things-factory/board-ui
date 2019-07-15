@@ -50,7 +50,11 @@ export default class GroupBar extends LitElement {
           flex: 1;
         }
 
-        li[refresh] * {
+        li[add] {
+          padding: 5px 4px 1px 4px;
+        }
+
+        li[add] * {
           color: rgba(255, 255, 255, 0.5);
         }
 
@@ -90,8 +94,8 @@ export default class GroupBar extends LitElement {
 
         <li padding></li>
 
-        <li refresh>
-          <mwc-icon @click=${this._onClickRefresh.bind(this)}>refresh</mwc-icon>
+        <li add>
+          <mwc-icon @click=${this._onClickAdd.bind(this)}>add</mwc-icon>
         </li>
       </ul>
     `
@@ -104,8 +108,8 @@ export default class GroupBar extends LitElement {
     e.preventDefault()
   }
 
-  _onClickRefresh(e) {
-    this.dispatchEvent(new CustomEvent('refresh'))
+  _onClickAdd(e) {
+    // TODO Implements
   }
 
   updated(change) {

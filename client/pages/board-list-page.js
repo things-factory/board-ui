@@ -137,7 +137,7 @@ class BoardListPage extends connect(store)(PageView) {
         instructionsRefreshing: 'Refreshing',
         instructionsReleaseToRefresh: 'Release to refresh',
         onRefresh: () => {
-          this.refreshBoards()
+          this.refresh()
         }
       })
     } else {

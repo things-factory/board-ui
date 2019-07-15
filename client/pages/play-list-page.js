@@ -130,7 +130,7 @@ class PlayListPage extends connect(store)(PageView) {
         // instructionsRefreshing: 'xxx' /* Refreshing */,
         // instructionsReleaseToRefresh: 'yyy' /* Release to refresh */,
         onRefresh: () => {
-          this.refreshBoards()
+          this.refresh()
         }
       })
     } else {
