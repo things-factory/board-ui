@@ -155,10 +155,10 @@ class ComponentToolbar extends LitElement {
     var shift = this.shadowRoot.getElementById('shift')
     if (shift.hasAttribute('active')) {
       shift.removeAttribute('active')
-      this._setMode(2)
+      this._setMode(1)
     } else {
       shift.setAttribute('active', '')
-      this._setMode(1)
+      this._setMode(2)
     }
   }
 
