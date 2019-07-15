@@ -55,12 +55,7 @@ class BoardListPage extends connect(store)(PageView) {
 
   render() {
     return html`
-      <group-bar
-        .groups=${this.groups}
-        .groupId=${this.groupId}
-        targetPage="board-list"
-        @refresh=${this.refresh.bind(this)}
-      ></group-bar>
+      <group-bar .groups=${this.groups} .groupId=${this.groupId} targetPage="board-list"></group-bar>
 
       <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
 

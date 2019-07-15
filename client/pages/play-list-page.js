@@ -58,12 +58,7 @@ class PlayListPage extends connect(store)(PageView) {
 
   render() {
     return html`
-      <play-group-bar
-        .groups=${this.groups}
-        .groupId=${this.groupId}
-        targetPage="play-list"
-        @refresh=${this.refresh.bind(this)}
-      ></play-group-bar>
+      <play-group-bar .groups=${this.groups} .groupId=${this.groupId} targetPage="play-list"></play-group-bar>
 
       <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
 
