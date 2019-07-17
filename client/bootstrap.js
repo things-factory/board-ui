@@ -4,13 +4,8 @@ import { store } from '@things-factory/shell'
 import { addRoutingType } from '@things-factory/menu-base'
 
 import board from './reducers/board'
-import {
-  APPEND_CONTEXT_TOOL,
-  REMOVE_CONTEXT_TOOL,
-  APPEND_NAVBAR,
-  REMOVE_NAVBAR,
-  TOOL_POSITION
-} from '@things-factory/layout-base'
+import { APPEND_NAVBAR, REMOVE_NAVBAR, TOOL_POSITION } from '@things-factory/layout-base'
+import { APPEND_CONTEXT_TOOL, REMOVE_CONTEXT_TOOL } from '@things-factory/context-base'
 
 export default function bootstrap() {
   store.dispatch(addRoutingType('VIEWER', 'board-viewer'))
