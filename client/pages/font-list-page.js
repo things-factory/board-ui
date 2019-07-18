@@ -42,7 +42,13 @@ class FontListPage extends connect(store)(PageView) {
     return {
       title: this.menuTitle,
       board_topmenu: true,
-      actions:
+      actions: [{
+        title: 'button.add',
+        action: function(){} 
+      },{
+        title: 'button.remove',
+        action:function(){} 
+      }]
     }
   }
 
