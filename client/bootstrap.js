@@ -15,6 +15,7 @@ export default function bootstrap() {
 
   const tool = {
     position: TOOL_POSITION.CENTER,
+    show: true,
     template: html`
       <menu-tools></menu-tools>
     `,
@@ -23,6 +24,7 @@ export default function bootstrap() {
 
   const navbar = {
     position: TOOL_POSITION.CENTER,
+    show: true,
     template: html`
       <menu-tools></menu-tools>
     `
@@ -47,12 +49,13 @@ export default function bootstrap() {
 
       store.dispatch({
         type: APPEND_NAVBAR,
+        name: 'board-topmenu',
         navbar
       })
     } else {
       store.dispatch({
         type: REMOVE_NAVBAR,
-        navbar
+        name: 'board-topmenu'
       })
 
       store.dispatch({
