@@ -4,7 +4,7 @@ import { store } from '@things-factory/shell'
 import { addRoutingType } from '@things-factory/menu-base'
 
 import board from './reducers/board'
-import { APPEND_NAVBAR, REMOVE_NAVBAR, TOOL_POSITION } from '@things-factory/layout-base'
+import { appendViewpart, removeViewpart, VIEWPART_POSITION, TOOL_POSITION } from '@things-factory/layout-base'
 import { APPEND_CONTEXT_TOOL, REMOVE_CONTEXT_TOOL } from '@things-factory/context-base'
 
 export default function bootstrap() {
@@ -47,14 +47,13 @@ export default function bootstrap() {
         tool
       })
 
-      store.dispatch({
-        type: APPEND_NAVBAR,
+      appendViewpart({
         name: 'board-topmenu',
-        navbar
+        viewpart: navbar,
+        position: VIEWPART_POSITION.NAVBAR
       })
     } else {
-      store.dispatch({
-        type: REMOVE_NAVBAR,
+      removeViewpart({
         name: 'board-topmenu'
       })
 
