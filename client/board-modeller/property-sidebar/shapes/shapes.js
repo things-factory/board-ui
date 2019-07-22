@@ -267,6 +267,24 @@ class PropertyShapes extends LitElement {
             </fieldset>
           `
         : html``}
+      ${this.selected.length && this.selected[0].isRootModel()
+        ? html`
+            <fieldset class="icon-label">
+              <legend><i18n-msg msgid="label.label-rotation">Print Option</i18n-msg></legend>
+
+              <div class="property-grid">
+                <label class="rotate"><i18n-msg msgid="label.label-rotation">Label Rotation</i18n-msg></label>
+                <select value-key="labelRotation" .value=${this.value.labelRotation || 'N'}>
+                  <option value="N" selected>0°</option>
+                  <option value="B">90°</option>
+                  <option value="I">180°</option>
+                  <option value="R">270°</option>
+                </select>
+                </things-editor-angle-input>
+              </div>
+            </fieldset>
+          `
+        : html``}
     `
   }
 

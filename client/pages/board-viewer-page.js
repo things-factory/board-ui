@@ -92,12 +92,14 @@ class BoardViewerPage extends connect(store)(PageView) {
   }
 
   async getGrf() {
+    var { labelRotation } = this._board.model
+
     var { width, height, data } = (await this.shadowRoot.querySelector('board-viewer').getSceneImageData()) || {}
     if (!width) {
       throw 'Cannot get SceneImageData...ㅠㅠ'
     }
 
-    return buildLabelPrintCommand(data, width, height)
+    return buildLabelPrintCommand(data, width, height, labelRotation)
   }
 }
 
