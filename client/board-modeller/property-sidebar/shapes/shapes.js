@@ -270,7 +270,7 @@ class PropertyShapes extends LitElement {
       ${this.selected.length && this.selected[0].isRootModel()
         ? html`
             <fieldset class="icon-label">
-              <legend><i18n-msg msgid="label.print-option">Print Option</i18n-msg></legend>
+              <legend><i18n-msg msgid="label.label-print">Print Option</i18n-msg></legend>
 
               <div class="property-grid">
                 <label class="rotate"><i18n-msg msgid="label.label-rotation">Label Rotation</i18n-msg></label>
