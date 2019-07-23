@@ -48,7 +48,7 @@ export default class BoardTileList extends LitElement {
           font-size: 1.4em;
         }
 
-        mwc-icon[star][selected] {
+        mwc-icon[star][fovored] {
           color: var(--board-list-star-active-color);
         }
 
@@ -109,34 +109,6 @@ export default class BoardTileList extends LitElement {
           transition: opacity 0.8s;
         }
 
-        // li:nth-child(7n + 1) {
-        //   background-color: #4397de;
-        // }
-
-        // li:nth-child(7n + 2) {
-        //   background-color: #33b8d0;
-        // }
-
-        // li:nth-child(7n + 3) {
-        //   background-color: #4ab75f;
-        // }
-
-        // li:nth-child(7n + 4) {
-        //   background-color: #93796f;
-        // }
-
-        // li:nth-child(7n + 5) {
-        //   background-color: #f1ac42;
-        // }
-
-        // li:nth-child(7n + 6) {
-        //   background-color: #ea6361;
-        // }
-
-        // li:nth-child(7n + 7) {
-        //   background-color: #7386c3;
-        // }
-
         @media (min-width: 600px) {
           ul {
             grid-template-columns: 1fr 1fr 1fr;
@@ -167,7 +139,8 @@ export default class BoardTileList extends LitElement {
 
   static get properties() {
     return {
-      boards: Array
+      boards: Array,
+      favorites: Array
     }
   }
 
@@ -185,12 +158,12 @@ export default class BoardTileList extends LitElement {
                 <div name>${board.name}</div>
                 <div description>${board.description}</div>
 
-                ${Math.random() > 0.5
+                ${(this.favorites || []).includes(board.id)
                   ? html`
-                      <mwc-icon star>star_border</mwc-icon>
+                      <mwc-icon star fovored>star</mwc-icon>
                     `
                   : html`
-                      <mwc-icon star selected>star</mwc-icon>
+                      <mwc-icon star>star_border</mwc-icon>
                     `}
 
                 <a

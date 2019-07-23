@@ -11,8 +11,6 @@ import { fetchPlayGroupList, fetchPlayGroup, leavePlayGroup } from '@things-fact
 import '../board-list/play-group-bar'
 import '../board-list/board-tile-list'
 
-import { MENU_TOOLS_CONTEXT } from '../layout/menu-tools'
-
 class PlayListPage extends connect(store)(PageView) {
   static get styles() {
     return [
@@ -45,7 +43,8 @@ class PlayListPage extends connect(store)(PageView) {
     return {
       groupId: String,
       groups: Array,
-      boards: Array
+      boards: Array,
+      favorites: Array
     }
   }
 
@@ -60,7 +59,11 @@ class PlayListPage extends connect(store)(PageView) {
     return html`
       <play-group-bar .groups=${this.groups} .groupId=${this.groupId} targetPage="play-list"></play-group-bar>
 
-      <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
+      <board-tile-list
+        .favorites=${this.favorites}
+        .boards=${this.boards}
+        @delete-board=${e => this.onDeleteBoard(e.detail)}
+      ></board-tile-list>
 
       <a id="play" .href=${'board-player/' + this.groupId}>
         <mwc-fab icon="play_arrow" title="play"> </mwc-fab>
@@ -104,6 +107,7 @@ class PlayListPage extends connect(store)(PageView) {
   stateChanged(state) {
     if (this.active) {
       this.groupId = state.route.resourceId
+      this.favorites = state.favorite.favorites
     }
   }
 

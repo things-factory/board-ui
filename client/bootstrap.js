@@ -6,12 +6,13 @@ import { addRoutingType } from '@things-factory/menu-base'
 import board from './reducers/board'
 import { appendViewpart, removeViewpart, VIEWPART_POSITION, TOOL_POSITION } from '@things-factory/layout-base'
 import { APPEND_CONTEXT_TOOL, REMOVE_CONTEXT_TOOL } from '@things-factory/context-base'
+import { APPEND_APP_TOOL } from '@things-factory/apptool-base'
 
 export default function bootstrap() {
   store.dispatch(addRoutingType('VIEWER', 'board-viewer'))
   store.dispatch(addRoutingType('PLAYER', 'board-player'))
 
-  import('./layout/menu-tools')
+  import('./viewparts/menu-tools')
 
   const tool = {
     position: TOOL_POSITION.CENTER,
@@ -61,6 +62,17 @@ export default function bootstrap() {
         type: APPEND_CONTEXT_TOOL,
         tool
       })
+    }
+  })
+
+  import('./apptools/favorite-tool')
+  store.dispatch({
+    type: APPEND_APP_TOOL,
+    tool: {
+      template: html`
+        <favorite-tool></favorite-tool>
+      `,
+      position: TOOL_POSITION.REAR
     }
   })
 
