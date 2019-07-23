@@ -77,7 +77,7 @@ class BoardViewer extends LitElement {
 
   firstUpdated() {
     window.addEventListener('resize', () => {
-      this.scene && this.scene.fit(this.board.fit)
+      this.scene && this.scene.fit(this.board.model.fitMode)
     })
 
     this.shadowRoot.addEventListener(
@@ -187,7 +187,7 @@ class BoardViewer extends LitElement {
     /* scene의 기존 target을 보관한다. */
     this._oldtarget = this.scene.target
 
-    this.scene.fit(this.board.fit)
+    this.scene.fit(this.board.model.fitMode)
     this.scene.target = this.target
 
     this.bindSceneEvents(this.scene)
