@@ -480,9 +480,9 @@ const board = (state = INITIAL_STATE, action) => {
 
         editors &&
           editors.forEach(editor => {
-            let { type, component } = editor
+            let { type, element } = editor
 
-            addedEditors[type] = component
+            addedEditors[type] = element
           })
 
         templates &&
