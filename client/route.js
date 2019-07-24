@@ -1,13 +1,5 @@
 export default function route(page) {
   switch (page) {
-    case 'board-list':
-      import('./pages/board-list-page')
-      return page
-
-    case 'play-list':
-      import('./pages/play-list-page')
-      return page
-
     case 'board-viewer':
       import('./pages/board-viewer-page')
       return page

@@ -5,14 +5,6 @@ export default {
   route,
   routes: [
     {
-      tagname: 'board-list-page',
-      page: 'board-list'
-    },
-    {
-      tagname: 'play-list-page',
-      page: 'play-list'
-    },
-    {
       tagname: 'board-viewer-page',
       page: 'board-viewer'
     },
