@@ -50,6 +50,7 @@ class BoardViewerPage extends connect(store)(PageView) {
         },
         options: {}
       },
+      screencastable: true,
       exportable: {
         accept: ['json'],
         name: this._board && this._board.name,
