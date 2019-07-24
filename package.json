@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.4.15",
+  "version": "0.4.16",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -54,6 +54,7 @@
     "sortablejs": "^1.10.0-rc2"
   },
   "devDependencies": {
+    "@things-factory/board-app": "*",
     "@things-factory/board-test": "*"
   }
 }
