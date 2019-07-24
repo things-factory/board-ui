@@ -42,7 +42,8 @@ class BoardListPage extends connect(store)(PageView) {
     return {
       groupId: String,
       groups: Array,
-      boards: Array
+      boards: Array,
+      favorites: Array
     }
   }
 
@@ -57,7 +58,11 @@ class BoardListPage extends connect(store)(PageView) {
     return html`
       <group-bar .groups=${this.groups} .groupId=${this.groupId} targetPage="board-list"></group-bar>
 
-      <board-tile-list .boards=${this.boards} @delete-board=${e => this.onDeleteBoard(e.detail)}></board-tile-list>
+      <board-tile-list
+        .boards=${this.boards}
+        .favorites=${this.favorites}
+        @delete-board=${e => this.onDeleteBoard(e.detail)}
+      ></board-tile-list>
 
       <a id="create" .href=${'board-modeller'}>
         <mwc-fab icon="add" title="create"> </mwc-fab>
@@ -80,15 +85,16 @@ class BoardListPage extends connect(store)(PageView) {
     }
 
     var listParam = {
-      filters: this.groupId
-        ? [
-            {
-              name: 'group_id',
-              operator: 'eq',
-              value: this.groupId
-            }
-          ]
-        : [],
+      filters:
+        this.groupId && this.groupId !== 'favor'
+          ? [
+              {
+                name: 'group_id',
+                operator: 'eq',
+                value: this.groupId
+              }
+            ]
+          : [],
       sortings: [
         {
           name: 'name',
@@ -101,7 +107,14 @@ class BoardListPage extends connect(store)(PageView) {
       }
     }
 
-    this.boards = (await fetchBoardList(listParam)).boards.items
+    var boards = (await fetchBoardList(listParam)).boards.items
+
+    if (this.groupId == 'favor') {
+      // FIXME favor 그룹에 대한 fetch 처리를 서버에서 해야한다.
+      this.boards = boards.filter(board => this.favorites.includes(board.id))
+    } else {
+      this.boards = boards
+    }
   }
 
   updated(change) {
@@ -112,6 +125,7 @@ class BoardListPage extends connect(store)(PageView) {
 
   stateChanged(state) {
     this.groupId = state.route.resourceId
+    this.favorites = state.favorite.favorites
   }
 
   async activated(active) {

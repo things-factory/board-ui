@@ -270,6 +270,22 @@ class PropertyShapes extends LitElement {
       ${this.selected.length && this.selected[0].isRootModel()
         ? html`
             <fieldset class="icon-label">
+              <legend><i18n-msg msgid="label.viewer-option">Viewer Option</i18n-msg></legend>
+
+              <div class="property-grid">
+                <label><i18n-msg msgid="label.fit">Fit</i18n-msg></label>
+                <select value-key="fitMode" .value=${this.value.fitMode || 'none'}>
+                  <option value="none" selected>none</option>
+                  <option value="ratio">center</option>
+                  <option value="ratio">ratio</option>
+                  <option value="both">both</option>
+                  <option value="width">width</option>
+                  <option value="height">height</option>
+                </select>
+                </things-editor-angle-input>
+              </div>
+            </fieldset>
+            <fieldset class="icon-label">
               <legend><i18n-msg msgid="label.label-print">Print Option</i18n-msg></legend>
 
               <div class="property-grid">
