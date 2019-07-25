@@ -52,7 +52,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._playGroup && this._playGroup.name
+      title: this._playGroup && this._playGroup.name,
+      screencastable: true
     }
   }
 
