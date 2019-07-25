@@ -56,7 +56,8 @@
     "codemirror": "^5.48.0",
     "file-saver": "^2.0.1",
     "screenfull": "^4.2.0",
-    "sortablejs": "^1.10.0-rc2"
+    "sortablejs": "^1.10.0-rc2",
+    "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
     "@things-factory/board-app": "*",
