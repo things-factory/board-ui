@@ -67,12 +67,22 @@ class BoardViewerPage extends connect(store)(PageView) {
     `
   }
 
+  updated(changes) {
+    if (changes.has('_boardId')) {
+      this.shadowRoot.querySelector('board-viewer').closeScene()
+      this.refresh()
+    }
+  }
+
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
     this._boardId = state.route.resourceId
   }
 
   async refresh() {
+    if (!this._boardId) {
+      return
+    }
     var response = await fetchBoard(this._boardId)
     var board = response.board
 
@@ -85,9 +95,8 @@ class BoardViewerPage extends connect(store)(PageView) {
   }
 
   async activated(active) {
-    if (active) {
-      this.refresh()
-    } else {
+    if (!active) {
+      this._boardId = null
       this.shadowRoot.querySelector('board-viewer').closeScene()
     }
   }

@@ -40,9 +40,20 @@ class BoardPlayerPage extends connect(store)(PageView) {
   }
 
   async refresh() {
+    if (!this._playGroupId) {
+      return
+    }
+
     this._playGroup = (await fetchPlayGroup(this._playGroupId)).playGroup
     this._boards = this._playGroup.boards
     this.updateContext()
+  }
+
+  updated(changes) {
+    if (changes.has('_playGroupId')) {
+      this.shadowRoot.querySelector('board-player').stop()
+      this.refresh()
+    }
   }
 
   stateChanged(state) {
@@ -65,9 +76,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
 
   activated(active) {
     if (!active) {
+      this._playGroupId = null
       this.shadowRoot.querySelector('board-player').stop()
-    } else {
-      this.refresh()
     }
   }
 }

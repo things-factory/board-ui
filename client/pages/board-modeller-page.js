@@ -116,10 +116,16 @@ class BoardModellerPage extends connect(store)(PageView) {
   }
 
   activated(active) {
-    if (active) {
-      this.refresh()
-    } else {
+    if (!active) {
+      this.boardId = null
       this.shadowRoot.querySelector('board-modeller').close()
+    }
+  }
+
+  updated(changes) {
+    if (changes.has('boardId')) {
+      this.shadowRoot.querySelector('board-modeller').close()
+      this.refresh()
     }
   }
 
