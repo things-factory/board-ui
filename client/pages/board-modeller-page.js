@@ -117,14 +117,8 @@ class BoardModellerPage extends connect(store)(PageView) {
 
   activated(active) {
     if (!active) {
-      this.boardId = null
       this.shadowRoot.querySelector('board-modeller').close()
-    }
-  }
-
-  updated(changes) {
-    if (changes.has('boardId')) {
-      this.shadowRoot.querySelector('board-modeller').close()
+    } else {
       this.refresh()
     }
   }
@@ -135,7 +129,7 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.propertyEditor = state.board.editors
 
     this.componentGroupList = state.board.templates
-    // this.fonts = state.fontList
+    this.fonts = state.font
 
     // this.boardGroupList = state.boardGroupList
     // this.group = state.boardGroupCurrent
