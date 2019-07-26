@@ -571,6 +571,7 @@
   "text.only-edit-status-label-can-be-saved": "권한이 부여된 사용자와 편집 상태의 Board만 수정할 수 있습니다!",
   "text.password_inited": "비밀번호 초기화",
   "text.password_mismatch": "확인하려는 암호와 신규 암호가 다릅니다.",
+  "text.pls-name-board": "보드의 이름을 입력해주세요",
   "text.please_wait": "처리 중 입니다. 잠시만 기다려주세요.",
   "text.processing_file": "진행중...",
   "text.processing_msg": "요청이 처리중 입니다.",

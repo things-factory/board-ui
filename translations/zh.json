@@ -572,6 +572,7 @@
   "text.only-edit-status-label-can-be-saved": "只有EDIT状态的标签才可以更改！",
   "text.password_inited": "密码重置申请已提交。",
   "text.password-missmatch": "新密码与确认密码不同",
+  "text.pls-name-board": "Type board name",
   "text.please_wait": "Please wait.",
   "text.processing_file": "进行中。。。",
   "text.processing_msg": "请求处理中。",

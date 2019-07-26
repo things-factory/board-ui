@@ -183,9 +183,9 @@ class BoardModellerPage extends connect(store)(PageView) {
         @iron-overlay-closed=${e => this.onSaveNewDialogClosed(e)}
         no-overlap
       >
-        <h2><i18n-msg msgid="label.save-new-board">Save New Board</i18n-msg></h2>
+        <h2 style="text-transform:capitalize;"><i18n-msg msgid="label.save-new-board">Save New Board</i18n-msg></h2>
         <paragraph>
-          <i18n-msg msgid="label.pls-name-board">Please, give a name for the new board.</i18n-msg>
+          <i18n-msg msgid="text.pls-name-board">Please, give a name for the new board.</i18n-msg>
         </paragraph>
 
         <paper-input

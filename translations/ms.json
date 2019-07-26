@@ -569,6 +569,7 @@
   "text.NOTHING_CHANGED": "tiada apa yang berlaku",
   "text.only-edit-status-label-can-be-deleted": "hanya suntingan status label yang dibenarkan untuk dipadam!",
   "text.only-edit-status-label-can-be-saved": "hanya pengguna yang disahkan dan suntingan status label yang dibenarkan untuk diubah!",
+  "text.pls-name-board": "text.Type board name",
   "text.password_inited": "kata laluan telah dimulakan",
   "text.password_mismatch": "kata laluan tidak sepadan",
   "text.processing_file": "text.sedang memproses fail...",
