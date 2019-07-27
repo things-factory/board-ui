@@ -147,13 +147,13 @@ export default class ThingsEditorScript extends LitElement {
             !document.webkitIsFullScreen &&
             !document.msFullscreenElement
           ) {
-            ;['fullscreenchange', 'mozfullscreenchange', 'webkitfullscreenchange', 'MSFullscreenChange'].forEach(
-              event => document.removeEventListener(event, _fullscreen_callback)
+            ;['fullscreenchange', 'webkitfullscreenchange', 'MSFullscreenChange'].forEach(event =>
+              document.removeEventListener(event, _fullscreen_callback)
             )
           }
         }
 
-        ;['fullscreenchange', 'mozfullscreenchange', 'webkitfullscreenchange', 'MSFullscreenChange'].forEach(event =>
+        ;['fullscreenchange', 'webkitfullscreenchange', 'MSFullscreenChange'].forEach(event =>
           document.addEventListener(event, _fullscreen_callback)
         )
 
