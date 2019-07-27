@@ -355,7 +355,6 @@ class BoardViewer extends LitElement {
 
     var { width, height } = this.scene.model
     var pixelRatio = window.devicePixelRatio
-    console.log('pixelRatio', pixelRatio)
 
     // 1. Scene의 바운드에 근거하여, 오프스크린 캔바스를 만든다.
     var canvas = document.createElement('canvas')
