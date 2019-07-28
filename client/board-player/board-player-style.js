@@ -190,7 +190,7 @@ export const style = css`
     display: none;
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 460px) {
     #setting {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr 1fr;
