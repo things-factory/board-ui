@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.4.31",
+  "version": "0.4.32",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,

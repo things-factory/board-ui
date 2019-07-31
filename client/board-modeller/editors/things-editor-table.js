@@ -164,6 +164,36 @@ class ThingsEditorTable extends LitElement {
         #distribute-vertical {
           background-position: 50% -897px;
         }
+
+        .line-type paper-item {
+          background: no-repeat url(./assets/images/icon-properties-line-type.png);
+          width: 80px;
+          min-height: 25px;
+        }
+        .line-type paper-item.solid {
+          background-position: 50% 12px;
+        }
+        .line-type paper-item.round-dot {
+          background-position: 50% -38px;
+        }
+        .line-type paper-item.square-dot {
+          background-position: 50% -88px;
+        }
+        .line-type paper-item.dash {
+          background-position: 50% -138px;
+        }
+        .line-type paper-item.dash-dot {
+          background-position: 50% -188px;
+        }
+        .line-type paper-item.long-dash {
+          background-position: 50% -238px;
+        }
+        .line-type paper-item.long-dash-dot {
+          background-position: 50% -288px;
+        }
+        .line-type paper-item.long-dash-dot-dot {
+          background-position: 50% -338px;
+        }
       `
     ]
   }
