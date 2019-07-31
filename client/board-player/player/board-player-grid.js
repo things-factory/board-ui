@@ -32,10 +32,6 @@ class BoardPlayerGrid extends LitElement {
           grid-gap: 0px;
           grid-auto-flow: dense;
         }
-
-        ::slotted(*) {
-          border: 1px solid #ddd;
-        }
       `
     ]
   }

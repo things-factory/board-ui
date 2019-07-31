@@ -51,7 +51,6 @@ class BoardPlayerCarousel extends LitElement {
           position: absolute;
           width: 100%;
           height: 100%;
-          border: 1px solid rgba(0, 0, 0, 0.2);
           font-weight: bold;
           -webkit-transition: opacity 1.5s, -webkit-transform 1.5s;
           -moz-transition: opacity 1.5s, -moz-transform 1.5s;
