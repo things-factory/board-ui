@@ -33,10 +33,6 @@ const PROPS = [
 })
 
 class PropertyDataBinding extends LitElement {
-  static get is() {
-    return 'property-data-binding'
-  }
-
   static get properties() {
     return {
       scene: Object,
@@ -138,7 +134,6 @@ class PropertyDataBinding extends LitElement {
     this.scene = null
     this.value = {}
     this.mapping = {}
-    this.mappingIndex = 0
   }
 
   firstUpdated() {
@@ -150,7 +145,7 @@ class PropertyDataBinding extends LitElement {
   }
 
   render() {
-    var mappingIndex = this.mappingIndex ? this.mappingIndex : 1
+    var mappingIndex = this.mappingIndex ? this.mappingIndex : 0
 
     return html`
       <fieldset>
@@ -181,13 +176,13 @@ class PropertyDataBinding extends LitElement {
             e.target.getAttribute('disabled') == 'false' && this._setMappingIndex(e.target.getAttribute('data-mapping'))
           }}
         >
-          <span data-mapping="1" ?active=${mappingIndex == 1}>1</span>
-          <span data-mapping="2" ?active=${mappingIndex == 2}>2</span>
-          <span data-mapping="3" ?active=${mappingIndex == 3}>3</span>
-          <span data-mapping="4" ?active=${mappingIndex == 4}>4</span>
-          <span data-mapping="5" ?active=${mappingIndex == 5}>5</span>
-          <span data-mapping="6" ?active=${mappingIndex == 6}>6</span>
-          <span data-mapping="7" ?active=${mappingIndex == 7}>7</span>
+          <span data-mapping="0" ?active=${mappingIndex == 0}>1</span>
+          <span data-mapping="1" ?active=${mappingIndex == 1}>2</span>
+          <span data-mapping="2" ?active=${mappingIndex == 2}>3</span>
+          <span data-mapping="3" ?active=${mappingIndex == 3}>4</span>
+          <span data-mapping="4" ?active=${mappingIndex == 4}>5</span>
+          <span data-mapping="5" ?active=${mappingIndex == 5}>6</span>
+          <span data-mapping="6" ?active=${mappingIndex == 6}>7</span>
         </div>
 
         <data-binding-mapper
@@ -221,7 +216,7 @@ class PropertyDataBinding extends LitElement {
   }
 
   _setMappingIndex(idx) {
-    this.mappingIndex = Number(idx) || 0
+    this.mappingIndex = isNaN(idx) ? 0 : Number(idx)
 
     this._resetMappingTaps()
   }
@@ -343,4 +338,4 @@ class PropertyDataBinding extends LitElement {
   }
 }
 
-customElements.define(PropertyDataBinding.is, PropertyDataBinding)
+customElements.define('property-data-binding', PropertyDataBinding)
