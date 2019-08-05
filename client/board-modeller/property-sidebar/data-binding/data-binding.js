@@ -50,31 +50,39 @@ class PropertyDataBinding extends LitElement {
     return [
       PropertySharedStyle,
       css`
-        paper-tabs {
+        [tab] {
+          display: flex;
+
           width: 229px;
           height: 25px;
           border: 1px solid rgba(0, 0, 0, 0.2);
           border-width: 1px 1px 0 1px;
         }
 
-        paper-tab {
+        [tab] > * {
+          flex: 1;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
           background-color: rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(0, 0, 0, 0.07);
           border-width: 0 1px 0 0;
-          padding: 0 5px;
+          padding: 0;
           color: #fff;
           font-size: 13px;
         }
 
-        paper-tab[disabled] {
+        [tab] > [disabled='true'] {
           background-color: rgba(0, 0, 0, 0.1);
         }
 
-        paper-tab:last-child {
+        [tab]:last-child {
           border-width: 0;
         }
 
-        paper-tab.iron-selected {
+        [tab] > [active] {
           background-color: rgba(255, 255, 255, 0.5);
           color: #585858;
         }
@@ -82,7 +90,7 @@ class PropertyDataBinding extends LitElement {
         [has-set]::before {
           content: '';
           position: relative;
-          left: 3px;
+          left: -2px;
           width: 5px;
           height: 5px;
           display: inline-block;
@@ -142,6 +150,8 @@ class PropertyDataBinding extends LitElement {
   }
 
   render() {
+    var mappingIndex = this.mappingIndex ? this.mappingIndex : 1
+
     return html`
       <fieldset>
         <div class="property-grid">
@@ -165,20 +175,20 @@ class PropertyDataBinding extends LitElement {
       <fieldset>
         <legend><i18n-msg msgid="label.mapping" auto>Mapping</i18n-msg></legend>
 
-        <paper-tabs
-          @iron-select=${e => this._setMappingIndex(e.target.selected)}
-          .selected=${this.mappingIndex}
-          noink
-          no-bar
+        <div
+          tab
+          @click=${e => {
+            e.target.getAttribute('disabled') == 'false' && this._setMappingIndex(e.target.getAttribute('data-mapping'))
+          }}
         >
-          <paper-tab data-mapping="1">1</paper-tab>
-          <paper-tab data-mapping="2">2</paper-tab>
-          <paper-tab data-mapping="3">3</paper-tab>
-          <paper-tab data-mapping="4">4</paper-tab>
-          <paper-tab data-mapping="5">5</paper-tab>
-          <paper-tab data-mapping="6">6</paper-tab>
-          <paper-tab data-mapping="7">7</paper-tab>
-        </paper-tabs>
+          <span data-mapping="1" ?active=${mappingIndex == 1}>1</span>
+          <span data-mapping="2" ?active=${mappingIndex == 2}>2</span>
+          <span data-mapping="3" ?active=${mappingIndex == 3}>3</span>
+          <span data-mapping="4" ?active=${mappingIndex == 4}>4</span>
+          <span data-mapping="5" ?active=${mappingIndex == 5}>5</span>
+          <span data-mapping="6" ?active=${mappingIndex == 6}>6</span>
+          <span data-mapping="7" ?active=${mappingIndex == 7}>7</span>
+        </div>
 
         <data-binding-mapper
           @value-change="${e => this._onMappingChanged(e)}"
@@ -197,23 +207,21 @@ class PropertyDataBinding extends LitElement {
     var last = -1
     var mappings = this.value.mappings || []
 
-    Array.from(this.shadowRoot.querySelectorAll('paper-tab[data-mapping]')).map((tab, i) => {
+    Array.from(this.shadowRoot.querySelectorAll('[data-mapping]')).map((tab, i) => {
       if (mappings[i]) {
-        tab.active = true
-        tab.disabled = false
+        tab.setAttribute('disabled', false)
         tab.setAttribute('has-set', true)
 
         last = i
       } else {
-        tab.active = false
         tab.removeAttribute('has-set')
-        tab.disabled = last < i - 1
+        tab.setAttribute('disabled', last < i - 1)
       }
     })
   }
 
   _setMappingIndex(idx) {
-    this.mappingIndex = idx || 0
+    this.mappingIndex = Number(idx) || 0
 
     this._resetMappingTaps()
   }

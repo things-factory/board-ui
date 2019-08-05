@@ -16,10 +16,6 @@ class ComponentToolbar extends LitElement {
     this.mode = 0
   }
 
-  static get is() {
-    return 'component-toolbar'
-  }
-
   static get properties() {
     return {
       componentGroupList: Array,
@@ -33,9 +29,9 @@ class ComponentToolbar extends LitElement {
     return [
       css`
         :host {
-          position: relative;
-          left: 0px;
+          left: 0;
           display: block;
+          position: relative;
 
           width: var(--component-toolbar-icon-size);
           background-color: var(--component-toolbar-background-color);
@@ -111,13 +107,22 @@ class ComponentToolbar extends LitElement {
           background-position: -3px -88px;
           background-color: #beb9b3;
         }
+
+        component-menu {
+          display: none;
+          position: absolute;
+          top: 0;
+          left: var(--component-toolbar-icon-size);
+          height: 100%;
+          outline: none;
+        }
       `
     ]
   }
 
   render() {
     return html`
-      <span id="shift" toggles class="pressed" @click="${e => this._onClickShift(e)}"> </span>
+      <span id="shift" class="pressed" @click="${e => this._onClickShift(e)}"> </span>
 
       ${this.componentGroupList.map(
         item => html`
@@ -126,6 +131,10 @@ class ComponentToolbar extends LitElement {
       )}
 
       <component-menu
+        tabindex="-1"
+        @focusout=${e => {
+          this.group = null
+        }}
         id="menu"
         .scene=${this.scene}
         .group=${this.group}
@@ -162,7 +171,7 @@ class ComponentToolbar extends LitElement {
     }
   }
 
-  _onClickGroup(e) {
+  async _onClickGroup(e) {
     var button = e.target
 
     if (!button.hasAttribute || !button.hasAttribute('data-group')) {
@@ -173,11 +182,10 @@ class ComponentToolbar extends LitElement {
 
     if (!this.group) return
 
-    this.menu.open()
+    await this.updateComplete
 
-    var right = this.getBoundingClientRect().right
-    this.menu.style['left'] = right + 'px'
+    this.menu.focus()
   }
 }
 
-customElements.define(ComponentToolbar.is, ComponentToolbar)
+customElements.define('component-toolbar', ComponentToolbar)

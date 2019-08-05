@@ -6,8 +6,6 @@ import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-icon'
 
-import '@polymer/paper-tabs/paper-tabs'
-
 import { ScrollbarStyles } from '@things-factory/shell'
 
 import './shapes/shapes'
@@ -39,7 +37,7 @@ class PropertySidebar extends LitElement {
       model: Object,
       selected: Array,
       specificProps: Array,
-      tabIndex: Number,
+      tabIndex: String,
       collapsed: Boolean,
       fonts: Array,
       propertyEditor: Array
@@ -58,28 +56,39 @@ class PropertySidebar extends LitElement {
           background-color: var(--property-sidebar-background-color);
         }
 
-        paper-tabs {
+        [tab] {
+          display: flex;
           background-color: rgba(0, 0, 0, 0.08);
-          max-height: 40px;
           opacity: 0.85;
         }
 
-        paper-tab.iron-selected {
+        [tab] mwc-icon {
+          flex: 1;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          color: var(--property-sidebar-tab-icon-color);
+          height: 40px;
+        }
+
+        [tab] [selected] {
           background-color: var(--property-sidebar-background-color);
           border-left: 1px solid rgba(255, 255, 255, 0.5);
           border-right: 1px solid rgba(0, 0, 0, 0.15);
           opacity: 1;
         }
 
-        paper-tabs mwc-icon {
-          color: var(--property-sidebar-tab-icon-color);
-        }
+        [content] {
+          flex: 1;
 
-        iron-pages {
           overflow: hidden;
           overflow-y: auto;
+        }
 
-          flex: 1;
+        [content] > :not([active]) {
+          display: none;
         }
       `
     ]
@@ -99,22 +108,41 @@ class PropertySidebar extends LitElement {
   }
 
   render() {
+    var tabIndex = this.tabIndex ? this.tabIndex : 'shape'
+
     return html`
-      <paper-tabs @selected-changed=${e => (this.tabIndex = e.target.selected)} .selected=${this.tabIndex} noink no-bar>
-        <paper-tab> <mwc-icon>format_shapes</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>palette</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>movie_filter</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>tune</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>share</mwc-icon> </paper-tab>
-        <paper-tab> <mwc-icon>visibility</mwc-icon></paper-tab>
-      </paper-tabs>
+      <div
+        tab
+        @click=${e => {
+          this.tabIndex = e.target.getAttribute('name')
+        }}
+      >
+        <mwc-icon name="shape" ?selected=${tabIndex == 'shape'}>format_shapes</mwc-icon>
+        <mwc-icon name="style" ?selected=${tabIndex == 'style'}>palette</mwc-icon>
+        <mwc-icon name="effect" ?selected=${tabIndex == 'effect'}>movie_filter</mwc-icon>
+        <mwc-icon name="specific" ?selected=${tabIndex == 'specific'}>tune</mwc-icon>
+        <mwc-icon name="data-binding" ?selected=${tabIndex == 'data-binding'}>share</mwc-icon>
+        <mwc-icon name="inspector" ?selected=${tabIndex == 'inspector'}>visibility</mwc-icon>
+      </div>
 
-      <iron-pages .selected="${this.tabIndex}">
-        <property-shape .value=${this.model} .bounds=${this.bounds} .selected=${this.selected}> </property-shape>
+      <div content>
+        <property-shape
+          .value=${this.model}
+          .bounds=${this.bounds}
+          .selected=${this.selected}
+          ?active=${tabIndex == 'shape'}
+        >
+        </property-shape>
 
-        <property-style .value=${this.model} .selected=${this.selected} .fonts=${this.fonts}> </property-style>
+        <property-style
+          .value=${this.model}
+          .selected=${this.selected}
+          .fonts=${this.fonts}
+          ?active=${tabIndex == 'style'}
+        >
+        </property-style>
 
-        <property-effect .value=${this.model} .scene=${this.scene}> </property-effect>
+        <property-effect .value=${this.model} .scene=${this.scene} ?active=${tabIndex == 'effect'}> </property-effect>
 
         <property-specific
           .value=${this.model}
@@ -122,12 +150,14 @@ class PropertySidebar extends LitElement {
           .selected=${this.selected}
           .props=${this.specificProps}
           .propertyEditor=${this.propertyEditor}
+          ?active=${tabIndex == 'specific'}
         >
         </property-specific>
 
-        <property-data-binding .scene=${this.scene} .value=${this.model}> </property-data-binding>
-        <scene-inspector .scene=${this.scene}></scene-inspector>
-      </iron-pages>
+        <property-data-binding .scene=${this.scene} .value=${this.model} ?active=${tabIndex == 'data-binding'}>
+        </property-data-binding>
+        <scene-inspector .scene=${this.scene} ?active=${tabIndex == 'inspector'}></scene-inspector>
+      </div>
     `
   }
 

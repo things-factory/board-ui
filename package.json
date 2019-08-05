@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "0.4.33",
+  "version": "0.4.34",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -39,7 +39,6 @@
     "@polymer/paper-radio-button": "^3.0.1",
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
-    "@polymer/paper-tabs": "^3.1.0",
     "@things-factory/board-base": "*",
     "@things-factory/font-base": "*",
     "@things-factory/i18n-base": "*",

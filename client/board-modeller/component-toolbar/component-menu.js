@@ -2,61 +2,20 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element'
+import { LitElement, html, css } from 'lit-element'
 
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class'
-import { PaperDialogBehavior } from '@polymer/paper-dialog-behavior/paper-dialog-behavior'
-
-import { deepClone } from '@things-factory/shell'
+import { deepClone, ScrollbarStyles } from '@things-factory/shell'
 
 import noImage from '../../../assets/images/components/no-image.png'
 
-class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement) {
-  constructor() {
-    super()
-
-    this.groups = {}
-  }
-
-  static get is() {
-    return 'component-menu'
-  }
-
-  static get styles() {}
-
-  static get properties() {
-    return {
-      groups: Object,
-
-      scene: Object,
-      group: {
-        type: String
-      },
-      templates: {
-        type: Array,
-        computed: 'computeTemplates(group)'
-      }
-    }
-  }
-
-  static get template() {
-    return html`
-      <style>
-        ::-webkit-scrollbar {
-          width: 5px;
-          height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-          background-color: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-          background-color: var(--scrollbar-thumb-color, rgba(0, 0, 0, 0.2));
-        }
-        ::-webkit-scrollbar-thumb:hover {
-          background-color: var(--scrollbar-thumb-hover-color, #aa866a);
-        }
-
+class ComponentMenu extends LitElement {
+  static get styles() {
+    return [
+      ScrollbarStyles,
+      css`
         :host {
+          display: block;
+
           background-color: var(--component-menu-background-color);
           margin: 0px;
           padding: 0px;
@@ -71,6 +30,8 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
 
           position: absolute;
           top: 0px;
+
+          z-index: 1;
         }
 
         h2 {
@@ -82,52 +43,80 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
           text-transform: capitalize;
         }
 
-        .scroll {
+        [templates] {
+          display: block;
           margin: 0;
           padding: 0;
-          height: 98%;
-        }
-
-        paper-listbox {
-          display: block;
-          margin-bottom: 1% !important;
-          width: 100%;
           overflow-y: auto;
+
+          width: 100%;
+          height: 100%;
           background-color: var(--component-menu-background-color);
         }
 
-        paper-item {
+        [template] {
+          display: flex;
+          align-items: center;
           min-height: var(--component-menu-item-icon-size);
           padding: 0 5px 0 0;
           border-bottom: 1px solid rgba(0, 0, 0, 0.1);
           font-size: 11px;
           color: var(--component-menu-item-color);
-          text-align: left;
         }
-        paper-item:hover,
-        paper-item:focus {
+
+        [template]:hover,
+        [template]:focus {
           color: var(--component-menu-item-hover-color);
           font-weight: bold;
           cursor: pointer;
         }
 
-        paper-item img {
+        [template] img {
           margin: 5px;
           width: var(--component-menu-item-icon-size);
           height: var(--component-menu-item-icon-size);
         }
-      </style>
+      `
+    ]
+  }
 
-      <h2 onclick="event.stopPropagation()">[[group]] list</h2>
+  static get properties() {
+    return {
+      groups: Object,
+      scene: Object,
+      group: String,
+      templates: Array
+    }
+  }
 
-      <paper-listbox data-group$="[[group]]" class="scroll">
-        <template is="dom-repeat" items="[[templates]]">
-          <paper-item data-type$="[[item.type]]" on-click="onClickTemplate">
-            <img src="[[templateIcon(item)]]" />[[item.type]]
-          </paper-item>
-        </template>
-      </paper-listbox>
-    `
+  render() {
+    return this.group
+      ? html`
+          <h2 onclick=${e => e.stopPropagation()}>${this.group} list</h2>
+
+          <div templates>
+            ${(this.templates || []).map(
+              template => html`
+                <div @click=${this.onClickTemplate} data-type=${template.type} template>
+                  <img src=${this.templateIcon(template)} />${template.type}
+                </div>
+              `
+            )}
+          </div>
+        `
+      : html``
+  }
+
+  updated(changes) {
+    if (changes.has('group')) {
+      if (!this.group) {
+        this.style.display = 'none'
+        this.templates = []
+      } else {
+        this.style.display = 'block'
+        this.templates = this.groups.find(g => g.name === this.group).templates
+      }
+    }
   }
 
   onClickTemplate(e) {
@@ -150,12 +139,7 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
       template && this.scene.add(deepClone(template.model), { cx: 200, cy: 200 })
     }
 
-    this.close()
-  }
-
-  computeTemplates(group) {
-    var g = this.groups.find(g => g.name == group)
-    return g.templates
+    this.group = null
   }
 
   templateIcon(template) {
@@ -163,4 +147,4 @@ class ComponentMenu extends mixinBehaviors([PaperDialogBehavior], PolymerElement
   }
 }
 
-customElements.define(ComponentMenu.is, ComponentMenu)
+customElements.define('component-menu', ComponentMenu)
