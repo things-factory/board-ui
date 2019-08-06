@@ -4,7 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/iron-pages/iron-pages'
 import '@polymer/paper-radio-button/paper-radio-button'
 import '@polymer/paper-radio-group/paper-radio-group'
 
@@ -69,8 +68,15 @@ export default class DataBindingMapper extends LitElement {
           border-color: lightgray;
         }
 
-        iron-pages {
+        [rule-editors] {
           grid-column: span 10;
+
+          display: 'flex';
+          align-content: auto;
+        }
+
+        [rule-editors] :not([active]) {
+          display: none;
         }
 
         paper-radio-button {
@@ -139,27 +145,31 @@ export default class DataBindingMapper extends LitElement {
         </paper-radio-button>
       </paper-radio-group>
 
-      <iron-pages attr-for-selected="data-rule-type" selected=${this.mapping.rule} class="content">
+      <div rule-editors class="content">
         <data-binding-value-map
           value-key="map"
-          data-rule-type="map"
           .value=${this.rule.map || {}}
           .valuetype=${this._valuetype(this.mapping.property)}
+          ?active=${this.mapping.rule == 'map'}
         >
         </data-binding-value-map>
 
         <data-binding-value-range
           value-key="range"
-          data-rule-type="range"
           .value=${this.rule.range || []}
           .valuetype=${this._valuetype(this.mapping.property)}
+          ?active=${this.mapping.rule == 'range'}
         >
         </data-binding-value-range>
 
-        <div data-rule-type="eval">
-          <things-editor-code value-key="eval" id="eval-editor" .value=${this.rule.eval || ''}> </things-editor-code>
-        </div>
-      </iron-pages>
+        <things-editor-code
+          value-key="eval"
+          id="eval-editor"
+          .value=${this.rule.eval || ''}
+          ?active=${this.mapping.rule == 'eval'}
+        >
+        </things-editor-code>
+      </div>
     `
   }
 

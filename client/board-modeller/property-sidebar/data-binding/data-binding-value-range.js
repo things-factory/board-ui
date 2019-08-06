@@ -32,31 +32,44 @@ export default class DataBindingValueRange extends LitElement {
     return [
       css`
         :host {
-          display: block;
-          width: 94%;
+          display: flex;
+          flex-direction: column;
+          align-content: center;
+
+          width: 100%;
           overflow: hidden;
-          clear: both;
-          margin: -7px 0 7px 7px;
           border: 1px solid #ccc;
         }
 
-        * {
-          float: left;
+        div {
+          display: flex;
+          flex-flow: row nowrap;
+          align-items: center;
+
+          border-bottom: 1px solid #c0c0c0;
+        }
+
+        div:last-child {
+          border-bottom: none;
+        }
+
+        div > * {
+          min-width: 0px;
+          margin: 2px;
+          padding: 0;
+        }
+
+        button {
+          width: 20px;
+          text-align: center;
         }
 
         input,
         things-editor-color {
-          width: 20%;
-          margin: 3px 0 3px 3px;
+          flex: 1;
         }
 
         things-editor-color {
-          width: 38.5%;
-          border-radius: 0;
-          margin-bottom: 0;
-          padding: 1px 3px 1px 3px;
-          font-size: 12px;
-
           --things-editor-color-input-color: {
             margin: 2px;
           }
@@ -66,16 +79,8 @@ export default class DataBindingValueRange extends LitElement {
           }
         }
 
-        div > input[placeholder='value'] {
-          width: 36%;
-        }
-
-        div > things-editor-color.default-value {
-          width: 62%;
-        }
-
-        div > things-editor-color.default-value::shadow input {
-          width: 125px !important;
+        [placeholder='value'] {
+          flex: 2;
         }
 
         div {
@@ -84,6 +89,10 @@ export default class DataBindingValueRange extends LitElement {
 
         div:last-child {
           border-bottom: none;
+        }
+
+        input[type='checkbox'] {
+          width: initial;
         }
       `
     ]
@@ -103,86 +112,78 @@ export default class DataBindingValueRange extends LitElement {
 
   render() {
     return html`
-      ${
-        this._toArray(this.value).map(
-          item => html`
-            <div data-record>
-              <input type="text" data-from placeholder="<=" .value=${item.from} />
-              <input type="text" data-to placeholder="&gt;" .value=${item.to} />
+      ${this._toArray(this.value).map(
+        item => html`
+          <div data-record>
+            <input type="text" data-from placeholder="<=" .value=${item.from} />
+            <input type="text" data-to placeholder="&gt;" .value=${item.to} />
 
-              ${
-                this.valuetype == 'boolean'
-                  ? html`
-                      <input type="checkbox" data-value ?checked=${item.value} data-value-type=${this.valuetype} />
-                    `
-                  : this.valuetype == 'color'
-                  ? html`
-                      <things-editor-color data-value .value=${item.value}> </things-editor-color>
-                    `
-                  : html`
-                      <input
-                        type="text"
-                        data-value
-                        placeholder="value"
-                        .value=${item.value}
-                        data-value-type=${this.valuetype}
-                      />
-                    `
-              } <button class="record-action" @click=${e => this._delete(e)} tabindex="-1">-</button>
-            </div>
-          `
-        )
-      }
+            ${this.valuetype == 'boolean'
+              ? html`
+                  <input type="checkbox" data-value ?checked=${item.value} data-value-type=${this.valuetype} />
+                `
+              : this.valuetype == 'color'
+              ? html`
+                  <things-editor-color data-value .value=${item.value}> </things-editor-color>
+                `
+              : html`
+                  <input
+                    type="text"
+                    data-value
+                    placeholder="value"
+                    .value=${item.value}
+                    data-value-type=${this.valuetype}
+                  />
+                `} <button class="record-action" @click=${e => this._delete(e)} tabindex="-1">-</button>
+          </div>
+        `
+      )}
 
       <div data-record-new>
         <input type="text" data-from placeholder="<=" value="" />
         <input type="text" data-to placeholder="&gt;" value="" />
 
-        ${
-          this.valuetype == 'boolean'
-            ? html`
-                <input type="checkbox" data-value data-value-type=${this.valuetype} />
-              `
-            : this.valuetype == 'color'
-            ? html`
-                <things-editor-color data-value value="" placeholder="value"> </things-editor-color>
-              `
-            : html`
-                <input type="text" data-value placeholder="value" value="" data-value-type=${this.valuetype} />
-              `
-        } <button class="record-action" @click=${e => this._add(e)} tabindex="-1">+</button>
+        ${this.valuetype == 'boolean'
+          ? html`
+              <input type="checkbox" data-value data-value-type=${this.valuetype} />
+            `
+          : this.valuetype == 'color'
+          ? html`
+              <things-editor-color data-value value="" placeholder="value"> </things-editor-color>
+            `
+          : html`
+              <input type="text" data-value placeholder="value" value="" data-value-type=${this.valuetype} />
+            `} <button class="record-action" @click=${e => this._add(e)} tabindex="-1">+</button>
       </div>
 
       <div data-record>
         <input type="text" data-from data-default="" disabled value="default" />
         <input type="text" data-to placeholder="&gt;" value="" hidden />
 
-        ${
-          this.valuetype == 'boolean'
-            ? html`
-                <input
-                  type="checkbox"
-                  data-value
-                  ?checked=${this.value && this.value.default}
-                  data-value-type=${this.valuetype}
-                />
-              `
-            : this.valuetype == 'color'
-            ? html`
-                <things-editor-color data-value .value=${(this.value && this.value.default) || ''} placeholder="value">
-                </things-editor-color>
-              `
-            : html`
-                <input
-                  type="text"
-                  data-value
-                  .value=${(this.value && this.value.default) || ''}
-                  placeholder="value"
-                  class="default-value"
-                  data-value-type=${this.valuetype}
-                />
-              `
-        } <button class="record-action" @click="${e => this._sort(e)}">&gt;</button>
+        ${this.valuetype == 'boolean'
+          ? html`
+              <input
+                type="checkbox"
+                data-value
+                ?checked=${this.value && this.value.default}
+                data-value-type=${this.valuetype}
+              />
+            `
+          : this.valuetype == 'color'
+          ? html`
+              <things-editor-color data-value .value=${(this.value && this.value.default) || ''} placeholder="value">
+              </things-editor-color>
+            `
+          : html`
+              <input
+                type="text"
+                data-value
+                .value=${(this.value && this.value.default) || ''}
+                placeholder="value"
+                class="default-value"
+                data-value-type=${this.valuetype}
+              />
+            `} <button class="record-action" @click="${e => this._sort(e)}">&gt;</button>
       </div>
     `
   }
