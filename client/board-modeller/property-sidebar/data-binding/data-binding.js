@@ -100,17 +100,6 @@ class PropertyDataBinding extends LitElement {
           overflow: auto;
         }
 
-        /*
-        things-editor-color {
-          -webkit-border-radius: 0px;
-          -moz-border-radius: 0px;
-          border-radius: 0px;
-          border: 1px solid rgba(0, 0, 0, 0.15);
-          font-size: 12px;
-          font-weight: 300;
-        }
-        */
-
         data-binding-mapper {
           --things-select: {
             min-width: 50%;

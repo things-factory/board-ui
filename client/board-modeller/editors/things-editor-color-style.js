@@ -4,7 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/iron-pages/iron-pages'
 import '@polymer/paper-radio-button/paper-radio-button'
 import '@polymer/paper-radio-group/paper-radio-group'
 
@@ -62,6 +61,10 @@ export default class ThingsEditorColorStyle extends LitElement {
         .icon-only-label.color {
           background-position: 70% -498px;
         }
+
+        [editors] > :not([active]) {
+          display: none;
+        }
       `
     ]
   }
@@ -87,24 +90,24 @@ export default class ThingsEditorColorStyle extends LitElement {
         </paper-radio-button>
       </paper-radio-group>
 
-      <iron-pages attr-for-selected="fill-type" .selected=${this.fillType}>
-        <div fill-type="no"></div>
+      <div editors>
+        <div ?active=${this.fillType == 'no'}></div>
 
-        <div fill-type="solid" class="grid-10">
+        <div class="grid-10" ?active=${this.fillType == 'solid'}>
           <label class="icon-only-label color"></label>
           <things-editor-color @change=${e => this._onChangedSolid(e)} .value=${this.solid}> </things-editor-color>
         </div>
 
-        <div fill-type="gradient">
+        <div ?active=${this.fillType == 'gradient'}>
           <things-editor-gradient @change=${e => this._onChandedGradient(e)} .value=${this.gradient}>
           </things-editor-gradient>
         </div>
 
-        <div fill-type="pattern">
+        <div ?active=${this.fillType == 'pattern'}>
           <things-editor-pattern @change=${e => this._onChangedPattern(e)} .value=${this.pattern}>
           </things-editor-pattern>
         </div>
-      </iron-pages>
+      </div>
     `
   }
 

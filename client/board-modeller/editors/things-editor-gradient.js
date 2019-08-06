@@ -4,7 +4,6 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '@polymer/iron-pages/iron-pages'
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu'
 import '@polymer/paper-listbox/paper-listbox'
 import '@polymer/paper-item/paper-item'
@@ -60,7 +59,7 @@ export default class ThingsEditorGradient extends LitElement {
         }
 
         :host > input,
-        :host > iron-pages {
+        :host > [editors] {
           grid-column: span 8;
         }
 
@@ -83,6 +82,10 @@ export default class ThingsEditorGradient extends LitElement {
         .grid-10 > input[type='checkbox'] ~ label {
           grid-column: span 7;
           text-align: left;
+        }
+
+        [editors] > :not([active-selector]) {
+          display: none;
         }
 
         [gradient-direction] {
@@ -158,10 +161,6 @@ export default class ThingsEditorGradient extends LitElement {
           background-color: rgba(255, 246, 143, 0.5);
         }
 
-        [gradient-direction] paper-item:focus:before {
-          display: none !important;
-        }
-
         .icon-only-label {
           top: 0 !important;
           width: 30px !important;
@@ -235,6 +234,9 @@ export default class ThingsEditorGradient extends LitElement {
   }
 
   render() {
+    var selector = (this.value && this.value.type) || 'linear'
+    console.log('selector', selector)
+
     return html`
       <label> <i18n-msg msgid="label.type">type</i18n-msg> </label>
       <select value-key="type" .value=${(this.value && this.value.type) || 'linear'}>
@@ -247,8 +249,8 @@ export default class ThingsEditorGradient extends LitElement {
       </things-editor-angle-input>
 
       <label> <i18n-msg msgid="label.direction">direction</i18n-msg> </label>
-      <iron-pages attr-for-selected="gradient-type" .selected=${(this.value && this.value.type) || 'linear'}>
-        <paper-dropdown-menu gradient-type="linear" no-label-float="true">
+      <div editors>
+        <paper-dropdown-menu no-label-float="true" ?active-selector=${selector == 'linear'}>
           <paper-listbox
             @selected-changed="${e => this._onChange(e)}"
             value-key="direction"
@@ -269,7 +271,7 @@ export default class ThingsEditorGradient extends LitElement {
           </paper-listbox>
         </paper-dropdown-menu>
 
-        <paper-dropdown-menu gradient-type="radial" no-label-float="true">
+        <paper-dropdown-menu no-label-float="true" ?active-selector=${selector == 'radial'}>
           <paper-listbox
             @selected-changed="${e => this._onChange(e)}"
             value-key="center"
@@ -285,7 +287,7 @@ export default class ThingsEditorGradient extends LitElement {
             <paper-item name="left-bottom"></paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
-      </iron-pages>
+      </div>
 
       <things-editor-color-stops
         value-key="colorStops"
