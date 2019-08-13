@@ -181,9 +181,13 @@ class PropertyShapes extends LitElement {
                 <label class="height"> <i18n-msg msgid="label.height">height</i18n-msg> </label>
                 <input type="number" value-key="bounds.height" .value=${this.bounds.height} />
 
-                <label class="rotate"> <i18n-msg msgid="label.rotate">rotate</i18n-msg> </label>
-                <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
-                </things-editor-angle-input>
+                ${this.selected.length && this.selected[0].isRootModel()
+                  ? html``
+                  : html`
+                      <label class="rotate"> <i18n-msg msgid="label.rotate">rotate</i18n-msg> </label>
+                      <things-editor-angle-input value-key="rotation" .radian=${this.value.rotation}>
+                      </things-editor-angle-input>
+                    `}
               </div>
             </fieldset>
           `
