@@ -558,6 +558,7 @@ class EditToolbar extends LitElement {
     if (!this.scene) return
 
     var selected = this.scene.selected
+    if (selected.length && selected[0].isRootModel()) return
 
     this.scene.undoableChange(function() {
       selected.forEach(function(component) {
@@ -574,6 +575,7 @@ class EditToolbar extends LitElement {
     if (!this.scene) return
 
     var selected = this.scene.selected
+    if (selected.length && selected[0].isRootModel()) return
 
     this.scene.undoableChange(function() {
       selected.forEach(function(component) {
