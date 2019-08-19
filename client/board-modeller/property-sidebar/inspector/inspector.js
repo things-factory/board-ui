@@ -15,18 +15,19 @@ export default class SceneInspector extends LitElement {
   static get styles() {
     return [
       css`
+        :host {
+          color: var(--scene-inspector-color, #394e64);
+        }
+
         .component {
           display: block;
           overflow: hidden;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
           font-size: 14px;
         }
 
         .component[selected] {
-          background-color: rgba(0, 0, 0, 0.3);
-
-          border-top: 1px solid rgba(0, 0, 0, 0.5);
-          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+          background-color: rgba(0, 0, 0, 0.1);
         }
 
         span,
@@ -39,10 +40,17 @@ export default class SceneInspector extends LitElement {
         }
 
         span.name {
-          color: #ffc778;
+          color: var(--scene-inspector-intensive-color, #22a6a7);
         }
 
-        .eye::before,
+        .eye {
+          font-size: 1.3em;
+          vertical-align: middle;
+          opacity: 0.7;
+          color: var(--scene-inspector-intensive-color, #22a6a7);
+          margin: 0 0 0 4px;
+        }
+
         .collapsed::before,
         .extended::before,
         .collapsespace::before {
@@ -51,15 +59,6 @@ export default class SceneInspector extends LitElement {
           height: 18px;
           display: inline-block;
           content: '';
-        }
-
-        .eye::before {
-          background-position: 100% 6px;
-          width: 22px;
-        }
-
-        [dimmed]::before {
-          opacity: 0.3;
         }
 
         .collapsed::before {
@@ -299,7 +298,7 @@ export default class SceneInspector extends LitElement {
         <span>
           ${depth > 0
             ? html`
-                <i class="eye" ?dimmed=${component.get('hidden')}> </i>
+                <mwc-icon class="eye">${component.get('hidden') ? 'visibility_off' : 'visibility'}</mwc-icon>
                 <pre>${' '.repeat(depth)}</pre>
               `
             : html`
