@@ -94,7 +94,7 @@ export default class PropertyAnimation extends LitElement {
           `
         : html``}
 
-      <input value-key="repeat" type="checkbox" ?checked=${this.value.repeat} />
+      <input value-key="repeat" type="checkbox" .checked=${this.value.repeat} />
       <label class="checkbox-label"> <i18n-msg msgid="label.repeat">repeat</i18n-msg> </label>
 
       <label>delta</label>

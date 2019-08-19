@@ -120,7 +120,7 @@ export default class DataBindingValueRange extends LitElement {
 
             ${this.valuetype == 'boolean'
               ? html`
-                  <input type="checkbox" data-value ?checked=${item.value} data-value-type=${this.valuetype} />
+                  <input type="checkbox" data-value .checked=${item.value} data-value-type=${this.valuetype} />
                 `
               : this.valuetype == 'color'
               ? html`
@@ -165,7 +165,7 @@ export default class DataBindingValueRange extends LitElement {
               <input
                 type="checkbox"
                 data-value
-                ?checked=${this.value && this.value.default}
+                .checked=${this.value && this.value.default}
                 data-value-type=${this.valuetype}
               />
             `

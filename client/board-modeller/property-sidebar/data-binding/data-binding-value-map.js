@@ -104,7 +104,7 @@ export default class DataBindingValueMap extends LitElement {
           <div data-record>
             <input type="text" data-key placeholder="key" .value=${item.key} /> ${this.valuetype == 'boolean'
               ? html`
-                  <input type="checkbox" data-value ?checked=${item.value} data-value-type=${this.valuetype} />
+                  <input type="checkbox" data-value .checked=${item.value} data-value-type=${this.valuetype} />
                 `
               : this.valuetype == 'color'
               ? html`
@@ -143,7 +143,7 @@ export default class DataBindingValueMap extends LitElement {
               <input
                 type="checkbox"
                 data-value
-                ?checked=${this.value && this.value.default}
+                .checked=${this.value && this.value.default}
                 data-value-type=${this.valuetype}
               />
             `

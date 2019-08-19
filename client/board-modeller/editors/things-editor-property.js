@@ -189,7 +189,7 @@ class PropertyEditorCheckbox extends ThingsEditorProperty {
 
   editorTemplate(props) {
     return html`
-      <input type="checkbox" id="editor" ?checked=${props.value} placeholder=${props.placeholder || ''} />
+      <input type="checkbox" id="editor" .checked=${props.value} placeholder=${props.placeholder || ''} />
     `
   }
 }

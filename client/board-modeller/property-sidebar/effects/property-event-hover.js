@@ -32,7 +32,7 @@ class PropertyEventHover extends LitElement {
 
   render() {
     return html`
-      <input type="checkbox" value-key="emphasize" ?checked=${this.value.emphasize} />
+      <input type="checkbox" value-key="emphasize" .checked=${this.value.emphasize} />
       <label class="checkbox-label"> <i18n-msg msgid="label.emphasize">emphasize</i18n-msg> </label>
 
       <label> <i18n-msg msgid="label.action">action</i18n-msg> </label>
@@ -73,7 +73,7 @@ class PropertyEventHover extends LitElement {
           `
         : html``}
 
-      <input type="checkbox" value-key="restore" ?checked=${this.value.restore} />
+      <input type="checkbox" value-key="restore" .checked=${this.value.restore} />
       <label class="checkbox-label">
         <i18n-msg msgid="label.restore-on-leave">restore on leave</i18n-msg>
       </label>

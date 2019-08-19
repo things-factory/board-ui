@@ -113,7 +113,7 @@ export default class ThingsEditorPattern extends LitElement {
       </div>
 
       <div class="grid-10">
-        <input value-key="fitPattern" type="checkbox" ?checked=${this.value && this.value.fitPattern} required />
+        <input value-key="fitPattern" type="checkbox" .checked=${this.value && this.value.fitPattern} required />
         <label> <i18n-msg msgid="label.fit" auto="">Fit</i18n-msg> </label>
       </div>
     `
