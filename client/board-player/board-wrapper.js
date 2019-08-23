@@ -5,7 +5,6 @@ class BoardWrapper extends LitElement {
     super()
 
     this.sceneId = ''
-    this.fit = 'ratio'
     this.provider = null
   }
 
@@ -24,7 +23,6 @@ class BoardWrapper extends LitElement {
        *
        * @todo things-real 에서는 enumeration type 이며, FitMode.RATIO | FitMode.BOTH 중 하나로 정의한다.
        */
-      fit: String,
       provider: Object
     }
   }
@@ -64,7 +62,7 @@ class BoardWrapper extends LitElement {
           this.scene.resize()
 
           if (this.offsetWidth) {
-            this.scene.fit(this.fit)
+            this.scene.fit()
           }
         }
       })
@@ -83,7 +81,6 @@ class BoardWrapper extends LitElement {
 
   updated(change) {
     change.has('sceneId') && this._onSceneIdChanged(this.sceneId)
-    change.has('fit') && this.scene && this.scene.fit(this.fit)
   }
 
   _releaseRef() {
@@ -110,7 +107,9 @@ class BoardWrapper extends LitElement {
          * 이 때는 정상적으로 그려주고,
          * 그렇지 않으면, 다음 Resize Handling시에 처리하도록 한다.
          */
-        if (this.scene.target.offsetWidth) this.scene.fit(this.fit)
+        if (this.scene.target.offsetWidth) {
+          this.scene.fit()
+        }
       },
       e => {}
     )

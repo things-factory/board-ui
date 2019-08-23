@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-fab/mwc-fab'
 import '@material/mwc-icon/mwc-icon'
+import SwipeListener from 'swipe-listener'
 
 import './board-wrapper'
 
@@ -34,8 +35,7 @@ class BoardPlayer extends LitElement {
       provider: Object,
       started: Boolean,
       playing: Boolean,
-      fullscreened: Boolean,
-      fitMode: String
+      fullscreened: Boolean
     }
   }
 
@@ -52,8 +52,7 @@ class BoardPlayer extends LitElement {
                 <board-player-carousel axis="y" .rows=${this.rows} .columns=${this.columns} player>
                   ${this.boards.map(
                     item => html`
-                      <board-wrapper page .sceneId=${item.id} .fit=${this.fitMode} .provider=${this.provider}>
-                      </board-wrapper>
+                      <board-wrapper page .sceneId=${item.id} .provider=${this.provider}> </board-wrapper>
                     `
                   )}
                 </board-player-carousel>
@@ -109,6 +108,24 @@ class BoardPlayer extends LitElement {
         </div>   
       </div>
     `
+  }
+
+  firstUpdated() {
+    SwipeListener(this)
+
+    this.addEventListener('swipe', e => {
+      var directions = e.detail.directions
+
+      if (directions.left) {
+        this.onTapRight()
+      } else if (directions.right) {
+        this.onTapLeft()
+      } else if (directions.top) {
+        this.onTapDown()
+      } else if (direction.bottom) {
+        this.onTapUp()
+      }
+    })
   }
 
   updated(changes) {

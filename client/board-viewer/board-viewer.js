@@ -77,7 +77,7 @@ class BoardViewer extends LitElement {
 
   firstUpdated() {
     window.addEventListener('resize', () => {
-      this.scene && this.scene.fit(this.board.model.fitMode)
+      this.scene && this.scene.fit()
     })
 
     this.shadowRoot.addEventListener(
