@@ -122,7 +122,7 @@ class BoardPlayer extends LitElement {
         this.onTapLeft()
       } else if (directions.top) {
         this.onTapDown()
-      } else if (direction.bottom) {
+      } else if (directions.bottom) {
         this.onTapUp()
       }
     })
