@@ -278,10 +278,9 @@ class PropertyShapes extends LitElement {
 
               <div class="property-grid">
                 <label><i18n-msg msgid="label.fit">Fit</i18n-msg></label>
-                <select value-key="fitMode" .value=${this.value.fitMode || 'none'}>
-                  <option value="none" selected>none</option>
-                  <option value="ratio">center</option>
-                  <option value="ratio">ratio</option>
+                <select value-key="fitMode" .value=${this.value.fitMode || 'ratio'}>
+                  <option value="none">none</option>
+                  <option value="ratio" selected>ratio</option>
                   <option value="both">both</option>
                   <option value="width">width</option>
                   <option value="height">height</option>
