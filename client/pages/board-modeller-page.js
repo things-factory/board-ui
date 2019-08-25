@@ -1,10 +1,10 @@
 import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
+import gql from 'graphql-tag'
 
 import { saveAs } from 'file-saver'
 
-import { store, PageView, togglefullscreen } from '@things-factory/shell'
-import { fetchBoard, updateBoard } from '@things-factory/board-base'
+import { store, PageView, togglefullscreen, client } from '@things-factory/shell'
 
 import { provider } from '../board-provider'
 
@@ -90,8 +90,20 @@ class BoardModellerPage extends connect(store)(PageView) {
         })
       }
     } else {
-      var response = await fetchBoard(this.boardId)
-      var board = response.board
+      var response = await client.query({
+        query: gql`
+          query FetchBoardById($id: String!) {
+            board(id: $id) {
+              id
+              name
+              model
+            }
+          }
+        `,
+        variables: { id: this.boardId }
+      })
+
+      var board = response.data.board
     }
 
     this.board = {
@@ -185,9 +197,21 @@ class BoardModellerPage extends connect(store)(PageView) {
 
   async updateBoard() {
     try {
-      await updateBoard({
-        ...this.board,
-        model: this.scene.model
+      var { id, name, description, groupId } = this.board
+      var model = JSON.stringify(this.scene.model)
+
+      await client.mutate({
+        mutation: gql`
+          mutation UpdateBoard($id: String!, $patch: BoardPatch!) {
+            updateBoard(id: $id, patch: $patch) {
+              id
+            }
+          }
+        `,
+        variables: {
+          id,
+          patch: { name, description, model, groupId }
+        }
       })
 
       document.dispatchEvent(

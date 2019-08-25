@@ -1,9 +1,9 @@
 import { html, css } from 'lit-element'
+import gql from 'graphql-tag'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store, PageView } from '@things-factory/shell'
-
-import { fetchBoard, buildLabelPrintCommand } from '@things-factory/board-base'
+import { store, PageView, client } from '@things-factory/shell'
+import { buildLabelPrintCommand } from '@things-factory/board-base'
 import { provider } from '../board-provider'
 
 import '../board-viewer/board-viewer'
@@ -42,10 +42,9 @@ class BoardViewerPage extends connect(store)(PageView) {
     return {
       title: this._board && this._board.name,
       printable: {
-        accept: ['paper', 'label'],
+        accept: ['label'],
         name: this._board && this._board.name,
         content: () => {
-          // return this._board
           return this.getGrf()
         },
         options: {}
@@ -83,8 +82,20 @@ class BoardViewerPage extends connect(store)(PageView) {
     if (!this._boardId) {
       return
     }
-    var response = await fetchBoard(this._boardId)
-    var board = response.board
+    var response = await client.query({
+      query: gql`
+        query FetchBoardById($id: String!) {
+          board(id: $id) {
+            id
+            name
+            model
+          }
+        }
+      `,
+      variables: { id: this._boardId }
+    })
+
+    var board = response.data.board
 
     this._board = {
       ...board,

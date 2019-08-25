@@ -1,8 +1,8 @@
 import { html, css } from 'lit-element'
+import gql from 'graphql-tag'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store, PageView } from '@things-factory/shell'
-import { fetchPlayGroup } from '@things-factory/board-base'
+import { store, PageView, client } from '@things-factory/shell'
 
 import { provider } from '../board-provider'
 
@@ -44,7 +44,38 @@ class BoardPlayerPage extends connect(store)(PageView) {
       return
     }
 
-    this._playGroup = (await fetchPlayGroup(this._playGroupId)).playGroup
+    this._playGroup = (await client.query({
+      query: gql`
+        query FetchPlayGroup($id: String!) {
+          playGroup(id: $id) {
+            id
+            name
+            description
+            boards {
+              id
+              name
+              description
+              model
+              thumbnail
+              createdAt
+              creator {
+                id
+                name
+              }
+              updatedAt
+              updater {
+                id
+                name
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        id: this._playGroupId
+      }
+    })).data.playGroup
+
     this._boards = this._playGroup.boards
     this.updateContext()
   }
