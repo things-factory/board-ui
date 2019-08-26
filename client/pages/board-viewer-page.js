@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { store, PageView, client } from '@things-factory/shell'
-import { buildLabelPrintCommand } from '@things-factory/board-base'
+import { buildLabelPrintCommand } from '@things-factory/label-base'
 import { provider } from '../board-provider'
 
 import '../board-viewer/board-viewer'
