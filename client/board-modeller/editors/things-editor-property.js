@@ -167,7 +167,7 @@ class PropertyEditorTextArea extends ThingsEditorProperty {
 
   editorTemplate(props) {
     return html`
-      <things-editor-code id="editor" theme="ace/theme/monokai" .value=${props.value} fullwidth> </things-editor-code>
+      <things-editor-code id="editor" .value=${props.value} fullwidth> </things-editor-code>
     `
   }
 }

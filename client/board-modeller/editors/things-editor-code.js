@@ -2,7 +2,7 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
+import { LitElement, html, css, unsafeCSS } from 'lit-element'
 
 import CodeMirrorStyle from 'codemirror/lib/codemirror.css'
 import FullScreenStyle from 'codemirror/addon/display/fullscreen.css'
@@ -11,46 +11,7 @@ import NightThemeStyle from 'codemirror/theme/night.css'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/addon/display/fullscreen'
-
-const styles = html`
-  <style>
-    ${CodeMirrorStyle} ${FullScreenStyle} ${NightThemeStyle}
-  </style>
-`
-
-/* ref : https://github.com/codemirror/CodeMirror/issues/2469 */
-CodeMirror.defineOption('autoRefresh', false, function(cm, val) {
-  if (cm.state.autoRefresh) {
-    stopListening(cm, cm.state.autoRefresh)
-    cm.state.autoRefresh = null
-  }
-  if (val && cm.display.wrapper.offsetHeight == 0)
-    startListening(cm, (cm.state.autoRefresh = { delay: val.delay || 250 }))
-})
-
-function startListening(cm, state) {
-  function check() {
-    if (cm.display.wrapper.offsetHeight) {
-      stopListening(cm, state)
-      if (cm.display.lastWrapHeight != cm.display.wrapper.clientHeight) cm.refresh()
-    } else {
-      state.timeout = setTimeout(check, state.delay)
-    }
-  }
-  state.timeout = setTimeout(check, state.delay)
-  state.hurry = function() {
-    clearTimeout(state.timeout)
-    state.timeout = setTimeout(check, 50)
-  }
-  CodeMirror.on(window, 'mouseup', state.hurry)
-  CodeMirror.on(window, 'keyup', state.hurry)
-}
-
-function stopListening(_cm, state) {
-  clearTimeout(state.timeout)
-  CodeMirror.off(window, 'mouseup', state.hurry)
-  CodeMirror.off(window, 'keyup', state.hurry)
-}
+import 'codemirror/addon/display/autorefresh'
 
 /**
 WEB Component for code-mirror code editor.
@@ -76,6 +37,11 @@ export default class ThingsEditorCode extends LitElement {
 
   static get styles() {
     return [
+      css`
+        ${unsafeCSS(CodeMirrorStyle)}
+        ${unsafeCSS(FullScreenStyle)}
+        ${unsafeCSS(NightThemeStyle)}
+      `,
       css`
         :host {
           display: block;
@@ -106,8 +72,6 @@ export default class ThingsEditorCode extends LitElement {
 
   render() {
     return html`
-      ${styles}
-
       <textarea></textarea>
     `
   }
