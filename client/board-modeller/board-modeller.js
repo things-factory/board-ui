@@ -10,7 +10,7 @@ import './editors/things-scene-viewer/things-scene-viewer'
 import './component-toolbar/component-toolbar'
 import './property-sidebar/property-sidebar'
 
-class BoardModeller extends LitElement {
+export class BoardModeller extends LitElement {
   constructor() {
     super()
 

@@ -8,7 +8,7 @@ import { togglefullscreen, isIOS, sleep } from '@things-factory/shell'
 
 import { style } from './board-viewer-style'
 
-class BoardViewer extends LitElement {
+export class BoardViewer extends LitElement {
   constructor() {
     super()
 

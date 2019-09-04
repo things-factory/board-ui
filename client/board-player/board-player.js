@@ -12,7 +12,7 @@ import { togglefullscreen, exitfullscreen } from '@things-factory/shell'
 
 import { style } from './board-player-style'
 
-class BoardPlayer extends LitElement {
+export class BoardPlayer extends LitElement {
   constructor() {
     super()
 
