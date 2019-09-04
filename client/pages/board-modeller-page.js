@@ -16,6 +16,8 @@ import '../board-modeller/edit-toolbar'
 import './things-scene-components.import'
 import components from './things-scene-components-with-tools.import'
 
+import { isMacOS } from '../board-modeller/is-macos'
+
 class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
@@ -79,6 +81,14 @@ class BoardModellerPage extends connect(store)(PageView) {
     }
   }
 
+  get editToolbar() {
+    return this.renderRoot.querySelector('#edittoolbar')
+  }
+
+  get modeller() {
+    return this.renderRoot.querySelector('board-modeller')
+  }
+
   async refresh() {
     if (!this.boardId) {
       var board = {
@@ -121,9 +131,11 @@ class BoardModellerPage extends connect(store)(PageView) {
 
   activated(active) {
     if (!active) {
-      this.shadowRoot.querySelector('board-modeller').close()
+      this.modeller.close()
+      this.unbindShortcutEvent()
     } else {
       this.refresh()
+      this.bindShortcutEvent()
     }
   }
 
@@ -180,7 +192,7 @@ class BoardModellerPage extends connect(store)(PageView) {
   }
 
   onOpenPreview() {
-    this.shadowRoot.querySelector('board-modeller').preview()
+    this.modeller.preview()
   }
 
   onDownloadModel() {
@@ -239,6 +251,31 @@ class BoardModellerPage extends connect(store)(PageView) {
 
   async saveBoard() {
     await this.updateBoard()
+  }
+
+  bindShortcutEvent() {
+    var isMac = isMacOS()
+
+    // TODO: Global Hotkey에 대한 정의를 edit-toolbar에서 가져올 수 있도록 수정해야 함.
+    const GLOBAL_HOTKEYS = ['Digit1', 'Digit2', 'F11', 'KeyD', 'KeyP', 'KeyS']
+
+    this._shortcutHandler = e => {
+      var tagName = e.composedPath()[0].tagName
+      var isInput = tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA'
+      var isGlobalHotkey = GLOBAL_HOTKEYS.includes(e.code)
+
+      if (!isGlobalHotkey && isInput) return
+      if (!this.editToolbar.onShortcut(e, isMac)) this.modeller.onShortcut(e, isMac)
+    }
+
+    document.addEventListener('keydown', this._shortcutHandler)
+  }
+
+  unbindShortcutEvent() {
+    if (this._shortcutHandler) {
+      document.removeEventListener('keydown', this._shortcutHandler)
+      delete this._shortcutHandler
+    }
   }
 }
 

@@ -283,6 +283,8 @@ class EditToolbar extends LitElement {
     var altKey = e.altKey
     var shiftKey = e.shiftKey
 
+    var defaultPrevent = ctrlKey || altKey
+
     switch (e.code) {
       case 'KeyZ':
         if (ctrlKey && !shiftKey) this.onTapUndo()
@@ -301,43 +303,48 @@ class EditToolbar extends LitElement {
         else if (altKey && shiftKey) this.onTapSymmetryX()
         break
       case 'KeyV':
-        if (ctrlKey && !shiftKey) this.onTapPaste()
-        else if (altKey && shiftKey) this.onTapDistribute('VERTICAL')
+        if (ctrlKey && !shiftKey) {
+          this.onTapPaste()
+          defaultPrevent = false
+        } else if (altKey && shiftKey) this.onTapDistribute('VERTICAL')
         break
       case 'Delete':
       case 'Backspace':
         this.onTapDelete()
+        defaultPrevent = true
         break
       case 'KeyG':
         if (ctrlKey && !shiftKey) this.onTapGroup()
         else if (ctrlKey && shiftKey) this.onTapUngroup()
         break
       case 'KeyF':
-        if (ctrlKey && !shiftKey) this.onTapZorder(forward)
-        else if (ctrlKey && shiftKey) this.onTapZorder(front)
+        if (ctrlKey && !shiftKey) this.scene.zorder('forward')
+        else if (ctrlKey && shiftKey) this.scene.zorder('front')
         break
       case 'KeyB':
-        if (ctrlKey && !shiftKey) this.onTapZorder(backward)
-        else if (ctrlKey && shiftKey) this.onTapZorder(back)
+        if (ctrlKey && !shiftKey) this.scene.zorder('backward')
+        else if (ctrlKey && shiftKey) this.scene.zorder('back')
         else if (altKey && shiftKey) this.onTapAlign('bottom')
         break
-      case 'Equal':
-        if (ctrlKey) this.onTapZoom(zoomin)
-        break
-      case 'Minus':
-        if (ctrlKey) this.onTapZoom(zoomout)
-        break
+      // case 'Equal':
+      //   if (ctrlKey) this.onTapZoom(zoomin)
+      //   break
+      // case 'Minus':
+      //   if (ctrlKey) this.onTapZoom(zoomout)
+      //   break
       case 'KeyH':
         if (ctrlKey && !shiftKey) this.onTapToggle()
         else if (altKey && shiftKey) this.onTapDistribute('HORIZONTAL')
         break
       case 'F11':
         this.onTapFullscreen()
-        e.preventDefault()
+        defaultPrevent = true
         break
       case 'KeyP':
-        if (ctrlKey) this.onTapPreview()
-        e.preventDefault()
+        if (ctrlKey) {
+          this.onTapPreview()
+          defaultPrevent = true
+        }
         break
       case 'KeyA':
         if (ctrlKey) this.onTapSelectAll()
@@ -358,7 +365,10 @@ class EditToolbar extends LitElement {
         if (altKey && shiftKey) this.onTapSymmetryY()
         break
       case 'KeyD':
-        if (ctrlKey) this.onTapFitScene()
+        if (ctrlKey) {
+          this.onTapFitScene()
+          defaultPrevent = true
+        }
         break
       case 'KeyE':
         if (altKey && shiftKey) this.onTapRotateCW()
@@ -368,14 +378,24 @@ class EditToolbar extends LitElement {
         if (altKey && shiftKey) this.onTapRotateCCW()
         break
       case 'Digit1':
-        if (ctrlKey) console.log('MODEL', this.scene && this.scene.model)
-        e.preventDefault()
+        if (ctrlKey) {
+          console.log('MODEL', this.scene && this.scene.model)
+          defaultPrevent = true
+        }
         break
       case 'Digit2':
-        if (ctrlKey) console.log('SELECTED', this.scene && this.scene.selected)
-        e.preventDefault()
+        if (ctrlKey) {
+          console.log('SELECTED', this.scene && this.scene.selected)
+          defaultPrevent = true
+        }
         break
+
+      default:
+        return false
     }
+
+    if (defaultPrevent) e.preventDefault()
+    return true
   }
 
   onExecute(command, undoable, redoable) {
