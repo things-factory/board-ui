@@ -42,7 +42,7 @@ class BoardViewerPage extends connect(store)(PageView) {
     return {
       title: this._board && this._board.name,
       printable: {
-        accept: ['label'],
+        accept: ['label', 'usb'],
         name: this._board && this._board.name,
         content: () => {
           return this.getGrf()
