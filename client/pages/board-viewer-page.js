@@ -105,11 +105,9 @@ class BoardViewerPage extends connect(store)(PageView) {
     this.updateContext()
   }
 
-  async activated(active) {
-    if (!active) {
-      this._boardId = null
-      this.shadowRoot.querySelector('board-viewer').closeScene()
-    }
+  pageDisposed() {
+    this._boardId = null
+    this.shadowRoot.querySelector('board-viewer').closeScene()
   }
 
   async getGrf() {

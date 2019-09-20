@@ -129,14 +129,14 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.updateContext()
   }
 
-  activated(active) {
-    if (!active) {
-      this.modeller.close()
-      this.unbindShortcutEvent()
-    } else {
-      this.refresh()
-      this.bindShortcutEvent()
-    }
+  pageInitialized() {
+    this.refresh()
+    this.bindShortcutEvent()
+  }
+
+  pageDisposed() {
+    this.modeller.close()
+    this.unbindShortcutEvent()
   }
 
   stateChanged(state) {
