@@ -105,9 +105,11 @@ class BoardViewerPage extends connect(store)(PageView) {
     this.updateContext()
   }
 
-  pageDisposed() {
-    this._boardId = null
-    this.shadowRoot.querySelector('board-viewer').closeScene()
+  async pageActivated(active) {
+    if (!active) {
+      this._boardId = null
+      this.shadowRoot.querySelector('board-viewer').closeScene()
+    }
   }
 
   async getGrf() {
@@ -115,7 +117,7 @@ class BoardViewerPage extends connect(store)(PageView) {
 
     var { width, height, data } = (await this.shadowRoot.querySelector('board-viewer').getSceneImageData()) || {}
     if (!width) {
-      throw 'Cannot get SceneImageData...ㅠㅠ'
+      throw 'Cannot get SceneImageData...'
     }
 
     return buildLabelPrintCommand(data, width, height, labelRotation)

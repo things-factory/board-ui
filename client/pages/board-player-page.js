@@ -105,9 +105,11 @@ class BoardPlayerPage extends connect(store)(PageView) {
     `
   }
 
-  pageDisposed() {
-    this._playGroupId = null
-    this.shadowRoot.querySelector('board-player').stop()
+  pageActivated(active) {
+    if (!active) {
+      this._playGroupId = null
+      this.shadowRoot.querySelector('board-player').stop()
+    }
   }
 }
 
