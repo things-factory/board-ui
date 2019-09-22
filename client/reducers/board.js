@@ -14,6 +14,7 @@ import polyline from '../../assets/images/components/polyline.png'
 import text from '../../assets/images/components/text.png'
 import colorImage from '../../assets/images/components/color-image.png'
 import grayImage from '../../assets/images/components/gray-image.png'
+import gifImage from '../../assets/images/components/gif-image.png'
 import audio from '../../assets/images/components/audio.png'
 import container from '../../assets/images/components/container.png'
 import infoWindow from '../../assets/images/components/info-window.png'
@@ -290,7 +291,7 @@ function textAndMedias() {
     },
     {
       type: 'gray image',
-      description: 'gray scale line',
+      description: 'gray image',
       icon: grayImage,
       model: {
         type: 'image-view',
@@ -306,6 +307,18 @@ function textAndMedias() {
         lineWidth: 1,
         lineDash: 'solid',
         lineCap: 'butt'
+      }
+    },
+    {
+      type: 'gif image',
+      description: 'gif image',
+      icon: gifImage,
+      model: {
+        type: 'gif-view',
+        left: 100,
+        top: 100,
+        width: 100,
+        height: 100
       }
     },
     {
