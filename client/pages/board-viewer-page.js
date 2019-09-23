@@ -1,11 +1,9 @@
-import { html, css } from 'lit-element'
-import gql from 'graphql-tag'
-
-import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store, PageView, client } from '@things-factory/shell'
 import { buildLabelPrintCommand } from '@things-factory/barcode-base'
+import { client, PageView, store } from '@things-factory/shell'
+import gql from 'graphql-tag'
+import { css, html } from 'lit-element'
+import { connect } from 'pwa-helpers/connect-mixin.js'
 import { provider } from '../board-provider'
-
 import '../board-viewer/board-viewer'
 import './things-scene-components.import'
 

@@ -1,12 +1,9 @@
-import { html, css } from 'lit-element'
+import { client, PageView, store } from '@things-factory/shell'
 import gql from 'graphql-tag'
-
+import { css, html } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
-import { store, PageView, client } from '@things-factory/shell'
-
-import { provider } from '../board-provider'
-
 import '../board-player/board-player'
+import { provider } from '../board-provider'
 import './things-scene-components.import'
 
 class BoardPlayerPage extends connect(store)(PageView) {

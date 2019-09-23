@@ -1,22 +1,15 @@
-import { html, css } from 'lit-element'
-import { connect } from 'pwa-helpers/connect-mixin.js'
-import gql from 'graphql-tag'
-
+import { client, PageView, store, togglefullscreen } from '@things-factory/shell'
 import { saveAs } from 'file-saver'
-
-import { store, PageView, togglefullscreen, client } from '@things-factory/shell'
-
-import { provider } from '../board-provider'
-
+import gql from 'graphql-tag'
+import { css, html } from 'lit-element'
+import { connect } from 'pwa-helpers/connect-mixin.js'
 import { ADD_BOARD_COMPONENTS } from '../actions/board'
-
 import '../board-modeller/board-modeller'
 import '../board-modeller/edit-toolbar'
-
-import './things-scene-components.import'
-import components from './things-scene-components-with-tools.import'
-
 import { isMacOS } from '../board-modeller/is-macos'
+import { provider } from '../board-provider'
+import components from './things-scene-components-with-tools.import'
+import './things-scene-components.import'
 
 class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
