@@ -12,7 +12,8 @@ class BoardViewerPage extends connect(store)(PageView) {
     return {
       _board: Object,
       _boardId: String,
-      _baseUrl: String
+      _baseUrl: String,
+      _license: Object
     }
   }
 
@@ -69,13 +70,21 @@ class BoardViewerPage extends connect(store)(PageView) {
       this.shadowRoot.querySelector('board-viewer').closeScene()
       this.refresh()
     }
+
+    if (changes.has('_license')) {
+      if (scene && scene.license) scene.license(this._license.key)
+    }
+  }
+
+  pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      this._boardId = lifecycle.resourceId
+    }
   }
 
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
-    this._boardId = state.route.resourceId
-
-    if (scene && scene.license) scene.license(state.license.key)
+    this._license = state.license
   }
 
   async refresh() {

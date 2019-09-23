@@ -13,7 +13,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
       _playGroupId: String,
       _boards: Array,
       _provider: Object,
-      _baseUrl: String
+      _baseUrl: String,
+      _license: Object
     }
   }
 
@@ -82,13 +83,15 @@ class BoardPlayerPage extends connect(store)(PageView) {
       this.shadowRoot.querySelector('board-player').stop()
       this.refresh()
     }
+
+    if (changes.has('_license')) {
+      if (scene && scene.license) scene.license(this._license.key)
+    }
   }
 
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
-    this._playGroupId = state.route.resourceId
-
-    if (scene && scene.license) scene.license(state.license.key)
+    this._license = state.license
   }
 
   get context() {
@@ -104,12 +107,14 @@ class BoardPlayerPage extends connect(store)(PageView) {
     `
   }
 
-  pageActivated(active) {
-    if (!active) {
+  pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      this._playGroupId = lifecycle.resourceId
+
+      this.refresh()
+    } else {
       this._playGroupId = null
       this.shadowRoot.querySelector('board-player').stop()
-    } else {
-      this.refresh()
     }
   }
 }

@@ -1,15 +1,22 @@
-import { client, PageView, store, togglefullscreen } from '@things-factory/shell'
-import { saveAs } from 'file-saver'
-import gql from 'graphql-tag'
-import { css, html } from 'lit-element'
+import { html, css } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
+import gql from 'graphql-tag'
+
+import { saveAs } from 'file-saver'
+
+import { store, PageView, togglefullscreen, client } from '@things-factory/shell'
+
+import { provider } from '../board-provider'
+
 import { ADD_BOARD_COMPONENTS } from '../actions/board'
+
 import '../board-modeller/board-modeller'
 import '../board-modeller/edit-toolbar'
-import { isMacOS } from '../board-modeller/is-macos'
-import { provider } from '../board-provider'
-import components from './things-scene-components-with-tools.import'
+
 import './things-scene-components.import'
+import components from './things-scene-components-with-tools.import'
+
+import { isMacOS } from '../board-modeller/is-macos'
 
 class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
@@ -47,7 +54,8 @@ class BoardModellerPage extends connect(store)(PageView) {
       scene: Object,
       componentGroupList: Array,
       fonts: Array,
-      propertyEditor: Array
+      propertyEditor: Array,
+      _license: Object
     }
   }
 
@@ -122,25 +130,32 @@ class BoardModellerPage extends connect(store)(PageView) {
     this.updateContext()
   }
 
-  pageActivated(active) {
-    if (!active) {
-      this.modeller.close()
-      this.unbindShortcutEvent()
-    } else {
+  pageUpdated(changes, lifecycle) {
+    if (this.active) {
+      this.boardId = lifecycle.resourceId
+
       this.refresh()
       this.bindShortcutEvent()
+    } else {
+      this.modeller.close()
+      this.unbindShortcutEvent()
+    }
+  }
+
+  updated(changes) {
+    if (changes.has('_license')) {
+      if (scene && scene.license) scene.license(this._license.key)
     }
   }
 
   stateChanged(state) {
-    this.boardId = state.route.resourceId
     this.baseUrl = state.route.rootPath
     this.propertyEditor = state.board.editors
 
     this.componentGroupList = state.board.templates
     this.fonts = state.font
 
-    if (scene && scene.license) scene.license(state.license.key)
+    this._license = state.license
   }
 
   render() {
