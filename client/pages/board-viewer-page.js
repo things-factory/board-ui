@@ -79,6 +79,9 @@ class BoardViewerPage extends connect(store)(PageView) {
   pageUpdated(changes, lifecycle) {
     if (this.active) {
       this._boardId = lifecycle.resourceId
+    } else {
+      this._boardId = null
+      this.shadowRoot.querySelector('board-viewer').closeScene()
     }
   }
 
@@ -112,13 +115,6 @@ class BoardViewerPage extends connect(store)(PageView) {
     }
 
     this.updateContext()
-  }
-
-  async pageActivated(active) {
-    if (!active) {
-      this._boardId = null
-      this.shadowRoot.querySelector('board-viewer').closeScene()
-    }
   }
 
   async getGrf() {
