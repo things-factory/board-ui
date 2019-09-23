@@ -74,6 +74,8 @@ class BoardViewerPage extends connect(store)(PageView) {
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
     this._boardId = state.route.resourceId
+
+    if (scene && scene.license) scene.license(state.license.key)
   }
 
   async refresh() {

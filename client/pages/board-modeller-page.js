@@ -139,6 +139,8 @@ class BoardModellerPage extends connect(store)(PageView) {
 
     this.componentGroupList = state.board.templates
     this.fonts = state.font
+
+    if (scene && scene.license) scene.license(state.license.key)
   }
 
   render() {

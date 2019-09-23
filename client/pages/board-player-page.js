@@ -87,6 +87,8 @@ class BoardPlayerPage extends connect(store)(PageView) {
   stateChanged(state) {
     this._baseUrl = state.app.baseUrl
     this._playGroupId = state.route.resourceId
+
+    if (scene && scene.license) scene.license(state.license.key)
   }
 
   get context() {
