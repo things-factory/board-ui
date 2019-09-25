@@ -59,7 +59,7 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
     var groups = this.groups || []
 
     return html`
-      <div @click=${e => this.onClickFlip(e)} front></div>
+      <div @click=${e => this.onClickFlip(e)} front>front</div>
 
       <div @click=${e => this.onClickFlip(e)} back>
         <form>

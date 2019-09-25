@@ -65,6 +65,10 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
           background-color: var(--card-list-background-color);
         }
 
+        #main .card.create {
+          overflow: visible;
+        }
+
         #main .card:hover {
           cursor: pointer;
         }
