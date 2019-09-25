@@ -4,6 +4,7 @@ import { css, html, LitElement } from 'lit-element'
 
 import gql from 'graphql-tag'
 import { client, gqlBuilder, InfiniteScrollable, ScrollbarStyles } from '@things-factory/shell'
+import './board-creation-card'
 
 const FETCH_BOARD_LIST_GQL = listParam => {
   return gql`
@@ -113,7 +114,8 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
       boards: Array,
       group: String,
       _page: Number,
-      _total: Number
+      _total: Number,
+      creatable: Boolean
     }
   }
 
@@ -146,28 +148,21 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
           )}
         </select>
       </div>
+
       <div
         id="main"
         @scroll=${e => {
           this.onScroll(e)
         }}
       >
+        ${this.creatable
+          ? html`
+              <board-creation-card class="card create" @click=${e => this.onClickCreate()}></board-creation-card>
+            `
+          : html``}
         ${this.boards.map(
           board => html`
-            <div
-              class="card"
-              @click=${e => {
-                this.dispatchEvent(
-                  new CustomEvent('board-selected', {
-                    composed: true,
-                    bubbles: true,
-                    detail: {
-                      board
-                    }
-                  })
-                )
-              }}
-            >
+            <div class="card" @click=${e => this.onClickSelect(board)}>
               <img src=${board.thumbnail} />
               <div class="name">${board.name}</div>
               <div class="description">${board.description}</div>
@@ -195,6 +190,20 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
       this.refreshBoards()
     }
   }
+
+  onClickSelect(board) {
+    this.dispatchEvent(
+      new CustomEvent('board-selected', {
+        composed: true,
+        bubbles: true,
+        detail: {
+          board
+        }
+      })
+    )
+  }
+
+  onClickCreate() {}
 
   async refreshGroups() {
     var groupListResponse = await client.query({
