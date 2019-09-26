@@ -4,6 +4,7 @@ import '@material/mwc-icon'
 
 import { openPopup } from '@things-factory/layout-base'
 import '../viewparts/board-selector'
+import { i18next } from '@things-factory/i18n-base'
 
 export class BoardEditor extends LitElement {
   static get properties() {
@@ -108,7 +109,7 @@ export class BoardEditor extends LitElement {
               })
             )
 
-            popup.close()
+            this.popup && this.popup.close()
           }}
         ></board-selector>
       `
