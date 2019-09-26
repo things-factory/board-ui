@@ -5,7 +5,8 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
   static get properties() {
     return {
       /* default group id */
-      defaultGroup: String
+      defaultGroup: String,
+      groups: Array
     }
   }
 
@@ -106,15 +107,15 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
       <div @click=${e => this.onClickFlip(e)} front><mwc-icon>add_circle_outline</mwc-icon>create board</div>
 
       <div @click=${e => this.onClickFlip(e)} back>
-        <form>
+        <form @submit=${e => this.onClickSubmit(e)}>
           <label>${i18next.t('label.name')}</label>
-          <input type="text" />
+          <input type="text" name="name" />
 
           <label>${i18next.t('label.description')}</label>
-          <input type="text" />
+          <input type="text" name="description" />
 
           <label>${i18next.t('label.group')}</label>
-          <select .value=${this.defaultGroup}>
+          <select .value=${this.defaultGroup} name="groupId">
             ${groups.map(
               group => html`
                 <option value=${group.id} ?selected=${this.defaultGroup == group.id}>${group.name}</option>
@@ -122,7 +123,7 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
             )}
           </select>
 
-          <input type="submit" @click=${e => this.onClickSubmit(e)} value=${i18next.t('button.create')} />
+          <input type="submit" value=${i18next.t('button.create')} />
         </form>
       </div>
     `
@@ -138,18 +139,34 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
     e.stopPropagation()
   }
 
-  onClickSubmit(name, description, group) {
+  onClickSubmit(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    var form = e.target
+
+    var name = form.elements['name'].value
+    var description = form.elements['description'].value
+    var groupId = form.elements['groupId'].value
+
     this.dispatchEvent(
       new CustomEvent('create-board', {
-        composed: true,
-        bubbles: true,
         detail: {
           name,
           description,
-          group
+          groupId
         }
       })
     )
+  }
+
+  reset() {
+    var form = this.shadowRoot.querySelector('form')
+    if (form) {
+      form.reset()
+    }
+
+    this.classList.remove('flipped')
   }
 }
 

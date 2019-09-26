@@ -35,6 +35,19 @@ const FETCH_GROUP_LIST_GQL = gql`
   }
 `
 
+const CREATE_BOARD_GQL = gql`
+  mutation CreateBoard($board: NewBoard!) {
+    createBoard(board: $board) {
+      id
+      name
+      description
+      model
+      createdAt
+      updatedAt
+    }
+  }
+`
+
 export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitElement)) {
   static get styles() {
     return [
@@ -161,7 +174,12 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
       >
         ${this.creatable
           ? html`
-              <board-creation-card class="card create" @click=${e => this.onClickCreate()}></board-creation-card>
+              <board-creation-card
+                class="card create"
+                .groups=${this.groups}
+                .defaultGroup=${this.group}
+                @create-board=${e => this.onCreateBoard(e)}
+              ></board-creation-card>
             `
           : html``}
         ${this.boards.map(
@@ -207,7 +225,12 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
     )
   }
 
-  onClickCreate() {}
+  async onCreateBoard(e) {
+    var { name, description, groupId } = e.detail
+
+    await this.createBoard(name, description, groupId)
+    this.refreshBoards()
+  }
 
   async refreshGroups() {
     var groupListResponse = await client.query({
@@ -225,6 +248,11 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
   async refreshBoards() {
     var boards = await this.getBoards()
     this.boards = [...boards]
+
+    var creationCard = this.shadowRoot.querySelector('board-creation-card')
+    if (creationCard) {
+      creationCard.reset()
+    }
   }
 
   async appendBoards() {
@@ -261,6 +289,27 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
     this._page = page
 
     return boardListResponse.data.boards.items
+  }
+
+  async createBoard(name, description, groupId) {
+    var model = JSON.stringify({
+      width: 800,
+      height: 600
+    })
+
+    const response = await client.mutate({
+      mutation: CREATE_BOARD_GQL,
+      variables: {
+        board: {
+          name,
+          description,
+          groupId,
+          model
+        }
+      }
+    })
+
+    return response.data
   }
 }
 
