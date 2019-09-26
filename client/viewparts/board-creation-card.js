@@ -26,8 +26,8 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
         }
 
         :host(.flipped) {
-          -webkit-transform: rotateX(180deg);
-          transform: rotateX(180deg);
+          -webkit-transform: var(--card-list-flip-transform);
+          transform: var(--card-list-flip-transform);
         }
 
         [front],
@@ -39,17 +39,61 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
           margin: 0;
           padding: 0;
 
+          border: var(--card-list-create-border);
+          border-radius: var(--card-list-create-border-radius);
+
           background-color: #fff;
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
-            0 3px 1px -2px rgba(0, 0, 0, 0.2);
 
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
-
+        [front] {
+          text-align: center;
+          font-size: 0.8em;
+          color: var(--card-list-create-color);
+          text-transform: capitalize;
+        }
+        [front] mwc-icon {
+          margin-top: 15%;
+          display: block;
+          font-size: 3.5em;
+          color: var(--card-list-create-icon-color);
+        }
         [back] {
-          -webkit-transform: rotateX(180deg);
-          transform: rotateX(180deg);
+          -webkit-transform: var(--card-list-flip-transform);
+          transform: var(--card-list-flip-transform);
+        }
+        [back] form {
+          padding: var(--card-list-create-form-padding);
+          display: flex;
+          flex-flow: row wrap;
+        }
+        [back] form label {
+          flex: 1 1 25%;
+          font: var(--card-list-create-label-font);
+          color: var(--card-list-create-label-color);
+        }
+        [back] form input,
+        [back] form select {
+          flex: 1 1 60%;
+          width: 10px;
+          background-color: #fff;
+          border: var(--card-list-create-input-border);
+          border-radius: var(--card-list-create-input-border-radius);
+          padding: var(--card-list-create-input-padding);
+          font: var(--card-list-create-input-font);
+          color: var(--card-list-create-input-color);
+        }
+        form * {
+          margin: var(--card-list-create-margin);
+        }
+        input[type='submit'] {
+          background-color: var(--button-background-color) !important;
+          margin: var(--button-margin);
+          font: var(--button-font);
+          color: var(--button-color) !important;
+          border-radius: var(--button-radius);
+          border: var(--button-border);
         }
       `
     ]
@@ -59,7 +103,7 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
     var groups = this.groups || []
 
     return html`
-      <div @click=${e => this.onClickFlip(e)} front>front</div>
+      <div @click=${e => this.onClickFlip(e)} front><mwc-icon>add_circle_outline</mwc-icon>create board</div>
 
       <div @click=${e => this.onClickFlip(e)} back>
         <form>
@@ -85,11 +129,12 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
   }
 
   onClickFlip(e) {
-    if (this.classList.contains('flipped') && e.target.icon == 'icons:redo') {
-      this.onClickEdit(e)
-    } else {
+    var target = e.target
+
+    if (target.hasAttribute('front') || target.hasAttribute('back')) {
       this.classList.toggle('flipped')
     }
+
     e.stopPropagation()
   }
 
