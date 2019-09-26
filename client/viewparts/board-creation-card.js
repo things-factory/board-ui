@@ -130,9 +130,7 @@ export default class BoardCreationCard extends localize(i18next)(LitElement) {
   }
 
   onClickFlip(e) {
-    var target = e.target
-
-    if (target.hasAttribute('front') || target.hasAttribute('back')) {
+    if (e.currentTarget.hasAttribute('front') || e.target.hasAttribute('back')) {
       this.classList.toggle('flipped')
     }
 
