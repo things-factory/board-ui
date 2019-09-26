@@ -209,7 +209,7 @@ class PropertyDataBinding extends LitElement {
   }
 
   _setMappingIndex(idx) {
-    this.mappingIndex = isNaN(idx) ? 0 : Number(idx)
+    this.mappingIndex = isNaN(Number(idx)) ? 0 : Number(idx)
 
     this._resetMappingTaps()
   }

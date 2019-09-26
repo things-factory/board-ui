@@ -451,7 +451,7 @@ Polymer({
         this.lightness = hsl[2]
       } else if (this.type == 'hsv') {
         var hsv = this.rgb2hsv(parseInt(this.color.red), parseInt(this.color.green), parseInt(this.color.blue))
-        if (!isNaN(hsv[0])) this.hue = hsv[0]
+        if (!isNaN(Number(hsv[0]))) this.hue = Number(hsv[0])
         this.value = hsv[2]
       }
     }

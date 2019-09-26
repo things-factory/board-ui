@@ -61,7 +61,7 @@ class ThingsEditorAngleInput extends LitElement {
   }
 
   _toRadian(degree) {
-    return isNaN(degree) ? undefined : degree * (Math.PI / 180)
+    return isNaN(Number(degree)) ? undefined : Number(degree) * (Math.PI / 180)
   }
 }
 
