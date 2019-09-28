@@ -5,6 +5,7 @@ import '@material/mwc-icon'
 import { openPopup } from '@things-factory/layout-base'
 import '../viewparts/board-selector'
 import { i18next } from '@things-factory/i18n-base'
+import './board-renderer'
 
 export class BoardEditor extends LitElement {
   static get properties() {
@@ -38,7 +39,7 @@ export class BoardEditor extends LitElement {
         justify-content: inherit;
       }
 
-      span {
+      board-renderer {
         display: flex;
         flex: auto;
 
@@ -54,21 +55,14 @@ export class BoardEditor extends LitElement {
   }
 
   render() {
-    var value = this.value
-
     return html`
-      ${!value
-        ? html``
-        : html`
-            <span>${value.name || ''}</span>
-          `}
+      <board-renderer .value=${this.value}></board-renderer>
       <mwc-icon>arrow_drop_down</mwc-icon>
     `
   }
 
   firstUpdated() {
     this.value = this.record[this.column.name]
-    this.template = ((this.column.record || {}).options || {}).template
 
     this.addEventListener('click', e => {
       e.stopPropagation()
@@ -84,35 +78,37 @@ export class BoardEditor extends LitElement {
       delete this.popup
     }
 
-    /* 기존 설정된 보드가 선택된 상태가 되게 하기 위해서는 selector에 value를 전달해줄 필요가 있음. */
+    /*
+     * 기존 설정된 보드가 선택된 상태가 되게 하기 위해서는 selector에 value를 전달해줄 필요가 있음.
+     * 주의. value는 object일 수도 있고, string일 수도 있다.
+     * string인 경우에는 해당 보드의 id로 해석한다.
+     */
     var value = this.value || {}
 
-    var template =
-      this.template ||
-      html`
-        <board-selector
-          .creatable=${true}
-          @board-selected=${async e => {
-            var board = e.detail.board
+    var template = html`
+      <board-selector
+        .creatable=${true}
+        @board-selected=${async e => {
+          var board = e.detail.board
 
-            this.dispatchEvent(
-              new CustomEvent('field-change', {
-                bubbles: true,
-                composed: true,
-                detail: {
-                  before: this.value,
-                  after: board,
-                  record: this.record,
-                  column: this.column,
-                  row: this.row
-                }
-              })
-            )
+          this.dispatchEvent(
+            new CustomEvent('field-change', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                before: this.value,
+                after: this.column.type == 'board' ? board : board.id || '',
+                record: this.record,
+                column: this.column,
+                row: this.row
+              }
+            })
+          )
 
-            this.popup && this.popup.close()
-          }}
-        ></board-selector>
-      `
+          this.popup && this.popup.close()
+        }}
+      ></board-selector>
+    `
 
     this.popup = openPopup(template, {
       backdrop: true,
