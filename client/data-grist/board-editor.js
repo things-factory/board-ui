@@ -61,10 +61,12 @@ export class BoardEditor extends LitElement {
     `
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     this.value = this.record[this.column.name]
 
-    this.addEventListener('click', e => {
+    await this.updateComplete
+
+    this.shadowRoot.addEventListener('click', e => {
       e.stopPropagation()
 
       this.openSelector()
