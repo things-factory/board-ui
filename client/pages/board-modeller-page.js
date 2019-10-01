@@ -18,7 +18,7 @@ import components from './things-scene-components-with-tools.import'
 
 import { isMacOS } from '../board-modeller/is-macos'
 
-class BoardModellerPage extends connect(store)(PageView) {
+export class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
 

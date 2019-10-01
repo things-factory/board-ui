@@ -6,7 +6,7 @@ import '../board-player/board-player'
 import { provider } from '../board-provider'
 import './things-scene-components.import'
 
-class BoardPlayerPage extends connect(store)(PageView) {
+export class BoardPlayerPage extends connect(store)(PageView) {
   static get properties() {
     return {
       _playGroup: Object,

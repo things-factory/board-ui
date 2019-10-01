@@ -7,7 +7,7 @@ import { provider } from '../board-provider'
 import '../board-viewer/board-viewer'
 import './things-scene-components.import'
 
-class BoardViewerPage extends connect(store)(PageView) {
+export class BoardViewerPage extends connect(store)(PageView) {
   static get properties() {
     return {
       _board: Object,
