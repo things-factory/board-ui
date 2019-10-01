@@ -1,7 +1,9 @@
-import { LitElement, html } from 'lit-element'
+import { LitElement, html, css } from 'lit-element'
 
 import gql from 'graphql-tag'
-import { client } from '@things-factory/shell'
+import { client, navigate } from '@things-factory/shell'
+
+import '@material/mwc-icon'
 
 const FETCH_BOARD_GQL = id => {
   return gql`
@@ -17,6 +19,55 @@ const FETCH_BOARD_GQL = id => {
 }
 
 class BoardRendererElement extends LitElement {
+  static get styles() {
+    return css`
+      :host {
+        display: block;
+        position: relative;
+        margin: auto !important;
+
+        max-width: var(--board-renderer-max-width);
+        border: var(--board-renderer-border);
+      }
+      span {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-indent: 5px;
+        color: #fff;
+
+        font: var(--board-renderer-name-font);
+        background-color: var(--board-renderer-name-background-color);
+      }
+      img {
+        width: 100%;
+        max-height: 80px;
+      }
+      mwc-icon {
+        position: absolute;
+        top: 0;
+        text-align: center;
+        color: #fff;
+
+        width: var(--board-renderer-icon-size);
+        height: var(--board-renderer-icon-size);
+        font: var(--board-renderer-font);
+      }
+      mwc-icon[edit] {
+        right: 0;
+
+        border-bottom-left-radius: var(--board-renderer-icon-border-radius);
+        background-color: var(--board-renderer-icon-edit-background-color);
+      }
+      mwc-icon[view] {
+        left: 0;
+
+        border-bottom-right-radius: var(--board-renderer-icon-border-radius);
+        background-color: var(--board-renderer-icon-view-background-color);
+      }
+    `
+  }
+
   static get properties() {
     return {
       value: Object,
@@ -44,10 +95,18 @@ class BoardRendererElement extends LitElement {
   }
 
   render() {
-    var value = this._value || {}
-    return html`
-      ${value.name || ''}
-    `
+    var { id, name = '', thumbnail = 'image/gif' } = this._value || {}
+
+    return id
+      ? html`
+          <span>${name}</span>
+          <img src=${thumbnail} @click=${e => id && navigate(`board-viewer/${id}`)} alt="no thumbnail!" />
+          <mwc-icon view>search</mwc-icon>
+          <mwc-icon edit @click=${e => navigate(`board-modeller/${id}`)}>edit</mwc-icon>
+        `
+      : html`
+          choose board..
+        `
   }
 }
 
