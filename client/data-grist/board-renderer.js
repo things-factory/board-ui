@@ -97,18 +97,33 @@ class BoardRendererElement extends LitElement {
 
   render() {
     var { id, name = '', thumbnail = 'image/gif' } = this._value || {}
-    var boardViewerPage = this.boardViewerPage || 'board-viewer'
 
     return id
       ? html`
           <span>${name}</span>
           <img src=${thumbnail} alt="no thumbnail!" />
-          <mwc-icon view @click=${e => id && navigate(`${boardViewerPage}/${id}`)}>search</mwc-icon>
-          <mwc-icon edit @click=${e => navigate(`board-modeller/${id}`)}>edit</mwc-icon>
+          <mwc-icon view @click=${e => this.onClickViewer(e, id)}>search</mwc-icon>
+          <mwc-icon edit @click=${e => this.onClickModeler(e, id)}>edit</mwc-icon>
         `
       : html`
           choose board..
         `
+  }
+
+  onClickViewer(e, id) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    var boardViewerPage = this.boardViewerPage || 'board-viewer'
+
+    navigate(`${boardViewerPage}/${id}`)
+  }
+
+  onClickModeler(e, id) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    navigate(`board-modeller/${id}`)
   }
 }
 
