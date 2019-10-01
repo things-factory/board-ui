@@ -55,8 +55,9 @@ export class BoardEditor extends LitElement {
   }
 
   render() {
+    var { boardViewerPage } = this.column.record.options || {}
     return html`
-      <board-renderer .value=${this.value}></board-renderer>
+      <board-renderer .value=${this.value} .boardViewerPage=${boardViewerPage}></board-renderer>
       <mwc-icon>arrow_drop_down</mwc-icon>
     `
   }

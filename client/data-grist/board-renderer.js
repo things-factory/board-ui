@@ -71,6 +71,7 @@ class BoardRendererElement extends LitElement {
   static get properties() {
     return {
       value: Object,
+      boardViewerPage: String,
       _value: Object
     }
   }
@@ -96,12 +97,13 @@ class BoardRendererElement extends LitElement {
 
   render() {
     var { id, name = '', thumbnail = 'image/gif' } = this._value || {}
+    var boardViewerPage = this.boardViewerPage || 'board-viewer'
 
     return id
       ? html`
           <span>${name}</span>
-          <img src=${thumbnail} @click=${e => id && navigate(`board-viewer/${id}`)} alt="no thumbnail!" />
-          <mwc-icon view>search</mwc-icon>
+          <img src=${thumbnail} alt="no thumbnail!" />
+          <mwc-icon view @click=${e => id && navigate(`${boardViewerPage}/${id}`)}>search</mwc-icon>
           <mwc-icon edit @click=${e => navigate(`board-modeller/${id}`)}>edit</mwc-icon>
         `
       : html`
@@ -113,7 +115,9 @@ class BoardRendererElement extends LitElement {
 customElements.define('board-renderer', BoardRendererElement)
 
 export const BoardRenderer = (value, column, record) => {
+  var { boardViewerPage = '' } = column.record.options || {}
+
   return html`
-    <board-renderer .value=${value}></board-renderer>
+    <board-renderer .value=${value} .boardViewerPage=${boardViewerPage}></board-renderer>
   `
 }
