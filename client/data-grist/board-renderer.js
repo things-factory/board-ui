@@ -24,7 +24,6 @@ class BoardRendererElement extends LitElement {
       :host {
         display: block;
         position: relative;
-        margin: auto !important;
 
         max-width: var(--board-renderer-max-width);
         border: var(--board-renderer-border);

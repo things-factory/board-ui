@@ -49,7 +49,6 @@ export class BoardEditor extends LitElement {
       mwc-icon {
         width: 20px;
         font-size: 1.5em;
-        margin-left: auto;
       }
     `
   }
