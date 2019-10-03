@@ -67,7 +67,8 @@ export class BoardViewerPage extends connect(store)(PageView) {
 
   updated(changes) {
     if (changes.has('_boardId')) {
-      this.shadowRoot.querySelector('board-viewer').closeScene()
+      var boardViewerElement = this.shadowRoot.querySelector('board-viewer')
+      boardViewerElement && boardViewerElement.closeScene()
       this.refresh()
     }
 
