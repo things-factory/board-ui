@@ -6,6 +6,8 @@ import '../board-player/board-player'
 import { provider } from '../board-provider'
 import './things-scene-components.import'
 
+const NOOP = () => {}
+
 export class BoardPlayerPage extends connect(store)(PageView) {
   static get properties() {
     return {
@@ -137,6 +139,14 @@ export class BoardPlayerPage extends connect(store)(PageView) {
     this._license = state.license
   }
 
+  get oopsNote() {
+    return {
+      icon: 'style',
+      title: 'EMPTY PLAYGROUP',
+      description: 'There are no board to be shown'
+    }
+  }
+
   get context() {
     return {
       title: this._playGroup
@@ -149,11 +159,16 @@ export class BoardPlayerPage extends connect(store)(PageView) {
   }
 
   render() {
-    var oops = !this._showSpinner && !this._playGroup
+    var oops = !this._showSpinner && !this._playGroup && this.oopsNote
 
     return oops
       ? html`
-          <oops-note icon="style" title="EMPTY PLAYGROUP" description="There are no board to be shown"></oops-note>
+          <oops-note
+            icon=${oops.icon}
+            title=${oops.title}
+            description=${oops.description}
+            @click=${oops.click || NOOP}
+          ></oops-note>
         `
       : html`
           <board-player .boards=${this._boards} .provider=${provider}></board-player>

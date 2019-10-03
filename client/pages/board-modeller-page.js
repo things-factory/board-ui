@@ -18,6 +18,8 @@ import components from './things-scene-components-with-tools.import'
 
 import { isMacOS } from '../board-modeller/is-macos'
 
+const NOOP = () => {}
+
 export class BoardModellerPage extends connect(store)(PageView) {
   constructor() {
     super()
@@ -101,6 +103,14 @@ export class BoardModellerPage extends connect(store)(PageView) {
   get context() {
     return {
       title: this.board ? this.boardName : this._showSpinner ? 'Fetching board...' : 'Board Not Found'
+    }
+  }
+
+  get oopsNote() {
+    return {
+      icon: 'color_lens',
+      title: 'EMPTY BOARD',
+      description: 'There are no board to be designed'
     }
   }
 
@@ -196,11 +206,16 @@ export class BoardModellerPage extends connect(store)(PageView) {
   }
 
   render() {
-    var oops = !this._showSpinner && !this.model
+    var oops = !this._showSpinner && !this.model && this.oopsNote
 
     return oops
       ? html`
-          <oops-note icon="color_lens" title="EMPTY BOARD" description="There are no board to be designed"></oops-note>
+          <oops-note
+            icon=${oops.icon}
+            title=${oops.title}
+            description=${oops.description}
+            @click=${oops.click || NOOP}
+          ></oops-note>
         `
       : html`
           <edit-toolbar

@@ -7,6 +7,8 @@ import { provider } from '../board-provider'
 import '../board-viewer/board-viewer'
 import './things-scene-components.import'
 
+const NOOP = () => {}
+
 export class BoardViewerPage extends connect(store)(PageView) {
   static get properties() {
     return {
@@ -59,6 +61,14 @@ export class BoardViewerPage extends connect(store)(PageView) {
     ]
   }
 
+  get oopsNote() {
+    return {
+      icon: 'insert_chart_outlined',
+      title: 'EMPTY BOARD',
+      description: 'There are no board to be shown'
+    }
+  }
+
   get context() {
     return {
       title: this._board ? this._board.name : this._showSpinner ? 'Fetching board...' : 'Board Not Found',
@@ -82,14 +92,15 @@ export class BoardViewerPage extends connect(store)(PageView) {
   }
 
   render() {
-    var oops = !this._showSpinner && !this._board
+    var oops = !this._showSpinner && !this._board && this.oopsNote
 
     return oops
       ? html`
           <oops-note
-            icon="insert_chart_outlined"
-            title="EMPTY BOARD"
-            description="There are no board to be shown"
+            icon=${oops.icon}
+            title=${oops.title}
+            description=${oops.description}
+            @click=${oops.click || NOOP}
           ></oops-note>
         `
       : html`
