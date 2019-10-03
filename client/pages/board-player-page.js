@@ -14,7 +14,8 @@ export class BoardPlayerPage extends connect(store)(PageView) {
       _boards: Array,
       _provider: Object,
       _baseUrl: String,
-      _license: Object
+      _license: Object,
+      _showSpinner: Boolean
     }
   }
 
@@ -28,10 +29,31 @@ export class BoardPlayerPage extends connect(store)(PageView) {
           height: 100%;
 
           overflow: hidden;
+          position: relative;
         }
 
         board-player {
           flex: 1;
+        }
+
+        oops-spinner {
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        oops-spinner[show] {
+          display: block;
+        }
+
+        oops-note {
+          display: block;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       `
     ]
@@ -42,40 +64,61 @@ export class BoardPlayerPage extends connect(store)(PageView) {
       return
     }
 
-    this._playGroup = (await client.query({
-      query: gql`
-        query FetchPlayGroup($id: String!) {
-          playGroup(id: $id) {
-            id
-            name
-            description
-            boards {
+    try {
+      this._showSpinner = true
+      this.updateContext()
+
+      this._playGroup = (await client.query({
+        query: gql`
+          query FetchPlayGroup($id: String!) {
+            playGroup(id: $id) {
               id
               name
               description
-              model
-              thumbnail
-              createdAt
-              creator {
+              boards {
                 id
                 name
-              }
-              updatedAt
-              updater {
-                id
-                name
+                description
+                model
+                thumbnail
+                createdAt
+                creator {
+                  id
+                  name
+                }
+                updatedAt
+                updater {
+                  id
+                  name
+                }
               }
             }
           }
+        `,
+        variables: {
+          id: this._playGroupId
         }
-      `,
-      variables: {
-        id: this._playGroupId
-      }
-    })).data.playGroup
+      })).data.playGroup
 
-    this._boards = this._playGroup.boards
-    this.updateContext()
+      if (!this._playGroup) {
+        throw 'playgroup not found'
+      }
+
+      this._boards = this._playGroup.boards
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            level: 'error',
+            message: ex,
+            ex
+          }
+        })
+      )
+    } finally {
+      this._showSpinner = false
+      this.updateContext()
+    }
   }
 
   updated(changes) {
@@ -96,15 +139,26 @@ export class BoardPlayerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._playGroup && this._playGroup.name,
+      title: this._playGroup
+        ? this._playGroup.name
+        : this._showSpinner
+        ? 'Fetching playgroup...'
+        : 'Playgroup Not Found',
       screencastable: true
     }
   }
 
   render() {
-    return html`
-      <board-player .boards=${this._boards} .provider=${provider}></board-player>
-    `
+    var oops = !this._showSpinner && !this._playGroup
+
+    return oops
+      ? html`
+          <oops-note icon="style" title="EMPTY PLAYGROUP" description="There are no board to be shown"></oops-note>
+        `
+      : html`
+          <board-player .boards=${this._boards} .provider=${provider}></board-player>
+          <oops-spinner ?show=${this._showSpinner}></oops-spinner>
+        `
   }
 
   pageUpdated(changes, lifecycle) {

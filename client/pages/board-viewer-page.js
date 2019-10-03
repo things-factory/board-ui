@@ -13,7 +13,8 @@ export class BoardViewerPage extends connect(store)(PageView) {
       _board: Object,
       _boardId: String,
       _baseUrl: String,
-      _license: Object
+      _license: Object,
+      _showSpinner: Boolean
     }
   }
 
@@ -28,10 +29,31 @@ export class BoardViewerPage extends connect(store)(PageView) {
           height: 100%;
 
           overflow: hidden;
+          position: relative;
         }
 
         board-viewer {
           flex: 1;
+        }
+
+        oops-spinner {
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        oops-spinner[show] {
+          display: block;
+        }
+
+        oops-note {
+          display: block;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       `
     ]
@@ -39,7 +61,7 @@ export class BoardViewerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._board && this._board.name,
+      title: this._board ? this._board.name : this._showSpinner ? 'Fetching board...' : 'Board Not Found',
       printable: {
         accept: ['label', 'usb'],
         name: this._board && this._board.name,
@@ -60,9 +82,20 @@ export class BoardViewerPage extends connect(store)(PageView) {
   }
 
   render() {
-    return html`
-      <board-viewer .board=${this._board} .provider=${provider}></board-viewer>
-    `
+    var oops = !this._showSpinner && !this._board
+
+    return oops
+      ? html`
+          <oops-note
+            icon="insert_chart_outlined"
+            title="EMPTY BOARD"
+            description="There are no board to be shown"
+          ></oops-note>
+        `
+      : html`
+          <board-viewer .board=${this._board} .provider=${provider}></board-viewer>
+          <oops-spinner ?show=${this._showSpinner}></oops-spinner>
+        `
   }
 
   updated(changes) {
@@ -82,7 +115,8 @@ export class BoardViewerPage extends connect(store)(PageView) {
       this._boardId = lifecycle.resourceId
     } else {
       this._boardId = null
-      this.shadowRoot.querySelector('board-viewer').closeScene()
+      let boardViewer = this.shadowRoot.querySelector('board-viewer')
+      boardViewer && boardViewer.closeScene()
     }
   }
 
@@ -95,27 +129,49 @@ export class BoardViewerPage extends connect(store)(PageView) {
     if (!this._boardId) {
       return
     }
-    var response = await client.query({
-      query: gql`
-        query FetchBoardById($id: String!) {
-          board(id: $id) {
-            id
-            name
-            model
+
+    try {
+      this._showSpinner = true
+      this.updateContext()
+
+      var response = await client.query({
+        query: gql`
+          query FetchBoardById($id: String!) {
+            board(id: $id) {
+              id
+              name
+              model
+            }
           }
-        }
-      `,
-      variables: { id: this._boardId }
-    })
+        `,
+        variables: { id: this._boardId }
+      })
 
-    var board = response.data.board
+      var board = response.data.board
 
-    this._board = {
-      ...board,
-      model: JSON.parse(board.model)
+      if (!board) {
+        this._board = null
+        throw 'board not found'
+      }
+
+      this._board = {
+        ...board,
+        model: JSON.parse(board.model)
+      }
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            level: 'error',
+            message: ex,
+            ex
+          }
+        })
+      )
+    } finally {
+      this._showSpinner = false
+      this.updateContext()
     }
-
-    this.updateContext()
   }
 
   async getGrf() {

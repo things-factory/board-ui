@@ -55,7 +55,8 @@ export class BoardModellerPage extends connect(store)(PageView) {
       componentGroupList: Array,
       fonts: Array,
       propertyEditor: Array,
-      _license: Object
+      _license: Object,
+      _showSpinner: Boolean
     }
   }
 
@@ -67,10 +68,31 @@ export class BoardModellerPage extends connect(store)(PageView) {
           flex-direction: column;
 
           overflow: hidden;
+          position: relative;
         }
 
         board-modeller {
           flex: 1;
+        }
+
+        oops-spinner {
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        oops-spinner[show] {
+          display: block;
+        }
+
+        oops-note {
+          display: block;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       `
     ]
@@ -78,7 +100,7 @@ export class BoardModellerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this.boardName
+      title: this.board ? this.boardName : this._showSpinner ? 'Fetching board...' : 'Board Not Found'
     }
   }
 
@@ -92,15 +114,14 @@ export class BoardModellerPage extends connect(store)(PageView) {
 
   async refresh() {
     if (!this.boardId) {
-      var board = {
-        width: 800,
-        height: 600,
-        model: JSON.stringify({
-          width: 800,
-          height: 600
-        })
-      }
-    } else {
+      this.board = null
+
+      return
+    }
+    try {
+      this._showSpinner = true
+      this.updateContext()
+
       var response = await client.query({
         query: gql`
           query FetchBoardById($id: String!) {
@@ -115,19 +136,35 @@ export class BoardModellerPage extends connect(store)(PageView) {
       })
 
       var board = response.data.board
-    }
 
-    this.board = {
-      ...board,
-      model: JSON.parse(board.model)
-    }
+      if (!board) {
+        this._board = null
+        throw 'board not found'
+      }
 
-    this.boardName = this.board.name
-    this.model = {
-      ...this.board.model
-    }
+      this.board = {
+        ...board,
+        model: JSON.parse(board.model)
+      }
 
-    this.updateContext()
+      this.boardName = this.board.name
+      this.model = {
+        ...this.board.model
+      }
+    } catch (ex) {
+      document.dispatchEvent(
+        new CustomEvent('notify', {
+          detail: {
+            level: 'error',
+            message: ex,
+            ex
+          }
+        })
+      )
+    } finally {
+      this._showSpinner = false
+      this.updateContext()
+    }
   }
 
   pageUpdated(changes, lifecycle) {
@@ -159,46 +196,55 @@ export class BoardModellerPage extends connect(store)(PageView) {
   }
 
   render() {
-    return html`
-      <edit-toolbar
-        id="edittoolbar"
-        .scene=${this.scene}
-        .board=${this.board}
-        .selected=${this.selected}
-        ?hideProperty=${this.hideProperty}
-        @hide-property-changed=${e => (this.hideProperty = e.detail.value)}
-        @open-preview=${e => this.onOpenPreview(e)}
-        @download-model=${e => this.onDownloadModel(e)}
-        @modeller-fullscreen=${e => this.onFullscreen(e)}
-      >
-      </edit-toolbar>
+    var oops = !this._showSpinner && !this.model
 
-      <board-modeller
-        .mode=${this.mode}
-        @mode-changed=${e => {
-          this.mode = e.detail.value
-        }}
-        .model=${this.model}
-        @model-changed=${e => {
-          this.model = e.detail.value
-        }}
-        .scene=${this.scene}
-        @scene-changed=${e => {
-          this.scene = e.detail.value
-        }}
-        .selected=${this.selected}
-        @selected-changed=${e => {
-          this.selected = e.detail.value
-        }}
-        .baseUrl=${this.baseUrl}
-        .provider=${provider}
-        @save-model=${e => this.saveBoard()}
-        .componentGroupList=${this.componentGroupList}
-        .fonts=${this.fonts}
-        .propertyEditor=${this.propertyEditor}
-      >
-      </board-modeller>
-    `
+    return oops
+      ? html`
+          <oops-note icon="color_lens" title="EMPTY BOARD" description="There are no board to be designed"></oops-note>
+        `
+      : html`
+          <edit-toolbar
+            id="edittoolbar"
+            .scene=${this.scene}
+            .board=${this.board}
+            .selected=${this.selected}
+            ?hideProperty=${this.hideProperty}
+            @hide-property-changed=${e => (this.hideProperty = e.detail.value)}
+            @open-preview=${e => this.onOpenPreview(e)}
+            @download-model=${e => this.onDownloadModel(e)}
+            @modeller-fullscreen=${e => this.onFullscreen(e)}
+          >
+          </edit-toolbar>
+
+          <board-modeller
+            .mode=${this.mode}
+            @mode-changed=${e => {
+              this.mode = e.detail.value
+            }}
+            .model=${this.model}
+            @model-changed=${e => {
+              this.model = e.detail.value
+            }}
+            .scene=${this.scene}
+            @scene-changed=${e => {
+              this.scene = e.detail.value
+            }}
+            .selected=${this.selected}
+            @selected-changed=${e => {
+              this.selected = e.detail.value
+            }}
+            .baseUrl=${this.baseUrl}
+            .provider=${provider}
+            @save-model=${e => this.saveBoard()}
+            .componentGroupList=${this.componentGroupList}
+            .fonts=${this.fonts}
+            .propertyEditor=${this.propertyEditor}
+          >
+          </board-modeller>
+          <oops-spinner ?show=${this._showSpinner}></oops-spinner>
+        `
+
+    return html``
   }
 
   onOpenPreview() {
@@ -219,6 +265,8 @@ export class BoardModellerPage extends connect(store)(PageView) {
 
   async updateBoard() {
     try {
+      this._showSpinner = true
+
       var { id, name, description, groupId } = this.board
       var model = JSON.stringify(this.scene.model)
 
@@ -254,6 +302,8 @@ export class BoardModellerPage extends connect(store)(PageView) {
           }
         })
       )
+    } finally {
+      this._showSpinner = false
     }
 
     this.updateContext()
