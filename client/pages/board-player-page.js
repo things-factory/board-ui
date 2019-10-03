@@ -153,8 +153,7 @@ export class BoardPlayerPage extends connect(store)(PageView) {
         ? this._playGroup.name
         : this._showSpinner
         ? 'Fetching playgroup...'
-        : 'Playgroup Not Found',
-      screencastable: true
+        : 'Playgroup Not Found'
     }
   }
 

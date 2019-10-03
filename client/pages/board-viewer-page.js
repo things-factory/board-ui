@@ -71,23 +71,7 @@ export class BoardViewerPage extends connect(store)(PageView) {
 
   get context() {
     return {
-      title: this._board ? this._board.name : this._showSpinner ? 'Fetching board...' : 'Board Not Found',
-      printable: {
-        accept: ['label', 'usb'],
-        name: this._board && this._board.name,
-        content: () => {
-          return this.getGrf()
-        },
-        options: {}
-      },
-      screencastable: true,
-      exportable: {
-        accept: ['json'],
-        name: this._board && this._board.name,
-        data: () => {
-          return this._board.model
-        }
-      }
+      title: this._board ? this._board.name : this._showSpinner ? 'Fetching board...' : 'Board Not Found'
     }
   }
 
