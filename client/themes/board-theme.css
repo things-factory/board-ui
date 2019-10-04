@@ -34,13 +34,13 @@ body {
   --card-list-create-icon-color: var(--primary-color);
   --card-list-create-color: var(--secondary-color);
   --card-list-create-form-padding: 15px;
-  --card-list-create-label-font: var(--label-font);
+  --card-list-create-label-font: normal 14px var(--theme-font);
   --card-list-create-label-color: var(--secondary-color);
-  --card-list-create-input-font: var(--input-field-font);
+  --card-list-create-input-font: normal 14px var(--theme-font);
   --card-list-create-input-color: var();
-  --card-list-create-input-border: var(--input-field-border);
-  --card-list-create-input-border-radius: var(--input-field-border-radius);
-  --card-list-create-input-padding: var(--input-field-padding);
+  --card-list-create-input-border: 1px solid rgba(0, 0, 0, 0.2);
+  --card-list-create-input-border-radius: var(--border-radius);
+  --card-list-create-input-padding: 2px 9px;
   --card-list-create-margin: 0 0 7px 0;
 
   /* board modeler page style */
