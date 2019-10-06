@@ -25,7 +25,7 @@ body {
   --board-list-star-active-color: var(--primary-color);
 
   --card-list-template: repeat(3, minmax(auto, 100%));
-  --card-list-rows-height: 200px;
+  --card-list-rows-height: 180px;
   --card-list-background-color: rgba(0, 0, 0, 0.07);
   --card-list-border-radius: var(--border-radius);
   --card-list-flip-transform: rotateX(180deg);
@@ -68,14 +68,35 @@ body {
 @media only screen and (max-width: 460px) {
   body {
     --card-list-template: repeat(1, minmax(auto, 100%));
-    --card-list-rows-height: 180px;
   }
 }
-
-@media (min-width: 461px) and (max-width: 1024px) {
+@media (min-width: 461px) and (max-width: 700px) {
   body {
     --card-list-template: repeat(2, minmax(auto, 100%));
-    --card-list-rows-height: 150px;
+  }
+}
+@media (min-width: 461px) and (max-width: 1024px) {
+  body {
     --card-list-create-form-padding: 7px;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1400px) {
+  body {
+    --card-list-template: repeat(4, minmax(auto, 100%));
+  }
+}
+@media (min-width: 1401px) and (max-width: 1800px) {
+  body {
+    --card-list-template: repeat(5, minmax(auto, 100%));
+  }
+}
+@media (min-width: 1801px) and (max-width: 2200px) {
+  body {
+    --card-list-template: repeat(6, minmax(auto, 100%));
+  }
+}
+@media only screen and (min-width: 2201px) {
+  body {
+    --card-list-template: repeat(7, minmax(auto, 100%));
   }
 }
