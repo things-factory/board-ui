@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 import { i18next, localize } from '@things-factory/i18n-base'
 
-export default class BoardCreationCard extends localize(i18next)(LitElement) {
+export class BoardCreationCard extends localize(i18next)(LitElement) {
   static get properties() {
     return {
       /* default group id */

@@ -5,6 +5,7 @@ export * from './board-player/board-player'
 export * from './board-viewer/board-viewer'
 export * from './board-provider'
 export * from './viewparts/board-selector'
+export * from './viewparts/board-creation-card'
 
 export * from './pages/board-viewer-page'
 export * from './pages/board-player-page'
