@@ -48,32 +48,38 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
+
         [front] {
           text-align: center;
           font-size: 0.8em;
           color: var(--card-list-create-color);
           text-transform: capitalize;
         }
+
         [front] mwc-icon {
           margin-top: 15%;
           display: block;
           font-size: 3.5em;
           color: var(--card-list-create-icon-color);
         }
+
         [back] {
           -webkit-transform: var(--card-list-flip-transform);
           transform: var(--card-list-flip-transform);
         }
+
         [back] form {
           padding: var(--card-list-create-form-padding);
           display: flex;
           flex-flow: row wrap;
         }
+
         [back] form label {
           flex: 1 1 25%;
           font: var(--card-list-create-label-font);
           color: var(--card-list-create-label-color);
         }
+
         [back] form input,
         [back] form select {
           flex: 1 1 60%;
@@ -85,9 +91,11 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
           font: var(--card-list-create-input-font);
           color: var(--card-list-create-input-color);
         }
+
         form * {
           margin: var(--card-list-create-margin);
         }
+
         input[type='submit'] {
           background-color: var(--button-background-color) !important;
           margin: var(--button-margin);

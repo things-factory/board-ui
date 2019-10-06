@@ -114,9 +114,11 @@ export class BoardSelector extends InfiniteScrollable(localize(i18next)(LitEleme
           background-color: #fff;
           box-shadow: var(--box-shadow);
         }
+
         #filter * {
           font-size: 15px;
         }
+
         select {
           text-transform: capitalize;
           float: right;
