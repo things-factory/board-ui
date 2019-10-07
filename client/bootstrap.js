@@ -22,7 +22,7 @@ export default function bootstrap() {
     if (user && user !== lastUser) {
       lastUser = user
 
-      store.dispatch(fetchFontList())
+      store.dispatch(fetchFontList({}))
     }
   })
 }
