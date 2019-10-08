@@ -4,9 +4,9 @@
 
 import { LitElement, html, css, unsafeCSS } from 'lit-element'
 
-import CodeMirrorStyle from 'codemirror/lib/codemirror.css'
-import FullScreenStyle from 'codemirror/addon/display/fullscreen.css'
-import NightThemeStyle from 'codemirror/theme/night.css'
+import CodeMirrorStyle from '!!text-loader!codemirror/lib/codemirror.css'
+import FullScreenStyle from '!!text-loader!codemirror/addon/display/fullscreen.css'
+import NightThemeStyle from '!!text-loader!codemirror/theme/night.css'
 
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript'
