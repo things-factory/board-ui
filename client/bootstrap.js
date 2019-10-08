@@ -1,7 +1,6 @@
 import { store } from '@things-factory/shell'
 
 import board from './reducers/board'
-import { fetchFontList } from '@things-factory/font-base'
 
 import { registerEditor, registerRenderer } from '@things-factory/grist-ui'
 
@@ -13,16 +12,4 @@ export default function bootstrap() {
   registerEditor('board', BoardEditor)
 
   store.addReducers({ board })
-
-  // var lastUser
-  // store.subscribe(() => {
-  //   var state = store.getState()
-  //   var user = state.auth.user
-
-  //   if (user && user !== lastUser) {
-  //     lastUser = user
-
-  //     store.dispatch(fetchFontList({}))
-  //   }
-  // })
 }
