@@ -14,15 +14,15 @@ export default function bootstrap() {
 
   store.addReducers({ board })
 
-  var lastUser
-  store.subscribe(() => {
-    var state = store.getState()
-    var user = state.auth.user
+  // var lastUser
+  // store.subscribe(() => {
+  //   var state = store.getState()
+  //   var user = state.auth.user
 
-    if (user && user !== lastUser) {
-      lastUser = user
+  //   if (user && user !== lastUser) {
+  //     lastUser = user
 
-      store.dispatch(fetchFontList({}))
-    }
-  })
+  //     store.dispatch(fetchFontList({}))
+  //   }
+  // })
 }
