@@ -1,10 +1,10 @@
-import { LitElement, html, css } from 'lit-element'
+import { LitElement, html } from 'lit-element'
 
 import '@material/mwc-fab'
 import '@material/mwc-icon'
 
 import { create } from '@hatiolab/things-scene'
-import { togglefullscreen, isIOS, sleep } from '@things-factory/shell'
+import { togglefullscreen, isIOS } from '@things-factory/shell'
 
 import { style } from './board-viewer-style'
 
