@@ -31,27 +31,25 @@ export default class ThingsEditorGradient extends LitElement {
   static get styles() {
     return [
       css`
-        :host,
-        .grid-10 {
+        :host {
           display: grid;
 
           grid-template-columns: repeat(10, 1fr);
           grid-gap: 5px;
           grid-auto-rows: minmax(24px, auto);
-        }
 
-        .grid-10 {
-          grid-column: span 10;
+          align-items: center;
         }
 
         :host > * {
-          line-height: 1.5;
+          align-self: stretch;
         }
 
         :host > label {
           grid-column: span 2;
           text-align: right;
           text-transform: capitalize;
+          align-self: center;
         }
 
         :host > .icon-only-label {
@@ -65,6 +63,7 @@ export default class ThingsEditorGradient extends LitElement {
 
         :host > select {
           grid-column: span 4;
+          height: 100%;
         }
 
         :host > things-editor-angle-input {
@@ -75,11 +74,11 @@ export default class ThingsEditorGradient extends LitElement {
           grid-column: span 10;
         }
 
-        .grid-10 > input[type='checkbox'] {
+        .host > input[type='checkbox'] {
           grid-column: 3 / 4;
         }
 
-        .grid-10 > input[type='checkbox'] ~ label {
+        .host > input[type='checkbox'] ~ label {
           grid-column: span 7;
           text-align: left;
         }

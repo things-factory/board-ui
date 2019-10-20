@@ -149,8 +149,10 @@ class PropertyDataBinding extends LitElement {
           <label> <i18n-msg msgid="label.template-prefix" auto>Template Prefix</i18n-msg> </label>
           <input value-key="templatePrefix" .value=${this.value.templatePrefix || ''} />
 
-          <label> <i18n-msg msgid="label.ndns" auto>No Data No Show</i18n-msg> </label>
-          <input type="checkbox" value-key="ndns" .checked=${this.value.ndns} />
+          <div class="checkbox-row">
+            <input type="checkbox" value-key="ndns" .checked=${this.value.ndns} />
+            <label> <i18n-msg msgid="label.ndns" auto>No Data No Show</i18n-msg> </label>
+          </div>
         </div>
       </fieldset>
 

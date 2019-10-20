@@ -7,6 +7,7 @@ import { LitElement, html } from 'lit-element'
 import '@things-factory/i18n-base'
 
 import { EffectsSharedStyle } from './effects-shared-style'
+import '../../editors/things-editor-board-selector'
 
 class PropertyEventTap extends LitElement {
   static get properties() {
@@ -31,6 +32,8 @@ class PropertyEventTap extends LitElement {
   }
 
   render() {
+    var { action, value = '', target = '' } = this.value
+
     return html`
       <label> <i18n-msg msgid="label.action">action</i18n-msg> </label>
       <select id="tap-select" value-key="action" .value=${this.value.action || ''}>
@@ -51,25 +54,34 @@ class PropertyEventTap extends LitElement {
 
       <label> <i18n-msg msgid="label.target">target</i18n-msg> </label>
 
-      <input
-        value-key="target"
-        .value=${this.value.target || ''}
-        list="target-list"
-        .placeholder="${this._getPlaceHoder(this.value.action)}"
-      />
-
-      <datalist id="target-list">
-        ${this._getTargetList(this.value.action).map(
-          item => html`
-            <option .value=${item}></option>
+      ${action == 'goto' || action == 'popup'
+        ? html`
+            <things-editor-board-selector
+              value-key="target"
+              .value=${target}
+              custom-input
+            ></things-editor-board-selector>
           `
-        )}
-      </datalist>
+        : html`
+            <input
+              value-key="target"
+              .value=${target}
+              list="target-list"
+              .placeholder="${this._getPlaceHoder(action)}"
+            />
 
-      ${this.value.action == 'data-set' || this.value.action == 'value-set'
+            <datalist id="target-list">
+              ${this._getTargetList(action).map(
+                item => html`
+                  <option .value=${item}></option>
+                `
+              )}
+            </datalist>
+          `}
+      ${action == 'data-set' || action == 'value-set'
         ? html`
             <label> <i18n-msg msgid="label.value">value</i18n-msg> </label>
-            <input value-key="value" .value=${this.value.value || ''} />
+            <input value-key="value" .value=${value} />
           `
         : html``}
     `

@@ -10,28 +10,37 @@ export const EffectsSharedStyle = css`
     grid-template-columns: repeat(10, 1fr);
     grid-gap: 5px;
     grid-auto-rows: minmax(24px, auto);
+
+    align-items: center;
+  }
+
+  * {
+    align-self: stretch;
   }
 
   label {
     grid-column: span 3;
     text-align: right;
     text-transform: capitalize;
+
+    align-self: center;
   }
 
   input,
   select,
   things-editor-angle-input,
-  things-editor-color {
+  things-editor-color,
+  [custom-input] {
     grid-column: span 7;
   }
 
   select {
-    height: 22px;
     border-color: lightgray;
   }
 
   input[type='checkbox'] {
     grid-column: 4 / 5;
+    align-self: center;
   }
 
   label.checkbox-label {

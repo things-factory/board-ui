@@ -49,6 +49,8 @@ export default class DataBindingMapper extends LitElement {
           grid-template-columns: repeat(10, 1fr);
           grid-gap: 4px;
           grid-auto-rows: minmax(24px, auto);
+
+          align-items: center;
         }
 
         label {
@@ -61,6 +63,7 @@ export default class DataBindingMapper extends LitElement {
         select,
         paper-radio-group {
           grid-column: span 7;
+          align-self: stretch;
         }
 
         select {

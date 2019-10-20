@@ -36,34 +36,43 @@ export default class ThingsEditorPattern extends LitElement {
           grid-template-columns: repeat(10, 1fr);
           grid-gap: 5px;
           grid-auto-rows: minmax(24px, auto);
+
+          align-items: center;
         }
 
-        :host > * {
-          line-height: 1.5;
+        * {
+          align-self: stretch;
         }
 
-        :host > label {
+        label {
           grid-column: span 2;
           text-align: right;
           text-transform: capitalize;
+
+          align-self: center;
         }
 
-        :host > select,
-        :host > input {
+        .grid-10 {
+          grid-column: span 10;
+        }
+
+        select,
+        input {
           grid-column: span 8;
         }
 
-        .grid-10 > input[type='checkbox'] {
-          grid-column: 3 / 4;
+        select {
+          height: 100%;
         }
 
-        .grid-10 > input[type='checkbox'] ~ label {
+        input[type='checkbox'] {
+          grid-column: 3 / 4;
+          align-self: center;
+        }
+
+        input[type='checkbox'] ~ label {
           grid-column: span 7;
           text-align: left;
-        }
-
-        :host > .grid-10 {
-          grid-column: span 10;
         }
 
         .grid-10 > input[type='number'] {

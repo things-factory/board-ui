@@ -7,25 +7,32 @@ export const ThingsEditorPropertyStyles = css`
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-gap: 5px;
+
+    align-items: center;
+
+    color: var(--property-sidebar-fieldset-legend-color);
   }
 
-  :host > * {
+  * {
     box-sizing: border-box;
 
     grid-column: span 7;
     order: 2;
+
+    align-self: stretch;
   }
 
-  :host > label {
+  label {
     grid-column: span 3;
     order: 1;
 
     text-align: right;
 
-    color: var(--primary-text-color);
     font-size: 0.8em;
     line-height: 2;
     text-transform: capitalize;
+
+    align-self: center;
   }
 
   input[type='checkbox'] ~ label {
@@ -36,10 +43,9 @@ export const ThingsEditorPropertyStyles = css`
   }
 
   select {
-    height: 22px;
     border-color: lightgray;
   }
-  
+
   legend {
     grid-column: 1 / -1;
 

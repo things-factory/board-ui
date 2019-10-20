@@ -22,7 +22,6 @@ export const PropertySharedStyle = css`
   }
 
   select {
-    height: 22px;
     border-color: lightgray;
   }
 
@@ -32,6 +31,7 @@ export const PropertySharedStyle = css`
     grid-template-columns: repeat(10, 1fr);
     grid-gap: 5px;
     grid-auto-rows: minmax(24px, auto);
+    align-items: center;
   }
 
   .property-grid > label {
@@ -44,8 +44,11 @@ export const PropertySharedStyle = css`
   .property-grid > table,
   .property-grid > select,
   .property-grid > things-editor-angle-input,
-  .property-grid > things-editor-buttons-radio {
+  .property-grid > things-editor-buttons-radio,
+  .property-grid > things-editor-color,
+  [custom-editor] {
     grid-column: span 7;
+    align-self: stretch;
   }
 
   .property-grid > .checkbox-row {
@@ -76,6 +79,7 @@ export const PropertySharedStyle = css`
     grid-template-columns: repeat(10, 1fr);
     grid-gap: 5px;
     grid-auto-rows: minmax(24px, auto);
+    align-items: center;
   }
 
   .checkbox-row > input {
@@ -94,6 +98,7 @@ export const PropertySharedStyle = css`
     background: url(./assets/images/icon-properties-label.png) no-repeat;
     float: left;
     margin: 0;
+    align-self: stretch;
   }
 
   .icon-only-label.color {

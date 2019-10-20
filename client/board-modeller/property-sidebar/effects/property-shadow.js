@@ -32,20 +32,24 @@ export default class PropertyShadow extends LitElement {
           grid-template-columns: repeat(10, 1fr);
           grid-gap: 5px;
           grid-auto-rows: minmax(24px, auto);
+
+          align-items: center;
         }
 
-        :host > * {
-          line-height: 1.5;
+        * {
+          align-self: stretch;
         }
 
-        :host > label {
+        label {
           grid-column: span 3;
           text-align: right;
           text-transform: capitalize;
+
+          align-self: center;
         }
 
-        :host > input[type='number'],
-        :host > things-editor-color {
+        input[type='number'],
+        things-editor-color {
           grid-column: span 7;
         }
 
