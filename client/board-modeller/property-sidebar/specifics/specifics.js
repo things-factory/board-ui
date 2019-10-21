@@ -139,14 +139,6 @@ class PropertySpecific extends LitElement {
     this.removeEventListener('table-distribute-vertical', this.boundTableCellEvent)
   }
 
-  /*
-   * value자체가 변경되지 않고, 내부 속성만 변경되는 경우, 외부에서 rerender()를 호출해주어서,
-   * specific-properties-builder가 다시 그려지도록 한다.
-   */
-  rerender() {
-    this.renderRoot.querySelector('specific-properties-builder')._setValues()
-  }
-
   render() {
     return html`
       <label>${this.value.type}</label>

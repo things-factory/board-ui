@@ -52,7 +52,7 @@ export default class ThingsEditorProperty extends LitElement {
 
   render() {
     return html`
-      ${this.editorTemplate(this._clone || {})}
+      ${this.editorTemplate(this)}
       ${this.label
         ? html`
             <label for="editor">
@@ -63,18 +63,18 @@ export default class ThingsEditorProperty extends LitElement {
     `
   }
 
-  updated(changes) {
-    if (changes.has('value')) {
-      var { value, type, label, property, _msgId } = this
-
-      this._clone = {
-        value: deepClone(value),
-        type,
-        label,
-        property,
-        _msgId
-      }
+  shouldUpdate(changedProperties) {
+    if (this.__by_me) {
+      return false
     }
+
+    if (changedProperties.has('value')) {
+      this.__by_me = true
+      this.value = deepClone(this.value)
+      this.__by_me = false
+    }
+
+    return true
   }
 
   get valueProperty() {
