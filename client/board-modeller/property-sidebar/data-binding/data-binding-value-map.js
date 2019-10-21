@@ -94,7 +94,7 @@ export default class DataBindingValueMap extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onChange.bind(this))
+    this.renderRoot.addEventListener('change', this._onChange.bind(this))
   }
 
   render() {
@@ -210,8 +210,8 @@ export default class DataBindingValueMap extends LitElement {
   }
 
   _build(includeNewRecord) {
-    if (includeNewRecord) var records = this.shadowRoot.querySelectorAll('[data-record],[data-record-new]')
-    else var records = this.shadowRoot.querySelectorAll('[data-record]')
+    if (includeNewRecord) var records = this.renderRoot.querySelectorAll('[data-record],[data-record-new]')
+    else var records = this.renderRoot.querySelectorAll('[data-record]')
 
     var newmap = {}
 
@@ -277,7 +277,7 @@ export default class DataBindingValueMap extends LitElement {
   _add(e) {
     this._build(true)
 
-    var inputs = this.shadowRoot.querySelectorAll('[data-record-new] input:not([style*="display: none"])')
+    var inputs = this.renderRoot.querySelectorAll('[data-record-new] input:not([style*="display: none"])')
 
     for (var i = 0; i < inputs.length; i++) {
       let input = inputs[i]

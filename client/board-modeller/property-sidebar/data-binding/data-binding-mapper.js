@@ -29,7 +29,8 @@ export default class DataBindingMapper extends LitElement {
     return {
       mapping: Object,
       rule: Object,
-      properties: Array
+      properties: Array,
+      _valueTypes: Object
     }
   }
 
@@ -49,8 +50,6 @@ export default class DataBindingMapper extends LitElement {
           grid-template-columns: repeat(10, 1fr);
           grid-gap: 4px;
           grid-auto-rows: minmax(24px, auto);
-
-          align-items: center;
         }
 
         label {
@@ -63,7 +62,6 @@ export default class DataBindingMapper extends LitElement {
         select,
         paper-radio-group {
           grid-column: span 7;
-          align-self: stretch;
         }
 
         select {
@@ -101,10 +99,31 @@ export default class DataBindingMapper extends LitElement {
     }
     this.rule = {}
     this.properties = []
+
+    this._valueTypes = {
+      play: 'boolean',
+      hidden: 'boolean',
+      started: 'boolean',
+
+      rotation: 'number',
+      value: 'number',
+
+      fillStyle: 'color',
+      strokeStyle: 'color',
+      fontColor: 'color',
+
+      data: 'object',
+      source: 'object',
+      location: 'object',
+      dimension: 'object',
+
+      text: 'string',
+      ref: 'string'
+    }
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onChange.bind(this))
+    this.renderRoot.addEventListener('change', e => this._onChange(e))
   }
 
   updated(change) {
@@ -135,7 +154,10 @@ export default class DataBindingMapper extends LitElement {
       </select>
 
       <label> <i18n-msg msgid="label.rule-type">rule type</i18n-msg> </label>
-      <paper-radio-group @click=${e => this._onChangeRule(e)} .selected=${this.mapping.rule || 'value'}>
+      <paper-radio-group
+        @paper-radio-group-changed=${e => this._onChangeRule(e)}
+        .selected=${this.mapping.rule || 'value'}
+      >
         <paper-radio-button name="value">
           <i18n-msg msgid="label.value">value</i18n-msg>
         </paper-radio-button>
@@ -177,32 +199,7 @@ export default class DataBindingMapper extends LitElement {
   }
 
   _valuetype(property) {
-    switch (property) {
-      case 'hidden':
-      case 'started':
-        return 'boolean'
-        break
-      case 'rotation':
-      case 'value':
-        return 'number'
-        break
-      case 'fillStyle':
-      case 'strokeStyle':
-      case 'fontColor':
-        return 'color'
-        break
-      case 'data':
-      case 'source':
-      case 'location':
-      case 'dimension':
-        return 'object'
-        break
-      case 'text':
-      case 'ref':
-      default:
-        return 'string'
-        break
-    }
+    return this._valueTypes[property] || 'string'
   }
 
   async _onChangedMapping(change) {
@@ -224,10 +221,14 @@ export default class DataBindingMapper extends LitElement {
           case 'eval':
             rule.eval = this.mapping.param || ''
             break
+          default:
+            this.mapping.rule = 'value'
+            break
         }
       }
 
       this.rule = rule
+      this.requestUpdate()
     }
   }
 
@@ -237,11 +238,11 @@ export default class DataBindingMapper extends LitElement {
     사용자의 액션에 의한 이벤트인 on-click 이벤트를 사용한다.
     */
     var element = e.target
-    var value = element.name
+    var value = element.selected
 
     let param
 
-    switch (this.mapping.rule) {
+    switch (value) {
       case 'map':
         param = this.rule.map
         break
@@ -251,7 +252,7 @@ export default class DataBindingMapper extends LitElement {
       case 'eval':
         param = this.rule.eval || ''
 
-        let editor = this.shadowRoot.querySelector('#eval-editor')
+        let editor = this.renderRoot.querySelector('#eval-editor')
         // rule.eval에 값이 없을 때, ace-editor 내용이 초기화되지 않는 문제때문에 처리함.
         if (!param) {
           editor.value = 'return'
@@ -274,9 +275,7 @@ export default class DataBindingMapper extends LitElement {
     var element = e.target
     var key = element.getAttribute('value-key')
 
-    if (!key) {
-      return
-    }
+    if (!key) return
 
     var value = element.value
 
@@ -284,7 +283,7 @@ export default class DataBindingMapper extends LitElement {
       if (value.length > 0 && !/^[.#(\[]/.test(value)) {
         value = '#' + value.trim()
 
-        this.shadowRoot.querySelector('#target-input').value = value
+        this.renderRoot.querySelector('#target-input').value = value
       }
 
       this.mapping = {
@@ -309,11 +308,20 @@ export default class DataBindingMapper extends LitElement {
       }
     }
 
-    if (!this.mapping.rule) {
-      this.mapping.rule = 'value'
-    }
+    if (!this.mapping.rule) this.mapping.rule = 'value'
+
     this._keep_saved_rule_params = true
-    this.dispatchEvent(new CustomEvent('value-change', { bubbles: true, composed: true }))
+    this.dispatchEvent(
+      new CustomEvent('value-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          changed: {
+            [key]: value
+          }
+        }
+      })
+    )
   }
 }
 

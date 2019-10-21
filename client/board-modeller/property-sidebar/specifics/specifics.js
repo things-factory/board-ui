@@ -2,11 +2,9 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
-
-import './specific-properties-builder'
-
+import { css, html, LitElement } from 'lit-element'
 import { PropertySharedStyle } from '../property-shared-style'
+import './specific-properties-builder'
 
 class PropertySpecific extends LitElement {
   static get is() {
@@ -146,7 +144,7 @@ class PropertySpecific extends LitElement {
    * specific-properties-builder가 다시 그려지도록 한다.
    */
   rerender() {
-    this.shadowRoot.querySelector('specific-properties-builder')._setValues()
+    this.renderRoot.querySelector('specific-properties-builder')._setValues()
   }
 
   render() {
@@ -166,10 +164,7 @@ class PropertySpecific extends LitElement {
     var { increasingDirection, skipNumbering, startSection, startUnit } = detail
 
     this.scene.undoableChange(function() {
-      selected.forEach(cell => {
-        if (increasingDirection == 'cw') cell.increaseLocationCW(skipNumbering, startSection, startUnit)
-        else cell.increaseLocationCCW(skipNumbering, startSection, startUnit)
-      })
+      selected.increaseLocation(increasingDirection, skipNumbering, startSection, startUnit)
     })
   }
 
@@ -179,7 +174,7 @@ class PropertySpecific extends LitElement {
     var { type, borderWidth, borderStyle, borderColor } = e.detail
 
     var table = this.selected[0].parent
-    if (!table || table.get('type') !== 'table') return
+    if (!table || !(table.get('type') != 'table' && table.get('type') != 'data-list')) return
 
     var selected = this.selected
 

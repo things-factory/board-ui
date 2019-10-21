@@ -2,12 +2,11 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
-
 import '@things-factory/i18n-base'
-import './data-binding-mapper'
-
+import { css, html } from 'lit-element'
+import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
+import './data-binding-mapper'
 
 const PROPS = [
   '',
@@ -33,7 +32,11 @@ const PROPS = [
   return typeof prop == 'string' ? { name: prop, label: prop } : { name: prop[0], label: prop[1] }
 })
 
-class PropertyDataBinding extends LitElement {
+class PropertyDataBinding extends AbstractProperty {
+  static get is() {
+    return 'property-data-binding'
+  }
+
   static get properties() {
     return {
       scene: Object,
@@ -47,39 +50,45 @@ class PropertyDataBinding extends LitElement {
     return [
       PropertySharedStyle,
       css`
-        [tab] {
+        #tab-header {
           display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
 
-          width: 229px;
+        #tab-header > paper-icon-button {
+          padding: 0px;
+          width: 25px;
+          height: 25px;
+        }
+
+        paper-tabs {
+          flex: 1;
           height: 25px;
           border: 1px solid rgba(0, 0, 0, 0.2);
           border-width: 1px 1px 0 1px;
         }
 
-        [tab] > * {
-          flex: 1;
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
+        paper-tab {
           background-color: rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(0, 0, 0, 0.07);
           border-width: 0 1px 0 0;
-          padding: 0;
+          padding: 0 5px;
           color: #fff;
           font-size: 13px;
+          max-width: 25px;
+          min-width: 25px;
         }
 
-        [tab] > [disabled='true'] {
+        paper-tab[disabled] {
           background-color: rgba(0, 0, 0, 0.1);
         }
 
-        [tab]:last-child {
+        paper-tab:last-child {
           border-width: 0;
         }
 
-        [tab] > [active] {
+        paper-tab.iron-selected {
           background-color: rgba(255, 255, 255, 0.5);
           color: #585858;
         }
@@ -87,7 +96,7 @@ class PropertyDataBinding extends LitElement {
         [has-set]::before {
           content: '';
           position: relative;
-          left: -2px;
+          left: 3px;
           width: 5px;
           height: 5px;
           display: inline-block;
@@ -122,12 +131,23 @@ class PropertyDataBinding extends LitElement {
   constructor() {
     super()
     this.scene = null
-    this.value = {}
+    this.value = {
+      mappings: []
+    }
     this.mapping = {}
+    this.mappingIndex = 0
+  }
+
+  get mappings() {
+    return this.value.mappings || []
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onValueChange.bind(this))
+    this.renderRoot.addEventListener('change', this._onValueChange.bind(this))
+
+    this.tabContainer.addEventListener('scroll', e => {
+      this._onTabScroll(e)
+    })
   }
 
   updated(change) {
@@ -135,8 +155,6 @@ class PropertyDataBinding extends LitElement {
   }
 
   render() {
-    var mappingIndex = this.mappingIndex ? this.mappingIndex : 0
-
     return html`
       <fieldset>
         <div class="property-grid">
@@ -164,20 +182,41 @@ class PropertyDataBinding extends LitElement {
 
       <fieldset>
         <legend><i18n-msg msgid="label.mapping" auto>Mapping</i18n-msg></legend>
-
-        <div
-          tab
-          @click=${e => {
-            e.target.getAttribute('disabled') == 'false' && this._setMappingIndex(e.target.getAttribute('data-mapping'))
-          }}
-        >
-          <span data-mapping="0" ?active=${mappingIndex == 0}>1</span>
-          <span data-mapping="1" ?active=${mappingIndex == 1}>2</span>
-          <span data-mapping="2" ?active=${mappingIndex == 2}>3</span>
-          <span data-mapping="3" ?active=${mappingIndex == 3}>4</span>
-          <span data-mapping="4" ?active=${mappingIndex == 4}>5</span>
-          <span data-mapping="5" ?active=${mappingIndex == 5}>6</span>
-          <span data-mapping="6" ?active=${mappingIndex == 6}>7</span>
+        <div id="tab-header">
+          <paper-icon-button
+            id="tab-nav-left-button"
+            icon="chevron-left"
+            @click=${e => {
+              this._onTabScrollNavLeft(e)
+            }}
+            disabled
+          ></paper-icon-button>
+          <paper-tabs
+            id="tabs"
+            @iron-select=${e => this._setMappingIndex(e.target.selected)}
+            .selected=${this.mappingIndex}
+            noink
+            no-bar
+            scrollable
+            hide-scroll-buttons
+            fit-container
+          >
+            ${this.mappings.map(
+              (m, i) =>
+                html`
+                  <paper-tab data-mapping="${i + 1}">${i + 1}</paper-tab>
+                `
+            )}
+            <paper-tab data-mapping="${this.mappings.length + 1}">${this.mappings.length + 1}</paper-tab>
+          </paper-tabs>
+          <paper-icon-button
+            id="tab-nav-right-button"
+            icon="chevron-right"
+            @click=${e => {
+              this._onTabScrollNavRight(e)
+            }}
+            disabled
+          ></paper-icon-button>
         </div>
 
         <data-binding-mapper
@@ -193,27 +232,29 @@ class PropertyDataBinding extends LitElement {
   /**
    * mappings 편집의 변화에 반응하여 mapping 탭의 active 여부를 갱신한다.
    */
-  _resetMappingTaps() {
+  _resetMappingTabs() {
     var last = -1
     var mappings = this.value.mappings || []
 
-    Array.from(this.shadowRoot.querySelectorAll('[data-mapping]')).map((tab, i) => {
+    Array.from(this.renderRoot.querySelectorAll('paper-tab[data-mapping]')).map((tab, i) => {
       if (mappings[i]) {
-        tab.setAttribute('disabled', false)
+        tab.active = true
         tab.setAttribute('has-set', true)
 
         last = i
       } else {
+        tab.active = false
         tab.removeAttribute('has-set')
-        tab.setAttribute('disabled', last < i - 1)
       }
     })
+
+    this._onTabScroll()
   }
 
   _setMappingIndex(idx) {
     this.mappingIndex = isNaN(Number(idx)) ? 0 : Number(idx)
 
-    this._resetMappingTaps()
+    this._resetMappingTabs()
   }
 
   _getData(data) {
@@ -230,41 +271,10 @@ class PropertyDataBinding extends LitElement {
     var element = e.target
     var key = element.getAttribute('value-key')
 
+    var value = this._getValueFromEventTarget(element)
+
     if (!key) {
       return
-    }
-
-    var value
-
-    switch (element.tagName) {
-      case 'THINGS-EDITOR-ANGLE-INPUT':
-        value = Number(element.radian) || 0
-        break
-
-      case 'INPUT':
-        switch (element.type) {
-          case 'checkbox':
-            value = element.checked
-            break
-          case 'number':
-            value = Number(element.value) || 0
-            break
-          case 'text':
-            value = String(element.value)
-        }
-        break
-
-      case 'PAPER-BUTTON':
-        value = element.active
-        break
-
-      case 'PAPER-LISTBOX':
-        value = element.selected
-        break
-
-      default:
-        value = element.value
-        break
     }
 
     if (key == 'data') {
@@ -278,18 +288,14 @@ class PropertyDataBinding extends LitElement {
       [key]: value
     }
 
-    this.dispatchEvent(
-      new CustomEvent('property-change', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          [key]: value
-        }
-      })
-    )
+    this._onAfterValueChange(key, value)
   }
 
-  _onMappingChanged(e) {
+  get tabContainer() {
+    return this.renderRoot.querySelector('#tabs').shadowRoot.querySelector('#tabsContainer')
+  }
+
+  async _onMappingChanged(e) {
     var mapping = e.target.mapping
 
     /* data spread target의 변경이 있는 경우, target 컴포넌트들의 태그를 블링크 시킨다 */
@@ -312,29 +318,66 @@ class PropertyDataBinding extends LitElement {
           bubbles: true,
           composed: true,
           detail: {
-            mappings: mappings.filter(function(m) {
-              return !!m
-            })
+            mappings: mappings.filter(m => !!m)
           }
         })
       )
 
-      this._resetMappingTaps()
-    } else {
-      mappings[this.mappingIndex] = null
+      await this.requestUpdate()
+      this.tabContainer.scrollLeft = this.tabContainer.scrollWidth
+    } else if (!mapping.target && !mapping.property) {
+      // accessor를 입력중인 경우 tabIndex Change 방지
+      if (e.detail && e.detail.changed && !e.detail.changed.accessor) {
+        mappings[this.mappingIndex] = null
+        this.mappingIndex = Math.max(this.mappingIndex - 1, 0)
+        this.requestUpdate('mappingIndex', null)
+      }
 
       this.dispatchEvent(
         new CustomEvent('property-change', {
           bubbles: true,
           composed: true,
           detail: {
-            mappings: mappings.filter(function(m) {
-              return !!m
-            })
+            mappings: mappings.filter(m => !!m)
           }
         })
       )
     }
+  }
+
+  _onTabScroll(e) {
+    var tabNavLeftButton = this.renderRoot.querySelector('#tab-nav-left-button')
+    var tabNavRightButton = this.renderRoot.querySelector('#tab-nav-right-button')
+
+    if (this.tabContainer.clientWidth == this.tabContainer.scrollWidth) {
+      tabNavLeftButton.disabled = true
+      tabNavRightButton.disabled = true
+    }
+    // left-end
+    else if (this.tabContainer.scrollLeft == 0) {
+      tabNavLeftButton.disabled = true
+      tabNavRightButton.disabled = false
+    }
+    // right-end
+    else if (this.tabContainer.scrollLeft + this.tabContainer.clientWidth >= this.tabContainer.scrollWidth) {
+      tabNavLeftButton.disabled = false
+      tabNavRightButton.disabled = true
+    } else {
+      tabNavLeftButton.disabled = false
+      tabNavRightButton.disabled = false
+    }
+  }
+
+  _onTabScrollNavLeft(e) {
+    this.tabContainer.style.scrollBehavior = 'smooth'
+    this.tabContainer.scrollLeft -= this.tabContainer.clientWidth
+    this.tabContainer.style.scrollBehavior = 'auto'
+  }
+
+  _onTabScrollNavRight(e) {
+    this.tabContainer.style.scrollBehavior = 'smooth'
+    this.tabContainer.scrollLeft += this.tabContainer.clientWidth
+    this.tabContainer.style.scrollBehavior = 'auto'
   }
 }
 

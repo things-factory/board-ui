@@ -2,16 +2,15 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
-
 import '@things-factory/i18n-base'
-import '../../editors/things-editor-buttons-radio'
+import { css, html } from 'lit-element'
 import '../../editors/things-editor-angle-input'
-
+import '../../editors/things-editor-buttons-radio'
+import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
 import { BoxPaddingEditorStyles } from './box-padding-editor-styles'
 
-class PropertyShapes extends LitElement {
+class PropertyShapes extends AbstractProperty {
   static get is() {
     return 'property-shape'
   }
@@ -121,7 +120,7 @@ class PropertyShapes extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onValueChange.bind(this))
+    this.renderRoot.addEventListener('change', this._onValueChange.bind(this))
   }
 
   render() {
@@ -315,40 +314,10 @@ class PropertyShapes extends LitElement {
       return
     }
 
-    var value
-
-    switch (element.tagName) {
-      case 'THINGS-EDITOR-ANGLE-INPUT':
-        value = Number(element.radian) || 0
-        break
-
-      case 'INPUT':
-        switch (element.type) {
-          case 'checkbox':
-            value = element.checked
-            break
-          case 'number':
-            value = Number(element.value) || 0
-            break
-          case 'text':
-            value = String(element.value)
-        }
-        break
-
-      case 'PAPER-BUTTON':
-        value = element.active
-        break
-
-      case 'PAPER-LISTBOX':
-        value = element.selected
-        break
-
-      default:
-        value = element.value
-        break
-    }
+    var value = this._getValueFromEventTarget(element)
 
     if (key.indexOf('bounds.') == 0) {
+      if (isNaN(value)) return
       this.dispatchEvent(
         new CustomEvent('bounds-change', {
           bubbles: true,
@@ -359,15 +328,7 @@ class PropertyShapes extends LitElement {
         })
       )
     } else {
-      this.dispatchEvent(
-        new CustomEvent('property-change', {
-          bubbles: true,
-          composed: true,
-          detail: {
-            [key]: value
-          }
-        })
-      )
+      this._onAfterValueChange(key, value)
     }
   }
 
@@ -399,7 +360,7 @@ class PropertyShapes extends LitElement {
   }
 
   _isLine(selected) {
-    if (!selected || (selected[0] && selected[0].isLine && selected[0].isLine())) return false
+    if (!selected || !(selected[0] && selected[0].isLine && selected[0].isLine())) return false
 
     return true
   }

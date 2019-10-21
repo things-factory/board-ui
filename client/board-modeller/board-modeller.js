@@ -155,7 +155,7 @@ export class BoardModeller extends LitElement {
   }
 
   get modellingContainer() {
-    return this.shadowRoot.getElementById('scene-wrap')
+    return this.renderRoot.getElementById('scene-wrap')
   }
 
   bindShortcutEvent(target = this) {
@@ -201,6 +201,7 @@ export class BoardModeller extends LitElement {
       id: 'preview',
       model: this.previewModel
     }
+    preview.baseUrl = this.baseUrl
 
     var dialog = document.createElement('paper-dialog')
 

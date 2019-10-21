@@ -29,11 +29,26 @@ const DEFAULT_VALUE = {
   color: '#000000',
   'solidcolor-stops': null,
   'gradientcolor-stops': null,
+  'gltf-selector': '',
+  'image-selector': '',
   multiplecolor: null,
   editortable: null,
   imageselector: '',
   options: null,
   date: null
+}
+
+function convertValue(type, value) {
+  var converted = String(value).trim() == '' ? undefined : value
+  switch (type) {
+    case 'number':
+    case 'angle':
+      converted = parseFloat(value)
+      converted = converted == NaN ? undefined : converted
+      break
+  }
+
+  return converted
 }
 
 class SpecificPropertiesBuilder extends LitElement {
@@ -56,7 +71,7 @@ class SpecificPropertiesBuilder extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onValueChanged.bind(this))
+    this.renderRoot.addEventListener('change', this._onValueChanged.bind(this))
   }
 
   updated(change) {
@@ -69,7 +84,7 @@ class SpecificPropertiesBuilder extends LitElement {
   }
 
   _onPropsChanged(props) {
-    this.shadowRoot.textContent = ''
+    this.renderRoot.textContent = ''
     ;(props || []).forEach(prop => {
       let elementType = this.propertyEditor[prop.type]
       if (!elementType) {
@@ -88,21 +103,22 @@ class SpecificPropertiesBuilder extends LitElement {
       element.property = prop.property
       element.setAttribute('property-editor', true)
 
-      this.shadowRoot.appendChild(element)
+      this.renderRoot.appendChild(element)
     })
   }
 
   _setValues() {
     this.value &&
-      Array.from(this.shadowRoot.querySelectorAll('[name]')).forEach(prop => {
+      Array.from(this.renderRoot.querySelectorAll('[name]')).forEach(prop => {
         let name = prop.getAttribute('name')
-        prop.value = this.value[name] || DEFAULT_VALUE[prop.type]
+        var convertedValue = convertValue(prop.type, this.value[name])
+        if (convertedValue == undefined) convertedValue = DEFAULT_VALUE[prop.type]
+        prop.value = convertedValue
       })
   }
 
   _onValueChanged(e) {
     e.stopPropagation()
-
     var prop = e.target
 
     while (prop && !prop.hasAttribute('property-editor')) {
@@ -122,7 +138,9 @@ class SpecificPropertiesBuilder extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          [name]: prop.value
+          [name]: {
+            ...prop.value
+          }
         }
       })
     )

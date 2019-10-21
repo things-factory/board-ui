@@ -2,17 +2,15 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html } from 'lit-element'
-
 import '@things-factory/i18n-base'
-
-import './property-shadow'
-import './property-event'
-import './property-animations'
-
+import { html } from 'lit-element'
+import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
+import './property-animations'
+import './property-event'
+import './property-shadow'
 
-class PropertyEffects extends LitElement {
+class PropertyEffects extends AbstractProperty {
   static get properties() {
     return {
       value: Object,
@@ -31,7 +29,7 @@ class PropertyEffects extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onValueChange.bind(this))
+    this.renderRoot.addEventListener('change', this._onValueChange.bind(this))
   }
 
   render() {
@@ -55,58 +53,6 @@ class PropertyEffects extends LitElement {
 
       <property-event value-key="event" .scene=${this.scene} .value=${this.value.event || {}}> </property-event>
     `
-  }
-
-  _onValueChange(e) {
-    var element = e.target
-    var key = element.getAttribute('value-key')
-
-    if (!key) {
-      return
-    }
-
-    var value
-
-    switch (element.tagName) {
-      case 'THINGS-EDITOR-ANGLE-INPUT':
-        value = Number(element.radian) || 0
-        break
-
-      case 'INPUT':
-        switch (element.type) {
-          case 'checkbox':
-            value = element.checked
-            break
-          case 'number':
-            value = Number(element.value) || 0
-            break
-          case 'text':
-            value = String(element.value)
-        }
-        break
-
-      case 'PAPER-BUTTON':
-        value = element.active
-        break
-
-      case 'PAPER-LISTBOX':
-        value = element.selected
-        break
-
-      default:
-        value = element.value
-        break
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('property-change', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          [key]: value
-        }
-      })
-    )
   }
 }
 

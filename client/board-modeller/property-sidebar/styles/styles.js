@@ -2,19 +2,17 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html, css } from 'lit-element'
-
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu'
-
-import '../../editors/things-editor-buttons-radio'
+import { css, html } from 'lit-element'
 import '../../editors/things-editor-angle-input'
+import '../../editors/things-editor-buttons-radio'
 import '../../editors/things-editor-color'
 import '../../editors/things-editor-color-style'
 import '../../editors/things-editor-font-selector'
-
+import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
 
-class PropertyStyles extends LitElement {
+class PropertyStyles extends AbstractProperty {
   static get is() {
     return 'property-style'
   }
@@ -345,7 +343,7 @@ class PropertyStyles extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.addEventListener('change', this._onValueChange.bind(this))
+    this.renderRoot.addEventListener('change', this._onValueChange.bind(this))
   }
 
   render() {
@@ -560,36 +558,6 @@ class PropertyStyles extends LitElement {
         </div>
       </fieldset>
     `
-  }
-
-  _onValueChange(e) {
-    var element = e.target
-    var key = element.getAttribute('value-key')
-
-    if (!key) {
-      return
-    }
-
-    var value = element.value
-
-    switch (element.tagName) {
-      case 'PAPER-BUTTON':
-        value = element.active
-        break
-      case 'PAPER-LISTBOX':
-        value = element.selected
-        break
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('property-change', {
-        bubbles: true,
-        composed: true,
-        detail: {
-          [key]: value
-        }
-      })
-    )
   }
 
   _isLine(selected) {

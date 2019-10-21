@@ -290,7 +290,7 @@ class PropertySidebar extends LitElement {
   }
 
   _setPropertyTarget(newTarget) {
-    var oldTarget = this.target
+    var oldTarget = this.propertyTarget
 
     if (oldTarget) {
       oldTarget.off('change', this._onChangedByScene, this)
