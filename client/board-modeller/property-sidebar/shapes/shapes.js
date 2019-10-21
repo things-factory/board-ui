@@ -34,43 +34,43 @@ class PropertyShapes extends LitElement {
         }
 
         .icon-label label.width {
-          background-position: 7px -100px !important;
+          background-position: 7px -96px;
         }
 
         .icon-label label.height {
-          background-position: 7px 0;
+          background-position: 7px 4px;
         }
 
         .icon-label label.rotate {
-          background-position: 7px -200px;
+          background-position: 7px -198px;
         }
 
         .icon-label label.twidth {
-          background-position: 7px -300px;
+          background-position: 7px -296px;
         }
 
         .icon-label label.theight {
-          background-position: 7px -400px;
+          background-position: 7px -396px;
         }
 
         .icon-label label.zPos {
-          background-position: 5px -1100px;
+          background-position: 5px -1098px;
         }
 
         .icon-label label.depth {
-          background-position: 5px -1200px;
+          background-position: 5px -1198px;
         }
 
         .icon-label label.rotationX {
-          background-position: 5px -1298px;
+          background-position: 5px -1296px;
         }
 
         .icon-label label.rotationY {
-          background-position: 5px -1398px;
+          background-position: 5px -1396px;
         }
 
         .icon-label label.rotationZ {
-          background-position: 5px -1498px;
+          background-position: 5px -1496px;
         }
 
         things-editor-buttons-radio paper-button {

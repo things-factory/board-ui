@@ -30,7 +30,7 @@ export const EffectsSharedStyle = css`
   select,
   things-editor-angle-input,
   things-editor-color,
-  [custom-input] {
+  [custom-editor] {
     grid-column: span 7;
   }
 

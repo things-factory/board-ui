@@ -10,6 +10,7 @@ import '../../editors/things-editor-buttons-radio'
 import '../../editors/things-editor-angle-input'
 import '../../editors/things-editor-color'
 import '../../editors/things-editor-color-style'
+import '../../editors/things-editor-font-selector'
 
 import { PropertySharedStyle } from '../property-shared-style'
 
@@ -348,11 +349,30 @@ class PropertyStyles extends LitElement {
   }
 
   render() {
+    var {
+      alpha,
+      fontFamily,
+      fontSize,
+      lineHeight,
+      fontColor,
+      bold,
+      italic,
+      fillStyle,
+      lineWidth,
+      strokeStyle,
+      lineDash,
+      lineCap,
+      lineJoin,
+      begin,
+      beginSize,
+      end,
+      endSize
+    } = this.value
+
     return html`
       <fieldset>
         <legend><i18n-msg msgid="label.opacity">opacity</i18n-msg></legend>
-        <paper-slider min="0" max="1" step="0.1" value-key="alpha" .value=${this.value.alpha || 1} editable>
-        </paper-slider>
+        <paper-slider min="0" max="1" step="0.1" value-key="alpha" .value=${alpha || 1} editable> </paper-slider>
       </fieldset>
 
       <fieldset>
@@ -363,36 +383,34 @@ class PropertyStyles extends LitElement {
             <i18n-msg msgid="label.font-family">Font Family</i18n-msg>
           </label>
 
-          <select value-key="fontFamily" .value=${this.value.fontFamily} class="property-full-input">
-            <option value=""></option>
-            ${this.fonts.map(
-              font => html`
-                <option value=${font.name}>${font.name}</option>
-              `
-            )}
-          </select>
+          <things-editor-font-selector
+            value-key="fontFamily"
+            .value=${fontFamily}
+            class="property-full-input"
+            custom-editor
+          ></things-editor-font-selector>
 
           <label class="property-half-label icon-only-label font-size"></label>
-          <input type="number" value-key="fontSize" .value=${this.value.fontSize} class="property-half-input" />
+          <input type="number" value-key="fontSize" .value=${fontSize} class="property-half-input" />
 
           <label class="property-half-label icon-only-label lineHeight"></label>
-          <input type="number" value-key="lineHeight" .value=${this.value.lineHeight} class="property-half-input" />
+          <input type="number" value-key="lineHeight" .value=${lineHeight} class="property-half-input" />
 
           <label class="property-half-label icon-only-label color"></label>
-          <things-editor-color value-key="fontColor" .value=${this.value.fontColor} class="property-half-input">
+          <things-editor-color value-key="fontColor" .value=${fontColor} class="property-half-input">
           </things-editor-color>
 
           <label class="property-half-label"></label>
           <div class="property-half-input btn-group">
-            <paper-button toggles value-key="bold" ?active=${this.value.bold} class="tbold"> </paper-button>
-            <paper-button toggles value-key="italic" ?active=${this.value.italic} class="titalic"> </paper-button>
+            <paper-button toggles value-key="bold" ?active=${bold} class="tbold"> </paper-button>
+            <paper-button toggles value-key="italic" ?active=${italic} class="titalic"> </paper-button>
           </div>
         </div>
       </fieldset>
 
       <fieldset>
         <legend><i18n-msg msgid="label.fill-style">fill style</i18n-msg></legend>
-        <things-editor-color-style value-key="fillStyle" .value=${this.value.fillStyle}> </things-editor-color-style>
+        <things-editor-color-style value-key="fillStyle" .value=${fillStyle}> </things-editor-color-style>
       </fieldset>
 
       <fieldset>
@@ -400,10 +418,10 @@ class PropertyStyles extends LitElement {
 
         <div class="property-grid">
           <label class="property-half-label icon-only-label linewidth"></label>
-          <input type="number" value-key="lineWidth" .value=${this.value.lineWidth} class="property-half-input" />
+          <input type="number" value-key="lineWidth" .value=${lineWidth} class="property-half-input" />
 
           <label class="property-half-label icon-only-label color"></label>
-          <things-editor-color value-key="strokeStyle" .value=${this.value.strokeStyle} class="property-half-input">
+          <things-editor-color value-key="strokeStyle" .value=${strokeStyle} class="property-half-input">
           </things-editor-color>
 
           <label class="property-full-label">
@@ -415,7 +433,7 @@ class PropertyStyles extends LitElement {
               value-key="lineDash"
               @selected-changed=${e => this._onValueChange(e)}
               slot="dropdown-content"
-              .selected=${this.value.lineDash}
+              .selected=${lineDash}
               attr-for-selected="name"
             >
               <paper-item class="solid" name="solid"></paper-item>
@@ -432,7 +450,7 @@ class PropertyStyles extends LitElement {
           <label class="property-full-label">
             <i18n-msg msgid="label.cap-type">cap type</i18n-msg>
           </label>
-          <select class="property-full-input select-content" value-key="lineCap" .value=${this.value.lineCap}>
+          <select class="property-full-input select-content" value-key="lineCap" .value=${lineCap}>
             <option value="butt"> <i18n-msg msgid="label.square">square</i18n-msg> </option>
             <option value="round"> <i18n-msg msgid="label.round">round</i18n-msg> </option>
           </select>
@@ -440,7 +458,7 @@ class PropertyStyles extends LitElement {
           <label class="property-full-label">
             <i18n-msg msgid="label.join-type">join type</i18n-msg>
           </label>
-          <select class="property-full-input select-content" value-key="lineJoin" .value=${this.value.lineJoin}>
+          <select class="property-full-input select-content" value-key="lineJoin" .value=${lineJoin}>
             <option value="miter"> <i18n-msg msgid="label.miter">miter</i18n-msg> </option>
             <option value="round"> <i18n-msg msgid="label.round">round</i18n-msg> </option>
             <option value="bevel"> <i18n-msg msgid="label.bevel">bevel</i18n-msg> </option>
@@ -457,7 +475,7 @@ class PropertyStyles extends LitElement {
                     value-key="begin"
                     @selected-changed=${e => this._onValueChange(e)}
                     slot="dropdown-content"
-                    .selected=${this.value.begin}
+                    .selected=${begin}
                     attr-for-selected="name"
                   >
                     <paper-item class="begin-no" name="none"></paper-item>
@@ -478,7 +496,7 @@ class PropertyStyles extends LitElement {
                     value-key="beginSize"
                     @selected-changed=${e => this._onValueChange(e)}
                     slot="dropdown-content"
-                    .selected=${this.value.beginSize}
+                    .selected=${beginSize}
                     attr-for-selected="name"
                   >
                     <paper-item class="begin-size1" name="size1"></paper-item>
@@ -502,7 +520,7 @@ class PropertyStyles extends LitElement {
                     value-key="end"
                     @selected-changed=${e => this._onValueChange(e)}
                     slot="dropdown-content"
-                    .selected=${this.value.end}
+                    .selected=${end}
                     attr-for-selected="name"
                   >
                     <paper-item class="end-no" name="none"></paper-item>
@@ -523,7 +541,7 @@ class PropertyStyles extends LitElement {
                     value-key="endSize"
                     @selected-changed=${e => this._onValueChange(e)}
                     slot="dropdown-content"
-                    .selected=${this.value.endSize}
+                    .selected=${endSize}
                     attr-for-selected="name"
                   >
                     <paper-item class="end-size1" name="size1"></paper-item>

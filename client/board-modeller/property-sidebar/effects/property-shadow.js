@@ -58,14 +58,15 @@ export default class PropertyShadow extends LitElement {
         }
 
         .icon-only-label {
+          grid-column: span 3;
           background: url(./assets/images/icon-properties-label.png) no-repeat;
-          width: 30px;
           float: left;
-          margin-left: 40px;
+          margin: 0;
+          align-self: stretch;
         }
 
         .icon-only-label.color {
-          background-position: 70% -498px;
+          background-position: 100% -500px;
         }
       `
     ]

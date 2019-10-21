@@ -38,6 +38,7 @@ export const PropertySharedStyle = css`
     grid-column: span 3;
     text-align: right;
     text-transform: capitalize;
+    line-height: 2;
   }
 
   .property-grid > input,
@@ -102,24 +103,24 @@ export const PropertySharedStyle = css`
   }
 
   .icon-only-label.color {
-    background-position: 70% -498px;
+    background-position: 100% -500px;
   }
   .icon-only-label.font-size {
-    background-position: 70% -594px;
+    background-position: 100% -594px;
   }
   .icon-only-label.leading {
-    background-position: 70% -696px;
+    background-position: 100% -696px;
   }
   .icon-only-label.hscale {
-    background-position: 70% -296px;
+    background-position: 100% -296px;
   }
   .icon-only-label.vscale {
-    background-position: 70% -396px;
+    background-position: 100% -396px;
   }
   .icon-only-label.linewidth {
-    background-position: 70% -894px;
+    background-position: 100% -894px;
   }
   .icon-only-label.lineHeight {
-    background-position: 70% -995px;
+    background-position: 100% -995px;
   }
 `

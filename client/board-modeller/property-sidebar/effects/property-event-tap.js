@@ -36,7 +36,7 @@ class PropertyEventTap extends LitElement {
 
     return html`
       <label> <i18n-msg msgid="label.action">action</i18n-msg> </label>
-      <select id="tap-select" value-key="action" .value=${this.value.action || ''}>
+      <select id="tap-select" value-key="action" .value=${action || ''}>
         <option value=""></option>
         <option value="goto">go to target board</option>
         <option value="link-open">open new window for target link</option>
@@ -59,7 +59,7 @@ class PropertyEventTap extends LitElement {
             <things-editor-board-selector
               value-key="target"
               .value=${target}
-              custom-input
+              custom-editor
             ></things-editor-board-selector>
           `
         : html`

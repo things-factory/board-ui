@@ -31,12 +31,14 @@ class PropertyEventHover extends LitElement {
   }
 
   render() {
+    var { action, value = '', target = '', emphasize, restore } = this.value
+
     return html`
-      <input type="checkbox" value-key="emphasize" .checked=${this.value.emphasize} />
+      <input type="checkbox" value-key="emphasize" .checked=${emphasize} />
       <label class="checkbox-label"> <i18n-msg msgid="label.emphasize">emphasize</i18n-msg> </label>
 
       <label> <i18n-msg msgid="label.action">action</i18n-msg> </label>
-      <select id="tap-select" value-key="action" .value=${this.value.action || ''}>
+      <select id="tap-select" value-key="action" .value=${action || ''}>
         <option value=""></option>
         <option value="popup">popup target board</option>
         <option value="infoWindow">open infowindow</option>
@@ -51,29 +53,38 @@ class PropertyEventHover extends LitElement {
 
       <label> <i18n-msg msgid="label.target">target</i18n-msg> </label>
 
-      <input
-        value-key="target"
-        .value=${this.value.target || ''}
-        list="target-list"
-        .placeholder="${this._getPlaceHoder(this.value.action)}"
-      />
-
-      <datalist id="target-list">
-        ${this._getTargetList(this.value.action).map(
-          item => html`
-            <option .value=${item}></option>
+      ${action == 'popup'
+        ? html`
+            <things-editor-board-selector
+              value-key="target"
+              .value=${target}
+              custom-editor
+            ></things-editor-board-selector>
           `
-        )}
-      </datalist>
+        : html`
+            <input
+              value-key="target"
+              .value=${target || ''}
+              list="target-list"
+              .placeholder="${this._getPlaceHoder(action)}"
+            />
 
-      ${this.value.action == 'data-set' || this.value.action == 'value-set'
+            <datalist id="target-list">
+              ${this._getTargetList(action).map(
+                item => html`
+                  <option .value=${item}></option>
+                `
+              )}
+            </datalist>
+          `}
+      ${action == 'data-set' || action == 'value-set'
         ? html`
             <label> <i18n-msg msgid="label.value">value</i18n-msg> </label>
-            <input value-key="value" .value=${this.value.value || ''} />
+            <input value-key="value" .value=${value || ''} />
           `
         : html``}
 
-      <input type="checkbox" value-key="restore" .checked=${this.value.restore} />
+      <input type="checkbox" value-key="restore" .checked=${restore} />
       <label class="checkbox-label">
         <i18n-msg msgid="label.restore-on-leave">restore on leave</i18n-msg>
       </label>
