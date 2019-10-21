@@ -6,7 +6,7 @@ import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-icon'
 
-import { ScrollbarStyles } from '@things-factory/shell'
+import { deepClone, ScrollbarStyles } from '@things-factory/shell'
 
 import './shapes/shapes'
 import './styles/styles'
@@ -198,18 +198,10 @@ class PropertySidebar extends LitElement {
   }
 
   _onChangedByScene(after, before) {
-    for (var property in after) {
-      if (property) this.model[property] = after[property]
+    this.model = {
+      ...this.model,
+      ...after
     }
-
-    // this.model = JSON.parse(JSON.stringify(this.model))
-
-    /*
-     * this.model의 내부 속성만 변경되기 때문에,
-     * property-specific의 변경을 위해서 rerender()를 호출해서, 강제로 갱신하도록 한다.
-     */
-    this.shadowRoot.querySelector('property-specific').rerender()
-    this.propertyTarget && this._setBounds(this.propertyTarget.bounds)
   }
 
   _setPropertyTargetAsDefault() {
@@ -220,8 +212,8 @@ class PropertySidebar extends LitElement {
       this.bounds = {}
     } else {
       this._setPropertyTarget(this.scene.root)
-      this.specificProps = JSON.parse(JSON.stringify(this.scene.root.nature.properties))
-      this.model = JSON.parse(JSON.stringify(this.propertyTarget.model))
+      this.specificProps = deepClone(this.scene.root.nature.properties)
+      this.model = { ...this.propertyTarget.model }
       this._setBounds(this.propertyTarget.bounds)
     }
   }
@@ -258,8 +250,10 @@ class PropertySidebar extends LitElement {
       this._setPropertyTarget(after[0])
       // 컴포넌트 특성 속성(specific properties)을 먼저 바꾸고, 모델을 바꾸어준다.
       // 컴포넌트 속성에 따라 UI 컴포넌트가 준비되고, 이후에 모델값을 보여주도록 하기 위해서이다.
-      this.specificProps = JSON.parse(JSON.stringify(this.propertyTarget.nature.properties))
-      this.model = JSON.parse(JSON.stringify(this.propertyTarget.model))
+      this.specificProps = deepClone(this.propertyTarget.nature.properties)
+      this.model = {
+        ...this.propertyTarget.model
+      }
       this._setBounds(this.propertyTarget.bounds)
     } else if (after.length == 0) {
       // 선택이 안된 경우
@@ -278,7 +272,7 @@ class PropertySidebar extends LitElement {
 
       this._setPropertyTarget(null)
 
-      if (type) this.specificProps = JSON.parse(JSON.stringify(after[0].nature.properties))
+      if (type) this.specificProps = deepClone(after[0].nature.properties)
       else this.specificProps = null
 
       this.model = {
