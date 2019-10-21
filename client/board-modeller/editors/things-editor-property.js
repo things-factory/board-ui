@@ -12,6 +12,9 @@ import './things-editor-angle-input'
 import './things-editor-table'
 import './things-editor-code'
 import './things-editor-options'
+import './things-editor-attachment-selector'
+import './things-editor-board-selector'
+import './things-editor-font-selector'
 
 import { ThingsEditorPropertyStyles } from './things-editor-property-styles'
 
@@ -346,12 +349,60 @@ class PropertyEditorImageSelector extends ThingsEditorProperty {
 
   editorTemplate(props) {
     return html`
-      <input type="text" id="editor" .value=${props.value} />
+      <things-editor-attachment-selector
+        id="editor"
+        .value=${props.value}
+        .properties=${props.property}
+      ></things-editor-attachment-selector>
     `
   }
 }
 
 customElements.define(PropertyEditorImageSelector.is, PropertyEditorImageSelector)
+
+class PropertyEditorBoardSelector extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-board-selector'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-board-selector
+        id="editor"
+        .value=${props.value}
+        .properties=${props.property}
+      ></things-editor-board-selector>
+    `
+  }
+}
+
+customElements.define(PropertyEditorBoardSelector.is, PropertyEditorBoardSelector)
+
+class PropertyEditorFontSelector extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-font-selector'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-font-selector
+        id="editor"
+        .value=${props.value}
+        .properties=${props.property}
+      ></things-editor-font-selector>
+    `
+  }
+}
+
+customElements.define(PropertyEditorFontSelector.is, PropertyEditorFontSelector)
 
 class PropertyEditorDate extends ThingsEditorProperty {
   static get is() {

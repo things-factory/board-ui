@@ -455,6 +455,8 @@ const INITIAL_STATE = {
     'multiple-color': 'property-editor-multiple-color',
     'editor-table': 'property-editor-table',
     'image-selector': 'property-editor-image-selector',
+    'board-selector': 'property-editor-board-selector',
+    'font-selector': 'property-editor-font-selector',
     options: 'property-editor-options',
     date: 'property-editor-date'
   },

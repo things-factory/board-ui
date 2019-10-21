@@ -5,6 +5,7 @@
 import { LitElement, html, css } from 'lit-element'
 
 import '@things-factory/i18n-base'
+import './things-editor-attachment-selector'
 
 /**
  * 컴포넌트의 fill pattern을 편집하는 element
@@ -57,7 +58,8 @@ export default class ThingsEditorPattern extends LitElement {
         }
 
         select,
-        input {
+        input,
+        [custom-editor] {
           grid-column: span 8;
         }
 
@@ -91,7 +93,11 @@ export default class ThingsEditorPattern extends LitElement {
     return html`
       <label> <i18n-msg msgid="label.image" auto="">image</i18n-msg> </label>
 
-      <input value-key="image" type="text" .value=${(this.value && this.value.image) || ''} />
+      <things-editor-attachment-selector
+        value-key="image"
+        .value=${(this.value && this.value.image) || ''}
+        custom-editor
+      ></things-editor-attachment-selector>
 
       <label> <i18n-msg msgid="label.align" auto="">align</i18n-msg> </label>
 

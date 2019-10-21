@@ -8,9 +8,9 @@ import '@material/mwc-icon'
 import { openPopup } from '@things-factory/layout-base'
 import { i18next } from '@things-factory/i18n-base'
 
-import '../../viewparts/board-selector'
+import '@things-factory/attachment-ui'
 
-export default class ThingsEditorBoardSelector extends LitElement {
+export default class ThingsEditorAttachmentSelector extends LitElement {
   static get properties() {
     return {
       value: String,
@@ -45,7 +45,7 @@ export default class ThingsEditorBoardSelector extends LitElement {
     return html`
       <input id="text" type="text" .value=${this.value || ''} @change=${e => this._onInputChanged(e)} />
 
-      <mwc-icon @click=${e => this.openSelector(e)}>dashboard</mwc-icon>
+      <mwc-icon @click=${e => this.openSelector(e)}>image</mwc-icon>
     `
   }
 
@@ -60,32 +60,32 @@ export default class ThingsEditorBoardSelector extends LitElement {
     }
 
     /*
-     * 기존 설정된 보드가 선택된 상태가 되게 하기 위해서는 selector에 value를 전달해줄 필요가 있음.
+     * 기존 설정된 이미지가 선택된 상태가 되게 하기 위해서는 selector에 value를 전달해줄 필요가 있음.
      * 주의. value는 object일 수도 있고, string일 수도 있다.
      * string인 경우에는 해당 보드의 id로 해석한다.
      */
     var value = this.value || {}
 
     var template = html`
-      <board-selector
+      <attachment-selector
         .creatable=${true}
-        @board-selected=${async e => {
-          var board = e.detail.board
-          this.value = board.id
+        @attachment-selected=${async e => {
+          var attachment = e.detail.attachment
+          this.value = `/attachment/${attachment.path}`
 
           this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
 
           this.popup && this.popup.close()
         }}
-      ></board-selector>
+      ></attachment-selector>
     `
 
     this.popup = openPopup(template, {
       backdrop: true,
       size: 'large',
-      title: i18next.t('title.select board')
+      title: i18next.t('title.select attachment')
     })
   }
 }
 
-customElements.define('things-editor-board-selector', ThingsEditorBoardSelector)
+customElements.define('things-editor-attachment-selector', ThingsEditorAttachmentSelector)
