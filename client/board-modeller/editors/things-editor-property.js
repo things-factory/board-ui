@@ -338,6 +338,28 @@ class PropertyEditorMultipleColor extends ThingsEditorProperty {
 
 customElements.define(PropertyEditorMultipleColor.is, PropertyEditorMultipleColor)
 
+class PropertyEditorAttachmentSelector extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-attachment-selector'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-attachment-selector
+        id="editor"
+        .value=${props.value}
+        .properties=${props.property}
+      ></things-editor-attachment-selector>
+    `
+  }
+}
+
+customElements.define(PropertyEditorAttachmentSelector.is, PropertyEditorAttachmentSelector)
+
 class PropertyEditorImageSelector extends ThingsEditorProperty {
   static get is() {
     return 'property-editor-image-selector'
