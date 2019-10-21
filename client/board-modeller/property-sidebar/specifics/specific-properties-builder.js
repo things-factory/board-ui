@@ -101,6 +101,8 @@ class SpecificPropertiesBuilder extends LitElement {
   }
 
   _onValueChanged(e) {
+    e.stopPropagation()
+
     var prop = e.target
 
     while (prop && !prop.hasAttribute('property-editor')) {

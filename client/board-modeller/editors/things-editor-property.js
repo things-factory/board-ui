@@ -71,6 +71,8 @@ export default class ThingsEditorProperty extends LitElement {
   }
 
   _valueChanged(e) {
+    e.stopPropagation()
+
     this.value = e.target[this.valueProperty]
     this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
 
