@@ -42,7 +42,8 @@ class PropertyDataBinding extends AbstractProperty {
       scene: Object,
       value: Object,
       mapping: Object,
-      mappingIndex: Number
+      mappingIndex: Number,
+      _afterRender: Function
     }
   }
 
@@ -151,7 +152,9 @@ class PropertyDataBinding extends AbstractProperty {
   }
 
   updated(change) {
-    change.has('value') && this._onValueChanged(this.value)
+    if (change.has('value')) {
+      this._onValueChanged(this.value)
+    }
   }
 
   render() {
@@ -264,7 +267,13 @@ class PropertyDataBinding extends AbstractProperty {
   async _onValueChanged(value) {
     await this.renderComplete
 
-    this._setMappingIndex(0)
+    if (this._afterRender) {
+      this._afterRender()
+    } else {
+      this._setMappingIndex(0)
+    }
+
+    this._afterRender = null
   }
 
   _onValueChange(e) {
@@ -313,6 +322,12 @@ class PropertyDataBinding extends AbstractProperty {
     if (mapping.target && mapping.property && mapping.rule) {
       mappings[this.mappingIndex] = mapping
 
+      var mappingIdx = this.mappingIndex
+      this._afterRender = () => {
+        this._setMappingIndex(mappingIdx)
+        this.tabContainer.scrollLeft = this.tabContainer.scrollWidth
+      }
+
       this.dispatchEvent(
         new CustomEvent('property-change', {
           bubbles: true,
@@ -324,13 +339,14 @@ class PropertyDataBinding extends AbstractProperty {
       )
 
       await this.requestUpdate()
-      this.tabContainer.scrollLeft = this.tabContainer.scrollWidth
     } else if (!mapping.target && !mapping.property) {
       // accessor를 입력중인 경우 tabIndex Change 방지
       if (e.detail && e.detail.changed && !e.detail.changed.accessor) {
         mappings[this.mappingIndex] = null
-        this.mappingIndex = Math.max(this.mappingIndex - 1, 0)
-        this.requestUpdate('mappingIndex', null)
+        var nextMappingIdx = Math.max(this.mappingIndex - 1, 0)
+        this._afterRender = () => {
+          this._setMappingIndex(nextMappingIdx)
+        }
       }
 
       this.dispatchEvent(
