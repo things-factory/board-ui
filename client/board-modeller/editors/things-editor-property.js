@@ -4,6 +4,8 @@
 
 import { LitElement, html } from 'lit-element'
 
+import { deepClone } from '@things-factory/shell'
+
 import '@things-factory/i18n-base'
 import './things-editor-color'
 import './things-editor-color-stops'
@@ -29,7 +31,8 @@ export default class ThingsEditorProperty extends LitElement {
       type: String,
       label: String,
       property: Object,
-      _msgId: String
+      _msgId: String,
+      _clone: Object
     }
   }
 
@@ -49,7 +52,7 @@ export default class ThingsEditorProperty extends LitElement {
 
   render() {
     return html`
-      ${this.editorTemplate(this)}
+      ${this.editorTemplate(this._clone || {})}
       ${this.label
         ? html`
             <label for="editor">
@@ -58,6 +61,20 @@ export default class ThingsEditorProperty extends LitElement {
           `
         : html``}
     `
+  }
+
+  updated(changes) {
+    if (changes.has('value')) {
+      var { value, type, label, property, _msgId } = this
+
+      this._clone = {
+        value: deepClone(value),
+        type,
+        label,
+        property,
+        _msgId
+      }
+    }
   }
 
   get valueProperty() {
@@ -73,7 +90,8 @@ export default class ThingsEditorProperty extends LitElement {
   _valueChanged(e) {
     e.stopPropagation()
 
-    this.value = e.target[this.valueProperty]
+    this.value = deepClone(e.target[this.valueProperty])
+
     this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
 
     if (!this.observe) return
