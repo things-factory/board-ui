@@ -128,7 +128,28 @@ class PropertyEditorNumber extends ThingsEditorProperty {
 
   editorTemplate(props) {
     return html`
-      <input id="editor" type="number" .value=${props.value} />
+      <input
+        id="editor"
+        type="number"
+        .value=${props.value}
+        .step=${props.property && props.property.step}
+        .min=${props.property && props.property.min}
+        .max=${props.property && props.property.max}
+        @focus=${e => {
+          var el = e.currentTarget
+          el.lastValidValue = el.value
+        }}
+        @input=${e => {
+          var el = e.currentTarget
+          var validity = el.checkValidity()
+          if (validity) el.lastValidValue = el.value
+          else el.value = el.lastValidValue || ''
+        }}
+        @blur=${e => {
+          var el = e.currentTarget
+          delete el.lastValidValue
+        }}
+      />
     `
   }
 }

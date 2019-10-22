@@ -162,7 +162,7 @@ yellowgreen : #9acd32<br>
 
 Example:
 
-    <things-editor-color value=${color}>
+    <things-editor-color .value=${color}>
     </things-editor-color>
 */
 class ThingsEditorColor extends LitElement {
@@ -182,32 +182,43 @@ class ThingsEditorColor extends LitElement {
       css`
         :host {
           position: relative;
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: flex-end;
         }
 
         input[type='text'] {
-          box-sizing: border-box;
+          padding-right: 24px;
           width: 100%;
           height: 100%;
+          box-sizing: border-box;
         }
 
         a {
           -webkit-appearance: none;
-          display: inline-block;
+          display: flex;
           position: absolute;
-          top: 1px;
-          right: 4px;
-          margin: 4px 0 0 4px;
-          text-align: center;
-          font-size: 0;
+          width: 24px;
+          height: 100%;
+          box-sizing: border-box;
+          align-items: center;
+          justify-content: center;
         }
 
         span {
-          display: inline-block;
-          width: 15px;
-          height: 14px;
+          width: 18px;
+          height: 100%;
+          max-height: 18px;
           border-radius: 10%;
           border: 1px solid #eee;
+        }
+
+        span.transparent {
+          background-color: #fefefe;
+          background-image: linear-gradient(45deg, #cbcbcb 25%, transparent 25%, transparent 75%, #cbcbcb 75%, #cbcbcb),
+            linear-gradient(45deg, #cbcbcb 25%, transparent 25%, transparent 75%, #cbcbcb 75%, #cbcbcb);
+          background-position: 0 0, 9px 9px;
+          background-size: 18px 18px;
         }
       `
     ]
@@ -224,9 +235,13 @@ class ThingsEditorColor extends LitElement {
       />
 
       <a @click=${e => this.showPicker(e)}>
-        <span id="color-thumbnail" .style="background-color:${this._thumbnail()}"> </span>
+        <span id="color-thumbnail" .style="background-color:${this._thumbnail()}" class=${this._thumbnail()}> </span>
       </a>
     `
+  }
+
+  updated(changed) {
+    if (changed.has('value')) this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
   }
 
   set colorString(colorString) {
@@ -246,8 +261,8 @@ class ThingsEditorColor extends LitElement {
   }
 
   _onInputChanged(e) {
+    e.stopPropagation()
     this.value = e.target.value
-    this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
   }
 
   /**
@@ -283,17 +298,14 @@ class ThingsEditorColor extends LitElement {
 
     document.body.appendChild(picker)
 
-    var self = this
-    function _() {
-      if (picker.colorAsString) self.colorString = picker.colorAsString
+    var _ = () => {
+      if (picker.colorAsString) this.colorString = picker.colorAsString
       picker.removeEventListener('iron-overlay-closed', _)
       picker.parentNode.removeChild(picker)
     }
     picker.addEventListener('iron-overlay-closed', _)
 
-    setTimeout(function() {
-      picker.open()
-    })
+    setTimeout(() => picker.open())
   }
 }
 
