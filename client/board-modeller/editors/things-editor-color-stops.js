@@ -23,6 +23,7 @@ Example:
                                .value=${gradient.colorStops}>
     </things-editor-color-stops>
 */
+
 export default class ThingsEditorColorStops extends LitElement {
   // TODO 최초의 colorbar가 화면에 표시될 때의 사이즈에 따른 colorstop들의 위치 배정이 필요함.(IronResizableBehavior 대체.)
   constructor() {
@@ -164,6 +165,13 @@ export default class ThingsEditorColorStops extends LitElement {
     ]
   }
 
+  connectedCallback() {
+    super.connectedCallback()
+
+    this._dragImage = new Image()
+    this._dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
+  }
+
   firstUpdated() {
     window.addEventListener('resize', () => {
       this.requestUpdate()
@@ -202,7 +210,7 @@ export default class ThingsEditorColorStops extends LitElement {
                     this.max
                   )}px;"
                   marker-index=${index}
-                  draggable="false"
+                  draggable="true"
                 ></div>
               `
             )}
@@ -413,9 +421,7 @@ export default class ThingsEditorColorStops extends LitElement {
 
   _onDragStart(e) {
     /* drag 시에 ghost image를 보이지 않게 하려고 함 */
-    var image = new Image()
-    image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
-    e.dataTransfer.setDragImage(image, 0, 0)
+    e.dataTransfer.setDragImage(this._dragImage, 0, 0)
 
     this.dragstart = {
       position: this.focused.position,
