@@ -234,7 +234,6 @@ export default class ThingsEditorGradient extends LitElement {
 
   render() {
     var selector = (this.value && this.value.type) || 'linear'
-    console.log('selector', selector)
 
     return html`
       <label> <i18n-msg msgid="label.type">type</i18n-msg> </label>
