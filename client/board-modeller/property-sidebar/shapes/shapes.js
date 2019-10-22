@@ -169,7 +169,7 @@ class PropertyShapes extends AbstractProperty {
         </div>
       </fieldset>
 
-      ${this._isLine(this.selected)
+      ${!this._isLine(this.selected)
         ? html`
             <fieldset class="icon-label unit ratio">
               <legend><i18n-msg msgid="label.size">size</i18n-msg></legend>
