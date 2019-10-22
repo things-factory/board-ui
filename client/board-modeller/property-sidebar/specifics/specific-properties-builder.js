@@ -138,9 +138,7 @@ class SpecificPropertiesBuilder extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          [name]: {
-            ...prop.value
-          }
+          [name]: prop.value
         }
       })
     )
