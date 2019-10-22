@@ -413,10 +413,9 @@ export default class ThingsEditorColorStops extends LitElement {
 
   _onDragStart(e) {
     /* drag 시에 ghost image를 보이지 않게 하려고 함 */
-    var handle = this.cloneNode(true)
-    handle.style.opacity = 0
-    document.body.appendChild(handle)
-    e.dataTransfer.setDragImage(handle, 0, 0)
+    var image = new Image()
+    image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
+    e.dataTransfer.setDragImage(image, 0, 0)
 
     this.dragstart = {
       position: this.focused.position,
