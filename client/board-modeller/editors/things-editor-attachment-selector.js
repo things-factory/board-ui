@@ -45,8 +45,24 @@ export default class ThingsEditorAttachmentSelector extends LitElement {
     return html`
       <input id="text" type="text" .value=${this.value || ''} @change=${e => this._onInputChanged(e)} />
 
-      <mwc-icon @click=${e => this.openSelector(e)}>image</mwc-icon>
+      <mwc-icon @click=${e => this.openSelector(e)}>${this.getIconByCategory()}</mwc-icon>
     `
+  }
+
+  getIconByCategory() {
+    var { category } = this.properties || {}
+    switch (category) {
+      case 'audio':
+        return 'library_music'
+      case 'video':
+        return 'video_library'
+      case 'image':
+        return 'image'
+      case 'text':
+      case 'application':
+      default:
+        return 'attachment'
+    }
   }
 
   _onInputChanged(e) {
@@ -65,10 +81,12 @@ export default class ThingsEditorAttachmentSelector extends LitElement {
      * string인 경우에는 해당 보드의 id로 해석한다.
      */
     var value = this.value || {}
+    var { category = 'application' } = this.properties || {}
 
     var template = html`
       <attachment-selector
         .creatable=${true}
+        .category="${category}"
         @attachment-selected=${async e => {
           var attachment = e.detail.attachment
           this.value = `/attachment/${attachment.path}`

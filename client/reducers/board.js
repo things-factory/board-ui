@@ -454,6 +454,8 @@ const INITIAL_STATE = {
     'gradient-color-stops': 'property-editor-gradient-colorstops',
     'multiple-color': 'property-editor-multiple-color',
     'editor-table': 'property-editor-table',
+    'gltf-selector': 'property-editor-attachment-selector',
+    'attachment-selector': 'property-editor-attachment-selector',
     'image-selector': 'property-editor-image-selector',
     'board-selector': 'property-editor-board-selector',
     'font-selector': 'property-editor-font-selector',
