@@ -415,8 +415,7 @@ class PropertyEditorImageSelector extends ThingsEditorProperty {
       <things-editor-attachment-selector
         id="editor"
         .value=${props.value}
-        category="image"
-        .properties=${props.property}
+        .properties=${Object.assign({ category: 'image' }, props)}
       ></things-editor-attachment-selector>
     `
   }
