@@ -37,25 +37,23 @@ export default class ThingsEditorMultipleColor extends LitElement {
           display: inline-block;
         }
 
+        #colors-container > div {
+          display: grid;
+          grid-template-columns: 22px 1fr 22px;
+          grid-gap: 5px;
+          align-items: center;
+          justify-content: left;
+        }
+
         things-editor-color {
-          width: 90px;
-        }
-
-        things-editor-color input[type='text'] {
-          width: 87%;
-        }
-
-        things-editor-color a#color {
-          float: right;
-          margin: -31px 4px 0 0;
+          height: 25px;
+          width: 100%;
         }
 
         input[type='button'] {
           width: 22px;
           height: 25px;
           border: 1px solid rgba(0, 0, 0, 0.15);
-          position: relative;
-          top: -2px;
           padding-top: 0px;
           padding-bottom: 2px;
           background-color: #f1f2f4;
@@ -80,25 +78,21 @@ export default class ThingsEditorMultipleColor extends LitElement {
   render() {
     return html`
       <div id="colors-container">
-        ${
-          (this.values || []).map(
-            (item, index) => html`
-              <div>
-                <input type="button" value="+" @click="${e => this._appendEditorColor(e)}" data-index=${index} />
+        ${(this.values || []).map(
+          (item, index) => html`
+            <div>
+              <input type="button" value="+" @click="${e => this._appendEditorColor(e)}" data-index=${index} />
 
-                <things-editor-color .value=${item}> </things-editor-color>
+              <things-editor-color .value=${item}> </things-editor-color>
 
-                ${
-                  (this.values || []).length > 1
-                    ? html`
-                        <input type="button" value="-" @click=${e => this._removeEditorColor(e)} data-index=${index} />
-                      `
-                    : html``
-                }
-              </div>
-            `
-          )
-        }
+              ${(this.values || []).length > 1
+                ? html`
+                    <input type="button" value="-" @click=${e => this._removeEditorColor(e)} data-index=${index} />
+                  `
+                : html``}
+            </div>
+          `
+        )}
       </div>
     `
   }
@@ -116,7 +110,7 @@ export default class ThingsEditorMultipleColor extends LitElement {
   _removeEditorColor(e) {
     var values = []
     for (var i = 0; i < this.values.length; i++) {
-      if (i === e.target.dataIndex) continue
+      if (i == e.target.dataset.index) continue
       else values.push(this.values[i])
     }
 
