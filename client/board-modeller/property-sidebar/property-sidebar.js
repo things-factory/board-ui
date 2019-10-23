@@ -24,7 +24,7 @@ class PropertySidebar extends LitElement {
     this.model = {}
     this.selected = []
     this.specificProps = []
-    this.tabIndex = 0
+    this.tabIndex = 'shape'
     this.collapsed = false
     this.fonts = []
     this.propertyEditor = []
@@ -126,37 +126,50 @@ class PropertySidebar extends LitElement {
       </div>
 
       <div content>
-        <property-shape
-          .value=${this.model}
-          .bounds=${this.bounds}
-          .selected=${this.selected}
-          ?active=${tabIndex == 'shape'}
-        >
-        </property-shape>
-
-        <property-style
-          .value=${this.model}
-          .selected=${this.selected}
-          .fonts=${this.fonts}
-          ?active=${tabIndex == 'style'}
-        >
-        </property-style>
-
-        <property-effect .value=${this.model} .scene=${this.scene} ?active=${tabIndex == 'effect'}> </property-effect>
-
-        <property-specific
-          .value=${this.model}
-          .scene=${this.scene}
-          .selected=${this.selected}
-          .props=${this.specificProps}
-          .propertyEditor=${this.propertyEditor}
-          ?active=${tabIndex == 'specific'}
-        >
-        </property-specific>
-
-        <property-data-binding .scene=${this.scene} .value=${this.model} ?active=${tabIndex == 'data-binding'}>
-        </property-data-binding>
-        <scene-inspector .scene=${this.scene} ?active=${tabIndex == 'inspector'}></scene-inspector>
+        ${html`
+          ${{
+            shape: html`
+              <property-shape
+                .value=${this.model}
+                .bounds=${this.bounds}
+                .selected=${this.selected}
+                ?active=${tabIndex == 'shape'}
+              >
+              </property-shape>
+            `,
+            style: html`
+              <property-style
+                .value=${this.model}
+                .selected=${this.selected}
+                .fonts=${this.fonts}
+                ?active=${tabIndex == 'style'}
+              >
+              </property-style>
+            `,
+            effect: html`
+              <property-effect .value=${this.model} .scene=${this.scene} ?active=${tabIndex == 'effect'}>
+              </property-effect>
+            `,
+            specific: html`
+              <property-specific
+                .value=${this.model}
+                .scene=${this.scene}
+                .selected=${this.selected}
+                .props=${this.specificProps}
+                .propertyEditor=${this.propertyEditor}
+                ?active=${tabIndex == 'specific'}
+              >
+              </property-specific>
+            `,
+            'data-binding': html`
+              <property-data-binding .scene=${this.scene} .value=${this.model} ?active=${tabIndex == 'data-binding'}>
+              </property-data-binding>
+            `,
+            inspector: html`
+              <scene-inspector .scene=${this.scene} ?active=${tabIndex == 'inspector'}></scene-inspector>
+            `
+          }[this.tabIndex]}
+        `}
       </div>
     `
   }
