@@ -224,6 +224,7 @@ class PropertyDataBinding extends AbstractProperty {
 
         <data-binding-mapper
           @value-change="${e => this._onMappingChanged(e)}"
+          .scene=${this.scene}
           .mapping=${(this.value.mappings && this.value.mappings[this.mappingIndex]) || {}}
           .properties=${PROPS}
         >

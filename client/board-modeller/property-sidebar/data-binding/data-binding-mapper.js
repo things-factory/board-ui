@@ -30,7 +30,9 @@ export default class DataBindingMapper extends LitElement {
       mapping: Object,
       rule: Object,
       properties: Array,
-      _valueTypes: Object
+      scene: Object,
+      _valueTypes: Object,
+      _componentIds: Array
     }
   }
 
@@ -120,6 +122,8 @@ export default class DataBindingMapper extends LitElement {
       text: 'string',
       ref: 'string'
     }
+
+    this._componentIds = []
   }
 
   firstUpdated() {
@@ -137,10 +141,29 @@ export default class DataBindingMapper extends LitElement {
 
       <label> <i18n-msg msgid="label.target">target</i18n-msg> </label>
 
-      <input id="target-input" type="text" value-key="target" list="target-list" .value=${this.mapping.target || ''} />
+      <input
+        id="target-input"
+        type="text"
+        value-key="target"
+        list="target-list"
+        .value=${this.mapping.target || ''}
+        @focusin=${e => {
+          if (!this.scene) this._componentIds = []
+          this._componentIds = this.scene.ids.map(info => info.key).filter(id => !!id)
+        }}
+      />
       <datalist id="target-list">
         <option value="(self)"></option>
         <option value="(key)"></option>
+        ${this._componentIds.length
+          ? html`
+              ${this._componentIds.map(
+                id => html`
+                  <option value=${id}></option>
+                `
+              )}
+            `
+          : html``}
       </datalist>
 
       <label> <i18n-msg msgid="label.property">property</i18n-msg> </label>
