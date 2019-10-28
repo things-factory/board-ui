@@ -178,9 +178,15 @@ export default class ThingsEditorColorStops extends LitElement {
   }
 
   updated(change) {
-    if (change.has('value')) {
-      /* focused 를 clear 시키는 방법으로 고안함. focused는 이 에디터 내부에서만 선택될 수 있으며, 수정될 수 있으므로 동일한 포지션을 갖는 value가 없으면, 새로운 에디터가 시작된 것으로 판단하여 focused를 클리어시킨다.  */
-      if (this.focused && this.value.findIndex(v => v.position == this.focused.position) == -1) {
+    if (change.has('value') && this.value instanceof Array) {
+      if (
+        this.focused &&
+        (!change.get('value') ||
+          this.value.findIndex(v => v.position == this.focused.position && v.color == this.focused.color) == -1)
+      ) {
+        /* 이전 값이 없었던 경우에 focused를 클리어시킨다.
+         * 이전 값이 있던 경우에도, focused는 이 에디터 내부에서만 선택될 수 있으며, 수정될 수 있으므로 동일한 포지션을 갖는 value가 없으면, 새로운 에디터가 시작된 것으로 판단하여 focused를 클리어시킨다.
+         */
         this.focused = null
       }
 
