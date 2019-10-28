@@ -37,9 +37,9 @@ export class BoardViewer extends LitElement {
       ? html`
           <mwc-fab
             id="fullscreen"
-            icon="fullscreen"
+            .icon=${document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen'}
             @click=${e => this.onTapFullscreen(e)}
-            @mouseover=${e => this.transientShowButtons(stop)}
+            @mouseover=${e => this.transientShowButtons(true)}
             @mouseout=${e => this.transientShowButtons()}
             title="fullscreen"
           ></mwc-fab>
@@ -317,7 +317,7 @@ export class BoardViewer extends LitElement {
   }
 
   onTapFullscreen() {
-    togglefullscreen(this.target)
+    togglefullscreen(this)
   }
 
   onLinkGoto(targetBoardId, value, fromComponent) {
