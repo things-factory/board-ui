@@ -34,7 +34,6 @@ export default class ThingsEditorColorStops extends LitElement {
     this.max = 1
     this.value = []
     this.focused = null
-    this._dontReset = false
   }
 
   static get is() {
@@ -180,10 +179,10 @@ export default class ThingsEditorColorStops extends LitElement {
 
   updated(change) {
     if (change.has('value')) {
-      if (!this._dontReset) {
+      /* focused 를 clear 시키는 방법으로 고안함. focused는 이 에디터 내부에서만 선택될 수 있으며, 수정될 수 있으므로 동일한 포지션을 갖는 value가 없으면, 새로운 에디터가 시작된 것으로 판단하여 focused를 클리어시킨다.  */
+      if (this.focused && this.value.findIndex(v => v.position == this.focused.position) == -1) {
         this.focused = null
       }
-      this._dontReset = false
 
       this._renderColorBar(this.min, this.max, this.type)
     }
@@ -282,8 +281,6 @@ export default class ThingsEditorColorStops extends LitElement {
 
     this.focused = focused
 
-    this._dontReset = true
-
     this.value = this.value
       .map((colorStop, index) => {
         if (index != focused.index) return colorStop
@@ -376,8 +373,6 @@ export default class ThingsEditorColorStops extends LitElement {
         break
     }
 
-    this._dontReset = true
-
     this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
   }
 
@@ -402,8 +397,6 @@ export default class ThingsEditorColorStops extends LitElement {
 
     this.focused = null
     this._setFocused(i)
-
-    this._dontReset = true
 
     this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
   }
@@ -457,8 +450,6 @@ export default class ThingsEditorColorStops extends LitElement {
         position: Math.max(this.min, Math.min(position, this.max))
       })
 
-      this._dontReset = true
-
       this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
     }
   }
@@ -469,8 +460,6 @@ export default class ThingsEditorColorStops extends LitElement {
       this.value = this.value.slice()
 
       this._setFocused(-1)
-
-      this._dontReset = true
 
       this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
     }
@@ -487,29 +476,6 @@ export default class ThingsEditorColorStops extends LitElement {
 
     return ((calculated - this.min) / (this.max - this.min)) * width - 7
   }
-
-  // _onIronResize(e) {
-  //   /* [더 좋은 방법으로 개선해주세요.]
-  //     * 이 컴포넌트가 보이지 않는 상태에서 marker의 위치를 잡지 못하는 문제를 해결하기 위한 고육책
-  //     * 그 원인은 컴포넌트가 보이지 않는 상태에서는 this.colorbar.offsetWidth 값이 0이기 떄문이다.
-  //     */
-  //   var width = this.colorbar.offsetWidth
-
-  //   if (width > 0) {
-  //     var template = this.markersTemplate
-  //     template.items = []
-  //     template.render()
-  //     template.items = this._refinedValue(this.value)
-
-  //     /* hide => show 시에 resize 이벤트를 발생시키지 못한다.
-  //       그래서, 사이즈가 0 이상일 때(즉 show상태일 때) 값을 가지고 있다가,
-  //       포지션 계산에서 사용한다.
-  //       폭이 0이상일 때마다 갱신되므로, 괜찮을 듯하다.
-  //       향후에 show/hide 이벤트를 받을 수 있는 방법이 생기면, 개선하자.
-  //     */
-  //     this._colorbar_size = width
-  //   }
-  // }
 }
 
 customElements.define(ThingsEditorColorStops.is, ThingsEditorColorStops)
