@@ -3,6 +3,7 @@
  */
 
 import { LitElement, html, css } from 'lit-element'
+import { deepEquals } from '@things-factory/shell'
 
 import './things-editor-color'
 
@@ -179,9 +180,10 @@ export default class ThingsEditorColorStops extends LitElement {
 
   updated(change) {
     if (change.has('value') && this.value instanceof Array) {
+      var oldValue = change.get('value')
       if (
         this.focused &&
-        (!change.get('value') ||
+        (!oldValue ||
           this.value.findIndex(v => v.position == this.focused.position && v.color == this.focused.color) == -1)
       ) {
         /* 이전 값이 없었던 경우에 focused를 클리어시킨다.
@@ -190,7 +192,11 @@ export default class ThingsEditorColorStops extends LitElement {
         this.focused = null
       }
 
-      this._renderColorBar(this.min, this.max, this.type)
+      if (!deepEquals(oldValue, this.value)) {
+        this._renderColorBar(this.min, this.max, this.type)
+
+        this.requestUpdate()
+      }
     }
   }
 
