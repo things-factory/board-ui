@@ -240,10 +240,6 @@ class ThingsEditorColor extends LitElement {
     `
   }
 
-  updated(changed) {
-    if (changed.has('value')) this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
-  }
-
   set colorString(colorString) {
     var color = tinycolor(colorString)
     var { withoutAlpha, valueType } = this.properties || {}
@@ -263,6 +259,8 @@ class ThingsEditorColor extends LitElement {
   _onInputChanged(e) {
     e.stopPropagation()
     this.value = e.target.value
+
+    this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true }))
   }
 
   /**
