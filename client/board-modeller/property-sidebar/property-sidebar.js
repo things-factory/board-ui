@@ -211,10 +211,10 @@ class PropertySidebar extends LitElement {
   }
 
   _onChangedByScene(after, before) {
-    this.model = {
-      ...this.model,
-      ...after
-    }
+    if (this.propertyTarget)
+      this.model = {
+        ...this.propertyTarget.model
+      }
   }
 
   _setPropertyTargetAsDefault() {
@@ -224,10 +224,7 @@ class PropertySidebar extends LitElement {
       this.model = {}
       this.bounds = {}
     } else {
-      this._setPropertyTarget(this.scene.root)
-      this.specificProps = deepClone(this.scene.root.nature.properties)
-      this.model = { ...this.propertyTarget.model }
-      this._setBounds(this.propertyTarget.bounds)
+      this.scene.select('model-layer')
     }
   }
 
@@ -253,7 +250,7 @@ class PropertySidebar extends LitElement {
   async _onSceneChanged() {
     await this.renderComplete
 
-    this._setPropertyTargetAsDefault()
+    if (this.scene) this.selected = this.scene.select('model-layer')
   }
 
   async _onSelectedChanged(after, before) {
