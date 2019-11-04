@@ -459,6 +459,7 @@ const INITIAL_STATE = {
     'image-selector': 'property-editor-image-selector',
     'board-selector': 'property-editor-board-selector',
     'font-selector': 'property-editor-font-selector',
+    'id-input': 'property-editor-id',
     options: 'property-editor-options',
     date: 'property-editor-date'
   },

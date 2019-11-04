@@ -2,23 +2,21 @@
  * @license Copyright © HatioLab Inc. All rights reserved.
  */
 
-import { LitElement, html } from 'lit-element'
-
-import { deepClone } from '@things-factory/shell'
-
 import '@things-factory/i18n-base'
-import './things-editor-color'
-import './things-editor-color-stops'
-import './things-editor-multiple-color'
+import { deepClone } from '@things-factory/shell'
+import { html, LitElement } from 'lit-element'
 import './things-editor-angle-input'
-import './things-editor-table'
-import './things-editor-code'
-import './things-editor-options'
 import './things-editor-attachment-selector'
 import './things-editor-board-selector'
+import './things-editor-code'
+import './things-editor-color'
+import './things-editor-color-stops'
 import './things-editor-font-selector'
-
+import './things-editor-id'
+import './things-editor-multiple-color'
+import './things-editor-options'
 import { ThingsEditorPropertyStyles } from './things-editor-property-styles'
+import './things-editor-table'
 
 export default class ThingsEditorProperty extends LitElement {
   static get is() {
@@ -524,3 +522,21 @@ class PropertyEditorTable extends ThingsEditorProperty {
 }
 
 customElements.define(PropertyEditorTable.is, PropertyEditorTable)
+
+class PropertyEditorId extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-id'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-id id="editor" .value=${props.value} .property=${props.property}></things-editor-id>
+    `
+  }
+}
+
+customElements.define(PropertyEditorId.is, PropertyEditorId)

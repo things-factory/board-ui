@@ -26,6 +26,15 @@ export class BoardModeller extends LitElement {
     this.componentGroupList = []
     this.fonts = []
     this.propertyEditor = []
+
+    document.addEventListener('get-all-scene-component-ids', e => {
+      var { component, callback } = e.detail
+
+      if (!this.scene || !component) return
+
+      var ids = this.scene.findAll(component).map(c => c.model.id)
+      callback(ids)
+    })
   }
 
   static get properties() {
