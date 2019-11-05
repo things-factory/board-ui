@@ -32,7 +32,10 @@ export class BoardModeller extends LitElement {
 
       if (!this.scene || !component) return
 
-      var ids = this.scene.findAll(component).map(c => c.model.id)
+      var ids = this.scene
+        .findAll(component)
+        .map(c => c.model.id)
+        .filter(id => !!id)
       callback(ids)
     })
   }

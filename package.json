@@ -60,9 +60,9 @@
     "@things-factory/board-app": "^1.0.0-alpha.1",
     "@things-factory/board-service": "^1.0.0-alpha.1",
     "@things-factory/board-test": "^1.0.0-alpha.1",
-    "@things-factory/print-service": "^1.0.0-beta.2",
-    "@things-factory/publisher-base": "^0.0.12-beta.2",
-    "@things-factory/publisher-service": "^0.0.1-beta.10",
-    "@things-factory/publisher-ui": "^1.0.0-beta.1"
+    "@things-factory/print-service": "^1.1.0-alpha.1 ",
+    "@things-factory/publisher-base": "^1.0.0-alpha.1 ",
+    "@things-factory/publisher-service": "^1.0.0-alpha.1",
+    "@things-factory/publisher-ui": "^1.1.0-alpha.1"
   }
 }
