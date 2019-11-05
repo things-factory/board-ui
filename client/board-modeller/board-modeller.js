@@ -36,7 +36,7 @@ export class BoardModeller extends LitElement {
       if (component) ids = this.scene.findAll(component).map(c => c.model.id)
       else ids = this.scene.ids.map(({ key, value }) => key)
 
-      ids.filter(id => !!id).sort()
+      ids = ids.filter(id => !!id).sort()
       callback(ids)
     })
   }
