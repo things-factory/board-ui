@@ -30,12 +30,13 @@ export class BoardModeller extends LitElement {
     document.addEventListener('get-all-scene-component-ids', e => {
       var { component, callback } = e.detail
 
-      if (!this.scene || !component) return
+      if (!this.scene) return
 
-      var ids = this.scene
-        .findAll(component)
-        .map(c => c.model.id)
-        .filter(id => !!id)
+      var ids
+      if (component) ids = this.scene.findAll(component).map(c => c.model.id)
+      else ids = this.scene.ids.map(({ key, value }) => key)
+
+      ids.filter(id => !!id).sort()
       callback(ids)
     })
   }
