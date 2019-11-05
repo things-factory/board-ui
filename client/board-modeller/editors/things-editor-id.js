@@ -65,7 +65,7 @@ class ThingsEditorId extends LitElement {
 
   _onInputFocused(e) {
     this._ids = []
-    var { component } = this.property
+    var { component } = this.property || {}
 
     document.dispatchEvent(
       new CustomEvent('get-all-scene-component-ids', {
