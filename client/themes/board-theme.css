@@ -63,6 +63,11 @@ body {
   --property-sidebar-fieldset-label: normal 12px/16px var(--theme-font);
   --property-sidebar-fieldset-legend-color: var(--secondary-text-color);
   --property-sidebar-fieldset-legend: bold 11px/16px var(--theme-font);
+  --scene-inspector-color: var(--secondary-color);
+  --scene-inspector-selected-background-color: rgba(115, 188, 28, 0.2);
+  --scene-inspector-selected-border: 1px solid rgba(115, 188, 28, 1);
+  --scene-inspector-name-background-color: var(--primary-color);
+  --scene-inspector-eye-icon-color: var(--secondary-text-color);
 }
 
 @media only screen and (max-width: 460px) {

@@ -16,18 +16,23 @@ export default class SceneInspector extends LitElement {
     return [
       css`
         :host {
-          color: var(--scene-inspector-color, #394e64);
+          color: var(--scene-inspector-color);
         }
 
         .component {
           display: block;
           overflow: hidden;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
           font-size: 14px;
         }
 
         .component[selected] {
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: var(--scene-inspector-selected-background-color);
+          border-top: var(--scene-inspector-selected-border);
+          border-bottom: var(--scene-inspector-selected-border);
+        }
+        [selected] .type {
+          font-weight: bold;
         }
 
         span,
@@ -40,15 +45,19 @@ export default class SceneInspector extends LitElement {
         }
 
         span.name {
-          color: var(--scene-inspector-intensive-color, #22a6a7);
+          background-color: var(--scene-inspector-name-background-color);
+          border-radius: var(--border-radius);
+          padding: 0 4px;
+          color: #fff;
+          font-size: 0.8em;
         }
 
         .eye {
-          font-size: 1.3em;
+          margin: 0 0 0 5px;
           vertical-align: middle;
           opacity: 0.7;
-          color: var(--scene-inspector-intensive-color, #22a6a7);
-          margin: 0 0 0 4px;
+          font-size: 1.1em;
+          color: var(--scene-inspector-eye-icon-color);
         }
 
         .collapsed::before,
@@ -59,6 +68,7 @@ export default class SceneInspector extends LitElement {
           height: 18px;
           display: inline-block;
           content: '';
+          opacity: 0.6;
         }
 
         .collapsed::before {
@@ -73,6 +83,11 @@ export default class SceneInspector extends LitElement {
           background-position: 100% -395px;
           opacity: 0.9;
           width: 16px;
+        }
+        .collapsed,
+        .extended,
+        .collapsespace {
+          border-left: 1px dotted rgba(0, 0, 0, 0.1);
         }
 
         pre {
