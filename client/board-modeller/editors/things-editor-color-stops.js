@@ -129,7 +129,7 @@ export default class ThingsEditorColorStops extends LitElement {
         }
 
         .icon-only-label {
-          background: url(./assets/images/icon-properties-label.png) no-repeat;
+          background: url(/assets/images/icon-properties-label.png) no-repeat;
           width: 30px;
           height: 24px;
         }

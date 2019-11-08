@@ -93,7 +93,7 @@ export default class ThingsEditorGradient extends LitElement {
         }
 
         [gradient-direction] paper-item {
-          background: url(./assets/images/icon-editor-gradient-direction.png) 50% 0 no-repeat;
+          background: url(/assets/images/icon-editor-gradient-direction.png) 50% 0 no-repeat;
           min-height: 32px;
           padding: 3px 5px;
           width: 30px;
@@ -164,7 +164,7 @@ export default class ThingsEditorGradient extends LitElement {
           top: 0 !important;
           width: 30px !important;
           height: 24px;
-          background: url(./assets/images/icon-properties-label.png) no-repeat;
+          background: url(/assets/images/icon-properties-label.png) no-repeat;
         }
 
         .icon-only-label.color {

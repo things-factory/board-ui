@@ -63,7 +63,7 @@ export default class SceneInspector extends LitElement {
         .collapsed::before,
         .extended::before,
         .collapsespace::before {
-          background: url(./assets/images/icon-shell-inspector.png) no-repeat;
+          background: url(/assets/images/icon-shell-inspector.png) no-repeat;
           width: 16px;
           height: 18px;
           display: inline-block;

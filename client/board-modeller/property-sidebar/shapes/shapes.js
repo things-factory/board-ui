@@ -29,7 +29,7 @@ class PropertyShapes extends AbstractProperty {
       BoxPaddingEditorStyles,
       css`
         .icon-label label {
-          background: url(./assets/images/icon-properties-label.png) 7px -900px no-repeat;
+          background: url(/assets/images/icon-properties-label.png) 7px -900px no-repeat;
         }
 
         .icon-label label.width {
@@ -73,7 +73,7 @@ class PropertyShapes extends AbstractProperty {
         }
 
         things-editor-buttons-radio paper-button {
-          background: url(./assets/images/icon-properties.png) no-repeat;
+          background: url(/assets/images/icon-properties.png) no-repeat;
         }
 
         things-editor-buttons-radio paper-button[data-value='left'] {

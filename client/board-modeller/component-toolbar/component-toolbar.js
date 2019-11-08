@@ -47,7 +47,7 @@ class ComponentToolbar extends LitElement {
 
           border-bottom: var(--component-toolbar-border);
           margin: 0;
-          background: url(./assets/images/icon-vtoolbar.png) -1px 0 no-repeat;
+          background: url(/assets/images/icon-vtoolbar.png) -1px 0 no-repeat;
         }
 
         span[data-group='line'] {

@@ -96,7 +96,7 @@ export const PropertySharedStyle = css`
   .icon-only-label {
     grid-column: span 1;
 
-    background: url(./assets/images/icon-properties-label.png) no-repeat;
+    background: url(/assets/images/icon-properties-label.png) no-repeat;
     float: left;
     margin: 0;
     align-self: stretch;

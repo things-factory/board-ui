@@ -53,7 +53,7 @@ export default class ThingsEditorColorStyle extends LitElement {
         .grid-10 > .icon-only-label {
           grid-column: span 1;
 
-          background: url(./assets/images/icon-properties-label.png) no-repeat;
+          background: url(/assets/images/icon-properties-label.png) no-repeat;
           float: left;
           margin: 0;
         }
