@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -27,9 +27,8 @@
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
-    "@material/mwc-fab": "0.8.0",
-    "@material/mwc-icon": "0.8.0",
-    "@material/mwc-slider": "0.8.0",
+    "@material/mwc-fab": "^0.11.1",
+    "@material/mwc-slider": "^0.11.1",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-icons": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
