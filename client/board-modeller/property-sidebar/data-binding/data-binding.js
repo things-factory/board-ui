@@ -348,17 +348,16 @@ class PropertyDataBinding extends AbstractProperty {
         this._afterRender = () => {
           this._setMappingIndex(nextMappingIdx)
         }
+        this.dispatchEvent(
+          new CustomEvent('property-change', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              mappings: mappings.filter(m => !!m)
+            }
+          })
+        )
       }
-
-      this.dispatchEvent(
-        new CustomEvent('property-change', {
-          bubbles: true,
-          composed: true,
-          detail: {
-            mappings: mappings.filter(m => !!m)
-          }
-        })
-      )
     }
   }
 
