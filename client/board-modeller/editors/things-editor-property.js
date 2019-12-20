@@ -198,6 +198,24 @@ class PropertyEditorString extends ThingsEditorProperty {
 
 customElements.define(PropertyEditorString.is, PropertyEditorString)
 
+class PropertyEditorPassword extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-password'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <input type="password" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} />
+    `
+  }
+}
+
+customElements.define(PropertyEditorPassword.is, PropertyEditorPassword)
+
 class PropertyEditorTextArea extends ThingsEditorProperty {
   static get is() {
     return 'property-editor-textarea'

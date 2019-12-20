@@ -108,7 +108,12 @@ function shapes() {
       icon: polygon,
       model: {
         type: 'polygon',
-        path: [{ x: 100, y: 100 }, { x: 200, y: 100 }, { x: 200, y: 200 }, { x: 100, y: 200 }],
+        path: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+          { x: 100, y: 200 }
+        ],
         fillStyle: '#fff',
         strokeStyle: '#000',
         alpha: 1,
@@ -229,7 +234,12 @@ function lines() {
       icon: polyline,
       model: {
         type: 'polyline',
-        path: [{ x: 100, y: 100 }, { x: 200, y: 100 }, { x: 200, y: 200 }, { x: 100, y: 200 }],
+        path: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+          { x: 100, y: 200 }
+        ],
         fillStyle: '#fff',
         strokeStyle: '#000',
         alpha: 1,
@@ -444,6 +454,7 @@ const INITIAL_STATE = {
   editors: {
     legend: 'property-editor-legend',
     number: 'property-editor-number',
+    password: 'property-editor-password',
     angle: 'property-editor-angle',
     string: 'property-editor-string',
     textarea: 'property-editor-textarea',
