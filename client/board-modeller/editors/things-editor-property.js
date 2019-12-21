@@ -129,6 +129,7 @@ class PropertyEditorNumber extends ThingsEditorProperty {
       <input
         id="editor"
         type="number"
+        placeholder=${props.placeholder || ''}
         .value=${props.value}
         .step=${props.property && props.property.step}
         .min=${props.property && props.property.min}
