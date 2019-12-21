@@ -28,6 +28,7 @@ export default class ThingsEditorProperty extends LitElement {
       value: Object,
       type: String,
       label: String,
+      placeholder: String,
       property: Object,
       _msgId: String,
       _clone: Object

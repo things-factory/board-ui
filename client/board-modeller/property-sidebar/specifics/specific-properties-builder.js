@@ -92,6 +92,7 @@ class SpecificPropertiesBuilder extends LitElement {
 
       element.label = prop.label
       element.type = prop.type
+      element.placeholder = prop.placeholder
       element.setAttribute('name', prop.name)
       prop.placeholder = prop.placeholder
       if (prop.observe) {
