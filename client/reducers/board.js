@@ -1,4 +1,4 @@
-import { ADD_BOARD_COMPONENTS } from '../actions/board.js'
+import { ADD_BOARD_COMPONENTS, ADD_BOARD_EDITORS } from '../actions/board.js'
 
 import rect from '../../assets/images/components/rect.png'
 import ellipse from '../../assets/images/components/ellipse.png'
@@ -498,6 +498,17 @@ const INITIAL_STATE = {
 
 const board = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case ADD_BOARD_EDITORS:
+      let editors = {
+        ...state.editors,
+        ...(action.editors || {})
+      }
+
+      return {
+        ...state,
+        editors
+      }
+
     case ADD_BOARD_COMPONENTS:
       let components = action.components
 
