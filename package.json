@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-alpha.16",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -47,6 +47,7 @@
     "@things-factory/i18n-base": "^1.0.0-alpha.1",
     "@things-factory/shell": "^1.0.0-alpha.1",
     "codemirror": "^5.48.0",
+    "codemirror-graphql": "^0.11.6",
     "file-saver": "^2.0.1",
     "puppeteer": "^1.19.0",
     "screenfull": "^4.2.0",
