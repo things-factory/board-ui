@@ -236,6 +236,24 @@ class PropertyEditorTextArea extends ThingsEditorProperty {
 
 customElements.define(PropertyEditorTextArea.is, PropertyEditorTextArea)
 
+class PropertyEditorGraphQL extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-graphql'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-code id="editor" mode="graphql" .value=${props.value} fullwidth> </things-editor-code>
+    `
+  }
+}
+
+customElements.define(PropertyEditorGraphQL.is, PropertyEditorGraphQL)
+
 class PropertyEditorCheckbox extends ThingsEditorProperty {
   static get is() {
     return 'property-editor-checkbox'

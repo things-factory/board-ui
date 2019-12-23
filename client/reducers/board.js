@@ -458,6 +458,8 @@ const INITIAL_STATE = {
     angle: 'property-editor-angle',
     string: 'property-editor-string',
     textarea: 'property-editor-textarea',
+    javascript: 'property-editor-textarea',
+    graphql: 'property-editor-graphql',
     checkbox: 'property-editor-checkbox',
     select: 'property-editor-select',
     color: 'property-editor-color',
