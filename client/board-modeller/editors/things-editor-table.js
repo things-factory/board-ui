@@ -61,7 +61,7 @@ class ThingsEditorTable extends LitElement {
         }
 
         .icon-only-label {
-          background: url(./assets/images/icon-properties-label.png) no-repeat;
+          background: url(/assets/images/icon-properties-label.png) no-repeat;
           width: 30px;
           height: 24px;
         }
@@ -166,7 +166,7 @@ class ThingsEditorTable extends LitElement {
         }
 
         .line-type paper-item {
-          background: no-repeat url(./assets/images/icon-properties-line-type.png);
+          background: no-repeat url(/assets/images/icon-properties-line-type.png);
           width: 80px;
           min-height: 25px;
         }

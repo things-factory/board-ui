@@ -47,7 +47,7 @@ class PropertyStyles extends AbstractProperty {
           display: inline-block;
           border-bottom: 2px solid #fff;
 
-          background: url(./assets/images/icon-properties.png) no-repeat;
+          background: url(/assets/images/icon-properties.png) no-repeat;
           background-size: 70%;
         }
 
@@ -76,7 +76,7 @@ class PropertyStyles extends AbstractProperty {
           max-width: 100px;
         }
         .line-type paper-item {
-          background: url(./assets/images/icon-properties-line-type.png) 50% 0 no-repeat;
+          background: url(/assets/images/icon-properties-line-type.png) 50% 0 no-repeat;
           min-height: 25px;
           padding: 3px 9px;
           width: 80px;
@@ -108,7 +108,7 @@ class PropertyStyles extends AbstractProperty {
         }
 
         .line-type .paper-input-container input {
-          background: url(./assets/images/icon-properties-line-type.png) 50% 0 no-repeat !important;
+          background: url(/assets/images/icon-properties-line-type.png) 50% 0 no-repeat !important;
         }
         .line-type.solid .paper-input-container input {
           background-position: 50% 5px !important;
@@ -140,7 +140,7 @@ class PropertyStyles extends AbstractProperty {
           max-width: 140px;
         }
         .arrow-type paper-item {
-          background: url(./assets/images/icon-properties-arrow-type.png) 50% 0 no-repeat;
+          background: url(/assets/images/icon-properties-arrow-type.png) 50% 0 no-repeat;
           min-height: 30px;
           padding: 3px 7px;
           width: 30px;
@@ -238,7 +238,7 @@ class PropertyStyles extends AbstractProperty {
         }
 
         .arrow-type .paper-input-container input {
-          background: url(./assets/images/icon-properties-arrow-type.png) 110% 0 no-repeat !important;
+          background: url(/assets/images/icon-properties-arrow-type.png) 110% 0 no-repeat !important;
         }
         .arrow-type.begin-no .paper-input-container input {
           background-position: 110% 5px !important;

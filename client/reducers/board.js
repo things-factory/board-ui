@@ -1,4 +1,4 @@
-import { ADD_BOARD_COMPONENTS } from '../actions/board.js'
+import { ADD_BOARD_COMPONENTS, ADD_BOARD_EDITORS } from '../actions/board.js'
 
 import rect from '../../assets/images/components/rect.png'
 import ellipse from '../../assets/images/components/ellipse.png'
@@ -108,7 +108,12 @@ function shapes() {
       icon: polygon,
       model: {
         type: 'polygon',
-        path: [{ x: 100, y: 100 }, { x: 200, y: 100 }, { x: 200, y: 200 }, { x: 100, y: 200 }],
+        path: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+          { x: 100, y: 200 }
+        ],
         fillStyle: '#fff',
         strokeStyle: '#000',
         alpha: 1,
@@ -229,7 +234,12 @@ function lines() {
       icon: polyline,
       model: {
         type: 'polyline',
-        path: [{ x: 100, y: 100 }, { x: 200, y: 100 }, { x: 200, y: 200 }, { x: 100, y: 200 }],
+        path: [
+          { x: 100, y: 100 },
+          { x: 200, y: 100 },
+          { x: 200, y: 200 },
+          { x: 100, y: 200 }
+        ],
         fillStyle: '#fff',
         strokeStyle: '#000',
         alpha: 1,
@@ -444,9 +454,12 @@ const INITIAL_STATE = {
   editors: {
     legend: 'property-editor-legend',
     number: 'property-editor-number',
+    password: 'property-editor-password',
     angle: 'property-editor-angle',
     string: 'property-editor-string',
     textarea: 'property-editor-textarea',
+    javascript: 'property-editor-textarea',
+    graphql: 'property-editor-graphql',
     checkbox: 'property-editor-checkbox',
     select: 'property-editor-select',
     color: 'property-editor-color',
@@ -487,6 +500,17 @@ const INITIAL_STATE = {
 
 const board = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case ADD_BOARD_EDITORS:
+      let editors = {
+        ...state.editors,
+        ...(action.editors || {})
+      }
+
+      return {
+        ...state,
+        editors
+      }
+
     case ADD_BOARD_COMPONENTS:
       let components = action.components
 

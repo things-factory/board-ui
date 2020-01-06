@@ -43,7 +43,7 @@ export const style = css`
   span[button] {
     min-height: 35px;
 
-    background: url('./assets/images/icon-htoolbar.png') no-repeat;
+    background: url('/assets/images/icon-htoolbar.png') no-repeat;
     background-position-x: 50%;
     opacity: 0.8;
   }
@@ -209,20 +209,20 @@ export const style = css`
 
   /* bigger buttons */
   #fullscreen {
-    background: url('./assets/images/icon-fullscreen.png') 50% 10px no-repeat;
+    background: url('/assets/images/icon-fullscreen.png') 50% 10px no-repeat;
     width: var(--edit-toolbar-bigger-icon-size);
     height: var(--edit-toolbar-bigger-icon-size);
     border-left: var(--edit-toolbar-bigger-icon-line);
   }
 
   #toggle-property {
-    background: url('./assets/images/icon-collapse.png') 80% 10px no-repeat;
+    background: url('/assets/images/icon-collapse.png') 80% 10px no-repeat;
     width: var(--edit-toolbar-bigger-icon-size);
     height: var(--edit-toolbar-bigger-icon-size);
     border-left: var(--edit-toolbar-bigger-icon-line);
   }
 
   #toggle-property[active] {
-    background: url(./assets/images/icon-collapse-active.png) 80% 10px no-repeat;
+    background: url(/assets/images/icon-collapse-active.png) 80% 10px no-repeat;
   }
 `

@@ -6,7 +6,7 @@ export const BoxPaddingEditorStyles = css`
   }
 
   .box-padding td {
-    background: url(./assets/images/icon-properties-padding.png) 50% 0 no-repeat;
+    background: url(/assets/images/icon-properties-padding.png) 50% 0 no-repeat;
   }
 
   .box-padding tr:nth-child(1),

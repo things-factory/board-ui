@@ -28,6 +28,7 @@ export default class ThingsEditorProperty extends LitElement {
       value: Object,
       type: String,
       label: String,
+      placeholder: String,
       property: Object,
       _msgId: String,
       _clone: Object
@@ -129,6 +130,7 @@ class PropertyEditorNumber extends ThingsEditorProperty {
       <input
         id="editor"
         type="number"
+        placeholder=${props.placeholder || ''}
         .value=${props.value}
         .step=${props.property && props.property.step}
         .min=${props.property && props.property.min}
@@ -198,6 +200,24 @@ class PropertyEditorString extends ThingsEditorProperty {
 
 customElements.define(PropertyEditorString.is, PropertyEditorString)
 
+class PropertyEditorPassword extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-password'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <input type="password" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} />
+    `
+  }
+}
+
+customElements.define(PropertyEditorPassword.is, PropertyEditorPassword)
+
 class PropertyEditorTextArea extends ThingsEditorProperty {
   static get is() {
     return 'property-editor-textarea'
@@ -215,6 +235,24 @@ class PropertyEditorTextArea extends ThingsEditorProperty {
 }
 
 customElements.define(PropertyEditorTextArea.is, PropertyEditorTextArea)
+
+class PropertyEditorGraphQL extends ThingsEditorProperty {
+  static get is() {
+    return 'property-editor-graphql'
+  }
+
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-code id="editor" mode="graphql" .value=${props.value} fullwidth> </things-editor-code>
+    `
+  }
+}
+
+customElements.define(PropertyEditorGraphQL.is, PropertyEditorGraphQL)
 
 class PropertyEditorCheckbox extends ThingsEditorProperty {
   static get is() {

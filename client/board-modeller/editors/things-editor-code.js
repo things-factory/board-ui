@@ -31,7 +31,8 @@ export default class ThingsEditorCode extends LitElement {
       /**
        * `value`는 에디터에서 작성중인 contents이다.
        */
-      value: String
+      value: String,
+      mode: String
     }
   }
 
@@ -79,10 +80,15 @@ export default class ThingsEditorCode extends LitElement {
   get editor() {
     if (!this._editor) {
       let textarea = this.shadowRoot.querySelector('textarea')
+      let mode = this.mode || 'javascript'
+      let lint = this.lint
+      let hintOptions = this.hintOptions
       if (textarea) {
         this._editor = CodeMirror.fromTextArea(textarea, {
           value: this.value,
-          mode: 'javascript',
+          mode,
+          lint,
+          hintOptions,
           tabSize: 2,
           lineNumbers: false,
           showCursorWhenSelecting: true,

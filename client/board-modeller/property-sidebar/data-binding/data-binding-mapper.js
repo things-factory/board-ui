@@ -171,7 +171,7 @@ export default class DataBindingMapper extends LitElement {
         ${this.properties.map(
           item =>
             html`
-              <option .value=${item.name}>${item.label}</option>
+              <option .value=${item.name} ?selected=${item.name == this.mapping.property}>${item.label}</option>
             `
         )}
       </select>

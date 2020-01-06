@@ -23,6 +23,7 @@ const DEFAULT_VALUE = {
   number: 0,
   angle: 0,
   string: '',
+  password: '',
   textarea: '',
   checkbox: false,
   select: '',
@@ -79,10 +80,6 @@ class SpecificPropertiesBuilder extends LitElement {
     change.has('value') && this._setValues()
   }
 
-  stateChanged(state) {
-    this.propertyEditor = state.propertyEditor
-  }
-
   _onPropsChanged(props) {
     this.renderRoot.textContent = ''
     ;(props || []).forEach(prop => {
@@ -95,6 +92,7 @@ class SpecificPropertiesBuilder extends LitElement {
 
       element.label = prop.label
       element.type = prop.type
+      element.placeholder = prop.placeholder
       element.setAttribute('name', prop.name)
       prop.placeholder = prop.placeholder
       if (prop.observe) {
