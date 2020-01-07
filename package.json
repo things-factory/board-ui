@@ -58,9 +58,9 @@
     "@things-factory/board-app": "^2.0.0",
     "@things-factory/board-service": "^2.0.0",
     "@things-factory/board-test": "^2.0.0",
-    "@things-factory/print-service": "^1.1.0-alpha.1 ",
+    "@things-factory/print-service": "^2.0.0",
     "@things-factory/publisher-base": "^2.0.0 ",
     "@things-factory/publisher-service": "^2.0.0",
-    "@things-factory/publisher-ui": "^1.1.0-alpha.1"
+    "@things-factory/publisher-ui": "^2.0.0"
   }
 }
