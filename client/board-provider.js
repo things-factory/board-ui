@@ -17,23 +17,13 @@ export const provider = new ReferenceMap(
       })
 
       const board = response.data.board
-
       var model = JSON.parse(board.model)
 
-      var scene
-
-      try {
-        scene = await provider.get(boardId)
-        console.warn('Board fetched more than twice.', boardId)
-      } catch (e) {
-        scene = create({
-          model,
-          mode: 0,
-          refProvider: provider
-        })
-
-        // s.app.baseUrl = undefined;
-      }
+      var scene = create({
+        model,
+        mode: 0,
+        refProvider: provider
+      })
 
       resolve(scene, {
         ...board,
