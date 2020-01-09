@@ -329,6 +329,20 @@ class ThingsEditorTable extends LitElement {
       })
     )
 
+    this.dispatchEvent(
+      new CustomEvent('i-need-selected', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          callback: selected => {
+            console.log(selected)
+            console.log(this.borderColor)
+            console.log(target)
+          }
+        }
+      })
+    )
+
     e.stopPropagation()
   }
 }
