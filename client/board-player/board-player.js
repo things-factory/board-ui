@@ -32,7 +32,6 @@ export class BoardPlayer extends LitElement {
       playtime: Number,
       columns: Number,
       rows: Number,
-      provider: Object,
       started: Boolean,
       playing: Boolean,
       fullscreened: Boolean
@@ -52,7 +51,7 @@ export class BoardPlayer extends LitElement {
                 <board-player-carousel axis="y" .rows=${this.rows} .columns=${this.columns} player>
                   ${this.boards.map(
                     item => html`
-                      <board-wrapper page .sceneId=${item.id} .provider=${this.provider}> </board-wrapper>
+                      <board-wrapper page .sceneId=${item.id}> </board-wrapper>
                     `
                   )}
                 </board-player-carousel>

@@ -100,6 +100,7 @@ class PropertySpecific extends LitElement {
     this.props = []
     this.propertyEditor = []
 
+    this.boundINeedSelected = this._onINeedSelected.bind(this)
     this.boundTableCellBorderSet = this._onTableCellBorderSet.bind(this)
     this.boundActionClick = this._onActionClick.bind(this)
     this.boundTableCellEvent = this._onTableCellEvent.bind(this)
@@ -107,6 +108,8 @@ class PropertySpecific extends LitElement {
 
   connectedCallback() {
     super.connectedCallback()
+
+    this.addEventListener('i-need-selected', this.boundINeedSelected)
 
     this.addEventListener('table-cell-border-set', this.boundTableCellBorderSet)
     this.addEventListener('action-editor-clicked', this.boundActionClick)
@@ -146,6 +149,14 @@ class PropertySpecific extends LitElement {
       <specific-properties-builder .value=${this.value} .props=${this.props} .propertyEditor=${this.propertyEditor}>
       </specific-properties-builder>
     `
+  }
+
+  _onINeedSelected(e) {
+    e.stopPropagation()
+
+    var { callback } = e.detail
+
+    callback.call(null, this.selected)
   }
 
   _onRackTableCellIncrementSet(e, detail) {

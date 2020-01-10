@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 import { css, html } from 'lit-element'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import '../board-player/board-player'
-import { provider } from '../board-provider'
 import './things-scene-components.import'
 
 const NOOP = () => {}
@@ -14,7 +13,6 @@ export class BoardPlayerPage extends connect(store)(PageView) {
       _playGroup: Object,
       _playGroupId: String,
       _boards: Array,
-      _provider: Object,
       _baseUrl: String,
       _license: Object,
       _showSpinner: Boolean
@@ -70,37 +68,39 @@ export class BoardPlayerPage extends connect(store)(PageView) {
       this._showSpinner = true
       this.updateContext()
 
-      this._playGroup = (await client.query({
-        query: gql`
-          query FetchPlayGroup($id: String!) {
-            playGroup(id: $id) {
-              id
-              name
-              description
-              boards {
+      this._playGroup = (
+        await client.query({
+          query: gql`
+            query FetchPlayGroup($id: String!) {
+              playGroup(id: $id) {
                 id
                 name
                 description
-                model
-                thumbnail
-                createdAt
-                creator {
+                boards {
                   id
                   name
-                }
-                updatedAt
-                updater {
-                  id
-                  name
+                  description
+                  model
+                  thumbnail
+                  createdAt
+                  creator {
+                    id
+                    name
+                  }
+                  updatedAt
+                  updater {
+                    id
+                    name
+                  }
                 }
               }
             }
+          `,
+          variables: {
+            id: this._playGroupId
           }
-        `,
-        variables: {
-          id: this._playGroupId
-        }
-      })).data.playGroup
+        })
+      ).data.playGroup
 
       if (!this._playGroup) {
         throw 'playgroup not found'
@@ -170,7 +170,7 @@ export class BoardPlayerPage extends connect(store)(PageView) {
           ></oops-note>
         `
       : html`
-          <board-player .boards=${this._boards} .provider=${provider}></board-player>
+          <board-player .boards=${this._boards}></board-player>
           <oops-spinner ?show=${this._showSpinner}></oops-spinner>
         `
   }

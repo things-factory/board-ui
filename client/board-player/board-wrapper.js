@@ -1,16 +1,16 @@
 import { LitElement, html, css } from 'lit-element'
+import { createBoardProvider } from '../board-provider'
 
 class BoardWrapper extends LitElement {
   constructor() {
     super()
 
     this.sceneId = ''
-    this.provider = null
   }
 
   static get properties() {
     return {
-      sceneId: String,
+      sceneId: String
       /*
        * 캔바스에 모델을 어떻게 적절하게 보여줄 것인지를 설정한다.
        *
@@ -23,7 +23,6 @@ class BoardWrapper extends LitElement {
        *
        * @todo things-real 에서는 enumeration type 이며, FitMode.RATIO | FitMode.BOTH 중 하나로 정의한다.
        */
-      provider: Object
     }
   }
 
@@ -67,6 +66,10 @@ class BoardWrapper extends LitElement {
         }
       })
     })
+
+    if (!this.provicer) {
+      this.provider = createBoardProvider()
+    }
   }
 
   get targetEl() {
@@ -88,6 +91,9 @@ class BoardWrapper extends LitElement {
       this.scene.target = null
       this.scene.release()
       delete this.scene
+
+      this.provider.dispose()
+      delete this.provider
     }
   }
 
