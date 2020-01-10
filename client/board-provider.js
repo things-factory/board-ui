@@ -18,13 +18,23 @@ export function createBoardProvider() {
         })
 
         const board = response.data.board
+
         var model = JSON.parse(board.model)
 
-        var scene = create({
-          model,
-          mode: 0,
-          refProvider: _provider
-        })
+        var scene
+
+        try {
+          scene = await provider.get(boardId)
+          console.warn('Board fetched more than twice.', boardId)
+        } catch (e) {
+          scene = create({
+            model,
+            mode: 0,
+            refProvider: provider
+          })
+
+          // s.app.baseUrl = undefined;
+        }
 
         resolve(scene, {
           ...board,
