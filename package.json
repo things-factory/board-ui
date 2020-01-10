@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -58,9 +58,6 @@
     "@things-factory/board-app": "^2.0.0",
     "@things-factory/board-service": "^2.0.0",
     "@things-factory/board-test": "^2.0.0",
-    "@things-factory/print-service": "^2.0.0",
-    "@things-factory/publisher-base": "^2.0.0 ",
-    "@things-factory/publisher-service": "^2.0.0",
-    "@things-factory/publisher-ui": "^2.0.0"
+    "@things-factory/print-service": "^2.0.0"
   }
 }
