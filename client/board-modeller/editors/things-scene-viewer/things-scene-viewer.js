@@ -263,7 +263,7 @@ export default class ThingsSceneViewer extends LitElement {
      scene 컴포넌트의 속성을 속성 에디터(input box등)에서 변경하다가,
      scene의 다른 컴포넌트를 클릭해서 포커스(선택) 컴포넌트를 변경하게되면,
      속성 에디터(input box등)의 value change 이벤트의 처리와 충돌(레이스)하게된다.
-
+     
      기대하는 순서는 먼저 속성 에디터의 value change 이벤트를 처리한 후에,
      selected 이벤트를 처리할 수 있도록 requestAnimationFrame으로 한 프레임을 지연하도록 하였다.
      */
