@@ -8,7 +8,7 @@ import './board-wrapper'
 
 import './player/board-player-carousel'
 
-import { togglefullscreen, exitfullscreen } from '@things-factory/shell'
+import { togglefullscreen, exitfullscreen } from '@things-factory/utils'
 
 import { style } from './board-player-style'
 

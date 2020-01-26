@@ -6,7 +6,8 @@ import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-icon'
 
-import { deepClone, ScrollbarStyles } from '@things-factory/shell'
+import { deepClone } from '@things-factory/utils'
+import { ScrollbarStyles } from '@things-factory/styles'
 
 import './shapes/shapes'
 import './styles/styles'
@@ -233,7 +234,10 @@ class PropertySidebar extends LitElement {
 
     this.animate(
       collapsed
-        ? [{ transform: 'translateX(0)', opacity: 1, easing: 'ease-in' }, { transform: 'translateX(100%)', opacity: 1 }]
+        ? [
+            { transform: 'translateX(0)', opacity: 1, easing: 'ease-in' },
+            { transform: 'translateX(100%)', opacity: 1 }
+          ]
         : [
             { transform: 'translateX(100%)', opacity: 1 },
             { transform: 'translateX(0)', opacity: 1, easing: 'ease-out' }

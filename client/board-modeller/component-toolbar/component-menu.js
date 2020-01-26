@@ -4,7 +4,8 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import { deepClone, ScrollbarStyles } from '@things-factory/shell'
+import { deepClone } from '@things-factory/utils'
+import { ScrollbarStyles } from '@things-factory/styles'
 
 import noImage from '../../../assets/images/components/no-image.png'
 

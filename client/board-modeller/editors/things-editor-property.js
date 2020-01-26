@@ -3,7 +3,7 @@
  */
 
 import '@things-factory/i18n-base'
-import { deepClone } from '@things-factory/shell'
+import { deepClone } from '@things-factory/utils'
 import { html, LitElement } from 'lit-element'
 import './things-editor-angle-input'
 import './things-editor-attachment-selector'

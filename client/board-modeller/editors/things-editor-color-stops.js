@@ -3,7 +3,7 @@
  */
 
 import { LitElement, html, css } from 'lit-element'
-import { deepEquals } from '@things-factory/shell'
+import { deepEquals } from '@things-factory/utils'
 
 import './things-editor-color'
 

@@ -4,7 +4,7 @@ import '@material/mwc-fab'
 import '@material/mwc-icon'
 
 import { create } from '@hatiolab/things-scene'
-import { togglefullscreen, isIOS } from '@things-factory/shell'
+import { togglefullscreen, isIOS } from '@things-factory/utils'
 
 import { style } from './board-viewer-style'
 

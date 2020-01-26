@@ -4,7 +4,8 @@ import gql from 'graphql-tag'
 
 import { saveAs } from 'file-saver'
 
-import { store, PageView, togglefullscreen, client } from '@things-factory/shell'
+import { store, PageView, client } from '@things-factory/shell'
+import { togglefullscreen } from '@things-factory/utils'
 
 import { provider } from '../board-provider'
 

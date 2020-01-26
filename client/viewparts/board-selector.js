@@ -3,7 +3,9 @@ import '@things-factory/setting-base'
 import { css, html, LitElement } from 'lit-element'
 
 import gql from 'graphql-tag'
-import { client, gqlBuilder, InfiniteScrollable, ScrollbarStyles } from '@things-factory/shell'
+import { client, InfiniteScrollable } from '@things-factory/shell'
+import { gqlBuilder } from '@things-factory/utils'
+import { ScrollbarStyles } from '@things-factory/styles'
 import './board-creation-card'
 
 const FETCH_BOARD_LIST_GQL = listParam => {
