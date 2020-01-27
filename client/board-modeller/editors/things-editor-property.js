@@ -30,6 +30,7 @@ export default class ThingsEditorProperty extends LitElement {
       label: String,
       placeholder: String,
       property: Object,
+      /* TODO _msgId, _clone 속성이 필요한가 ? */
       _msgId: String,
       _clone: Object
     }
