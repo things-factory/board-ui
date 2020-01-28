@@ -15,8 +15,11 @@ import './things-editor-font-selector'
 import './things-editor-id'
 import './things-editor-multiple-color'
 import './things-editor-options'
-import { ThingsEditorPropertyStyles } from './things-editor-property-styles'
 import './things-editor-table'
+import './things-editor-value-map'
+import './things-editor-value-range'
+
+import { ThingsEditorPropertyStyles } from './things-editor-property-styles'
 
 export default class ThingsEditorProperty extends LitElement {
   static get is() {
@@ -579,3 +582,36 @@ class PropertyEditorId extends ThingsEditorProperty {
 }
 
 customElements.define(PropertyEditorId.is, PropertyEditorId)
+
+class PropertyEditorValueMap extends ThingsEditorProperty {
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-value-map id="editor" valuetype="string" .value=${props.value} fullwidth></things-editor-value-map>
+    `
+  }
+}
+
+customElements.define('property-editor-value-map', PropertyEditorValueMap)
+
+class PropertyEditorValueRange extends ThingsEditorProperty {
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html`
+      <things-editor-value-range
+        id="editor"
+        valuetype="string"
+        .value=${props.value}
+        fullwidth
+      ></things-editor-value-range>
+    `
+  }
+}
+
+customElements.define('property-editor-value-range', PropertyEditorValueRange)

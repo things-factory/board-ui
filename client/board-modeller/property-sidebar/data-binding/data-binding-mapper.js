@@ -9,8 +9,8 @@ import '@polymer/paper-radio-group/paper-radio-group'
 
 import '@things-factory/i18n-base'
 import '../../editors/things-editor-code'
-import './data-binding-value-map'
-import './data-binding-value-range'
+import '../../editors/things-editor-value-map'
+import '../../editors/things-editor-value-range'
 
 /**
 element for mapping data value editing
@@ -194,21 +194,21 @@ export default class DataBindingMapper extends LitElement {
       </paper-radio-group>
 
       <div rule-editors class="content">
-        <data-binding-value-map
+        <things-editor-value-map
           value-key="map"
           .value=${this.rule.map || {}}
           .valuetype=${this._valuetype(this.mapping.property)}
           ?active=${this.mapping.rule == 'map'}
         >
-        </data-binding-value-map>
+        </things-editor-value-map>
 
-        <data-binding-value-range
+        <things-editor-value-range
           value-key="range"
           .value=${this.rule.range || []}
           .valuetype=${this._valuetype(this.mapping.property)}
           ?active=${this.mapping.rule == 'range'}
         >
-        </data-binding-value-range>
+        </things-editor-value-range>
 
         <things-editor-code
           value-key="eval"

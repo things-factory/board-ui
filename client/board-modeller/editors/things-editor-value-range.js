@@ -4,21 +4,21 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '../../editors/things-editor-color'
+import './things-editor-color'
 
 /**
 range value editor element
 
 Example:
 
-  <data-binding-value-range range=${range}
+  <things-editor-value-range range=${range}
                             rangetype=${type}
                             valuetype=${valuetype}>
-  </data-binding-value-range>
+  </things-editor-value-range>
 */
 export default class DataBindingValueRange extends LitElement {
   static get is() {
-    return 'data-binding-value-range'
+    return 'things-editor-value-range'
   }
 
   static get properties() {

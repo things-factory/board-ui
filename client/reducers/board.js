@@ -474,7 +474,9 @@ const INITIAL_STATE = {
     'font-selector': 'property-editor-font-selector',
     'id-input': 'property-editor-id',
     options: 'property-editor-options',
-    date: 'property-editor-date'
+    date: 'property-editor-date',
+    map: 'property-editor-value-map',
+    range: 'property-editor-value-range'
   },
   templates: [
     'line',

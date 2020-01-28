@@ -4,21 +4,21 @@
 
 import { LitElement, html, css } from 'lit-element'
 
-import '../../editors/things-editor-color'
+import './things-editor-color'
 
 /**
 map value editor element
 
 Example:
 
-  <data-binding-value-map value=${map}
+  <things-editor-value-map value=${map}
                           keytype=${keytype}
                           valuetype=${valuetype}>
-  </data-binding-value-map>
+  </things-editor-value-map>
 */
 export default class DataBindingValueMap extends LitElement {
   static get is() {
-    return 'data-binding-value-map'
+    return 'things-editor-value-map'
   }
 
   static get properties() {
