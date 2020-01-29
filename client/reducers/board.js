@@ -473,6 +473,7 @@ const INITIAL_STATE = {
     'board-selector': 'property-editor-board-selector',
     'font-selector': 'property-editor-font-selector',
     'id-input': 'property-editor-id',
+    'scenario-input': 'property-editor-scenario',
     options: 'property-editor-options',
     date: 'property-editor-date',
     map: 'property-editor-value-map',
