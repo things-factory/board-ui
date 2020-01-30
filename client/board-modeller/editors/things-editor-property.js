@@ -15,7 +15,6 @@ import './things-editor-font-selector'
 import './things-editor-id'
 import './things-editor-multiple-color'
 import './things-editor-options'
-import './things-editor-scenario'
 import './things-editor-table'
 import './things-editor-value-map'
 import './things-editor-value-range'
@@ -614,22 +613,5 @@ class PropertyEditorValueRange extends ThingsEditorProperty {
     `
   }
 }
+
 customElements.define('property-editor-value-range', PropertyEditorValueRange)
-
-class PropertyEditorScenario extends ThingsEditorProperty {
-  static get is() {
-    return 'property-editor-scenario'
-  }
-
-  static get styles() {
-    return [ThingsEditorPropertyStyles]
-  }
-
-  editorTemplate(props) {
-    return html`
-      <things-editor-scenario id="editor" .value=${props.value} .property=${props.property}></things-editor-scenario>
-    `
-  }
-}
-
-customElements.define(PropertyEditorScenario.is, PropertyEditorScenario)
