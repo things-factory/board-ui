@@ -44,6 +44,7 @@ class ThingsEditorScenario extends LitElement {
         id="text"
         type="text"
         .value=${this.value || ''}
+        @focusin=${e => this._onInputFocused(e)}
         @change=${e => this._onInputChanged(e)}
         .placeholder=${this.getAttribute('placeholder') || ''}
         list="scenarios"
