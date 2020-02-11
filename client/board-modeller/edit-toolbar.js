@@ -64,16 +64,6 @@ class EditToolbar extends LitElement {
     this.shadowRoot.getElementById('distribute-vertical').addEventListener('tap', this.onTapDistribute.bind(this))
     this.shadowRoot.getElementById('distribute-horizontal').addEventListener('tap', this.onTapDistribute.bind(this))
     this.shadowRoot.getElementById('preview').addEventListener('tap', this.onTapPreview.bind(this))
-
-    // TODO injection 으로 변경합시다.
-    // var modelerScene = this.parentNode.querySelector('things-scene-viewer')
-
-    // var userOS = this._isMacOS() // OS가 맥인지 확인
-
-    // modelerScene.addEventListener('keydown', e => {
-    //   this.onShortcut(e, userOS)
-    //   modelerScene.focus()
-    // })
   }
 
   updated(change) {
@@ -222,17 +212,6 @@ class EditToolbar extends LitElement {
     this.scrollLeft -= delta * 40
 
     e.preventDefault()
-  }
-
-  bindShortcutEvent(container) {
-    var modelerScene = container
-
-    var userOS = this._isMacOS() // OS가 맥인지 확인
-
-    modelerScene.addEventListener('keydown', e => {
-      this.onShortcut(e, userOS)
-      modelerScene.focus()
-    })
   }
 
   _isMacOS() {

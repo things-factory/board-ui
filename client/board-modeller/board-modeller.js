@@ -171,15 +171,6 @@ export class BoardModeller extends LitElement {
     return this.renderRoot.getElementById('scene-wrap')
   }
 
-  bindShortcutEvent(target = this) {
-    target.addEventListener('keydown', this.onKeydown.bind(this))
-  }
-
-  onKeydown(e) {
-    var userOS = this._isMacOS()
-    this.onShortcut(e, userOS)
-  }
-
   onShortcut(e, MacOS) {
     if (MacOS) var ctrlKey = e.metaKey
     else var ctrlKey = e.ctrlKey
@@ -242,10 +233,6 @@ export class BoardModeller extends LitElement {
 
   onTapSave() {
     this.dispatchEvent(new CustomEvent('save-model', { bubbles: true, composed: true, detail: { model: this.model } }))
-  }
-
-  _isMacOS() {
-    return navigator.userAgent.indexOf('Mac') != -1
   }
 }
 
