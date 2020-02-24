@@ -296,7 +296,9 @@ class ThingsEditorColor extends LitElement {
 
     document.body.appendChild(picker)
 
-    var _ = () => {
+    var _ = e => {
+      if (!e?.detail?.confirmed) return
+
       if (picker.colorAsString) this.colorString = picker.colorAsString
       picker.removeEventListener('iron-overlay-closed', _)
       picker.parentNode.removeChild(picker)
