@@ -34,6 +34,11 @@ export const PropertySharedStyle = css`
     align-items: center;
   }
 
+  .property-grid > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .property-grid > label {
     grid-column: span 3;
     text-align: right;
