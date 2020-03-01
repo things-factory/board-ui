@@ -238,12 +238,14 @@ export class BoardViewer extends LitElement {
     this.scene.on('goto', this.onLinkGoto, this)
     this.scene.on('link-open', this.onLinkOpen, this)
     this.scene.on('link-move', this.onLinkMove, this)
+    this.scene.on('route-page', this.onRoutePage, this)
   }
 
   unbindSceneEvents(scene) {
     this.scene.off('goto', this.onLinkGoto, this)
     this.scene.off('link-open', this.onLinkOpen, this)
     this.scene.off('link-move', this.onLinkMove, this)
+    this.scene.off('route-page', this.onRoutePage, this)
   }
 
   transientShowButtons(stop) {
@@ -346,6 +348,15 @@ export class BoardViewer extends LitElement {
     if (!url) return
 
     location.href = url
+  }
+
+  onRoutePage(page) {
+    if (!page) {
+      return
+    }
+
+    history.pushState({}, '', page)
+    window.dispatchEvent(new Event('popstate'))
   }
 
   async getSceneImageData() {
