@@ -58,7 +58,6 @@ export class BoardModellerPage extends connect(store)(PageView) {
       componentGroupList: Array,
       fonts: Array,
       propertyEditor: Array,
-      _license: Object,
       _showSpinner: Boolean
     }
   }
@@ -190,20 +189,12 @@ export class BoardModellerPage extends connect(store)(PageView) {
     }
   }
 
-  updated(changes) {
-    if (changes.has('_license')) {
-      if (scene && scene.license) scene.license(this._license.key)
-    }
-  }
-
   stateChanged(state) {
     this.baseUrl = state.route.rootPath
     this.propertyEditor = state.board.editors
 
     this.componentGroupList = state.board.templates
     this.fonts = state.font
-
-    this._license = state.license
   }
 
   render() {
