@@ -166,7 +166,7 @@ class PropertySpecific extends LitElement {
 
     var { increasingDirection, skipNumbering, startSection, startUnit } = detail
 
-    this.scene.undoableChange(function() {
+    this.scene.undoableChange(function () {
       selected.increaseLocation(increasingDirection, skipNumbering, startSection, startUnit)
     })
   }
@@ -177,11 +177,11 @@ class PropertySpecific extends LitElement {
     var { type, borderWidth, borderStyle, borderColor } = e.detail
 
     var table = this.selected[0].parent
-    if (!table || !(table.get('type') != 'table' && table.get('type') != 'data-list')) return
+    if (!table || (table.get('type') != 'table' && table.get('type') != 'data-list')) return
 
     var selected = this.selected
 
-    this.scene.undoableChange(function() {
+    this.scene.undoableChange(function () {
       table.setCellsStyle(
         selected,
         {
@@ -206,7 +206,7 @@ class PropertySpecific extends LitElement {
 
     var self = this
 
-    this.scene.undoableChange(function() {
+    this.scene.undoableChange(function () {
       switch (e.type) {
         case 'table-delete-row':
           table.deleteRows(self.selected)
