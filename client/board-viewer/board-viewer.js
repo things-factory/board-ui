@@ -15,7 +15,6 @@ export class BoardViewer extends LitElement {
     this.board = {}
     this.provider = null
     this.scene = null
-    this.data = null
 
     this.forward = []
     this.backward = []
