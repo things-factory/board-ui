@@ -27,8 +27,8 @@ export class BoardViewer extends LitElement {
       board: Object,
       provider: Object,
       baseUrl: String,
+      data: Object,
       hideFullscreen: {
-        /* fullscreen fab를 보이지 않도록 하는 attribute임. */
         type: Boolean,
         reflect: true,
         attribute: 'hide-fullscreen'
@@ -106,6 +106,10 @@ export class BoardViewer extends LitElement {
       } else {
         this.closeScene()
       }
+    }
+
+    if (changes.has('data') && this.scene && this.data) {
+      this.scene.data = this.data
     }
   }
 
@@ -198,6 +202,10 @@ export class BoardViewer extends LitElement {
 
     this.scene.fit(this.board.model.fitMode)
     this.scene.target = this.target
+
+    if (this.data) {
+      this.scene.data = this.data
+    }
 
     this.bindSceneEvents(this.scene)
 
