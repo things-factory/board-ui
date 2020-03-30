@@ -28,6 +28,7 @@ export class BoardViewer extends LitElement {
       provider: Object,
       baseUrl: String,
       hideFullscreen: {
+        /* fullscreen fab를 보이지 않도록 하는 attribute임. */
         type: Boolean,
         reflect: true,
         attribute: 'hide-fullscreen'
