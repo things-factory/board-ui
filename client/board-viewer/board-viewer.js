@@ -18,13 +18,20 @@ export class BoardViewer extends LitElement {
 
     this.forward = []
     this.backward = []
+
+    this.hideFullscreen = false
   }
 
   static get properties() {
     return {
       board: Object,
       provider: Object,
-      baseUrl: String
+      baseUrl: String,
+      hideFullscreen: {
+        type: Boolean,
+        reflect: true,
+        attribute: 'hide-fullscreen'
+      }
     }
   }
 
@@ -33,18 +40,19 @@ export class BoardViewer extends LitElement {
   }
 
   render() {
-    var fullscreen = !isIOS()
-      ? html`
-          <mwc-fab
-            id="fullscreen"
-            .icon=${document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen'}
-            @click=${e => this.onTapFullscreen(e)}
-            @mouseover=${e => this.transientShowButtons(true)}
-            @mouseout=${e => this.transientShowButtons()}
-            title="fullscreen"
-          ></mwc-fab>
-        `
-      : html``
+    var fullscreen =
+      !isIOS() && !this.hideFullscreen
+        ? html`
+            <mwc-fab
+              id="fullscreen"
+              .icon=${document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen'}
+              @click=${e => this.onTapFullscreen(e)}
+              @mouseover=${e => this.transientShowButtons(true)}
+              @mouseout=${e => this.transientShowButtons()}
+              title="fullscreen"
+            ></mwc-fab>
+          `
+        : html``
 
     return html`
       <mwc-icon
