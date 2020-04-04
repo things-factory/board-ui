@@ -31,8 +31,13 @@ export class BoardViewer extends LitElement {
       hideFullscreen: {
         type: Boolean,
         reflect: true,
-        attribute: 'hide-fullscreen'
-      }
+        attribute: 'hide-fullscreen',
+      },
+      hideNavigation: {
+        type: Boolean,
+        reflect: true,
+        attribute: 'hide-navigation',
+      },
     }
   }
 
@@ -47,40 +52,50 @@ export class BoardViewer extends LitElement {
             <mwc-fab
               id="fullscreen"
               .icon=${document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen'}
-              @click=${e => this.onTapFullscreen(e)}
-              @mouseover=${e => this.transientShowButtons(true)}
-              @mouseout=${e => this.transientShowButtons()}
+              @click=${(e) => this.onTapFullscreen(e)}
+              @mouseover=${(e) => this.transientShowButtons(true)}
+              @mouseout=${(e) => this.transientShowButtons()}
               title="fullscreen"
             ></mwc-fab>
           `
         : html``
 
+    var prev = !this.hideNavigation
+      ? html`
+          <mwc-icon
+            id="prev"
+            @click=${(e) => this.onTapPrev(e)}
+            @mouseover=${(e) => this.transientShowButtons(true)}
+            @mouseout=${(e) => this.transientShowButtons()}
+            hidden
+            >keyboard_arrow_left</mwc-icon
+          >
+        `
+      : html``
+
+    var next = !this.hideNavigation
+      ? html`
+          <mwc-icon
+            id="next"
+            @click=${(e) => this.onTapNext(e)}
+            @mouseover=${(e) => this.transientShowButtons(true)}
+            @mouseout=${(e) => this.transientShowButtons()}
+            hidden
+            >keyboard_arrow_right</mwc-icon
+          >
+        `
+      : html``
+
     return html`
-      <mwc-icon
-        id="prev"
-        @click=${e => this.onTapPrev(e)}
-        @mouseover=${e => this.transientShowButtons(true)}
-        @mouseout=${e => this.transientShowButtons()}
-        hidden
-        >keyboard_arrow_left</mwc-icon
-      >
+      ${prev}
 
       <div
         id="target"
-        @touchstart=${e => this.transientShowButtons()}
-        @mousemove=${e => this.transientShowButtons()}
+        @touchstart=${(e) => this.transientShowButtons()}
+        @mousemove=${(e) => this.transientShowButtons()}
       ></div>
 
-      <mwc-icon
-        id="next"
-        @click=${e => this.onTapNext(e)}
-        @mouseover=${e => this.transientShowButtons(true)}
-        @mouseout=${e => this.transientShowButtons()}
-        hidden
-        >keyboard_arrow_right</mwc-icon
-      >
-
-      ${fullscreen}
+      ${next} ${fullscreen}
     `
   }
 
@@ -91,7 +106,7 @@ export class BoardViewer extends LitElement {
 
     this.shadowRoot.addEventListener(
       'close-scene',
-      e => {
+      (e) => {
         e.preventDefault()
         this.onTapPrev()
       },
@@ -118,10 +133,10 @@ export class BoardViewer extends LitElement {
 
     var scene = create({
       model: {
-        ...this.board.model
+        ...this.board.model,
       },
       mode: 0,
-      refProvider: this.provider
+      refProvider: this.provider,
     })
 
     if (this.baseUrl) {
@@ -147,10 +162,10 @@ export class BoardViewer extends LitElement {
     }
 
     // delete queued scenes
-    this.forward.forEach(scene => scene.release())
+    this.forward.forEach((scene) => scene.release())
     this.forward = []
 
-    this.backward.forEach(scene => scene.release())
+    this.backward.forEach((scene) => scene.release())
     this.backward = []
   }
 
@@ -180,12 +195,12 @@ export class BoardViewer extends LitElement {
       delete this.scene
 
       // delete queued scenes
-      this.forward.forEach(scene => {
+      this.forward.forEach((scene) => {
         scene.release()
       })
       this.forward = []
 
-      this.backward.forEach(scene => {
+      this.backward.forEach((scene) => {
         scene.release()
       })
       this.backward = []
@@ -234,7 +249,7 @@ export class BoardViewer extends LitElement {
         this.backward.push(old_scene)
       }
 
-      this.forward.forEach(scene => {
+      this.forward.forEach((scene) => {
         scene.release()
       })
 
@@ -270,15 +285,15 @@ export class BoardViewer extends LitElement {
 
     if (!this._fade_animations) {
       this._fade_animations = buttons
-        .filter(button => button)
-        .map(button => {
+        .filter((button) => button)
+        .map((button) => {
           let animation = button.animate(
             [
               {
                 opacity: 1,
-                easing: 'ease-in'
+                easing: 'ease-in',
               },
-              { opacity: 0 }
+              { opacity: 0 },
             ],
             { delay: 1000, duration: 2000 }
           )
@@ -295,7 +310,7 @@ export class BoardViewer extends LitElement {
     this.prev.hidden = this.backward.length <= 0
     this.fullscreen && (this.fullscreen.hidden = false)
 
-    this._fade_animations.forEach(animation => {
+    this._fade_animations.forEach((animation) => {
       animation.cancel()
       if (stop) return
 
@@ -354,8 +369,8 @@ export class BoardViewer extends LitElement {
           detail: {
             level: 'error',
             message: ex,
-            ex
-          }
+            ex,
+          },
         })
       )
     }
@@ -411,7 +426,7 @@ export class BoardViewer extends LitElement {
     return {
       width,
       height,
-      data
+      data,
     }
   }
 }
