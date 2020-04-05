@@ -281,7 +281,13 @@ export class BoardViewer extends LitElement {
   }
 
   transientShowButtons(stop) {
-    var buttons = [this.fullscreen, this.next, this.prev]
+    var buttons = []
+    !this.hideNavigation && buttons.push(this.next, this.prev)
+    !this.hideFullscreen && buttons.push(this.fullscreen)
+
+    if (buttons.length == 0) {
+      return
+    }
 
     if (!this._fade_animations) {
       this._fade_animations = buttons
