@@ -15,7 +15,9 @@ class ComponentMenu extends LitElement {
       ScrollbarStyles,
       css`
         :host {
-          display: block;
+          display: flex;
+          flex-direction: column;
+          align-content: stretch;
 
           background-color: var(--component-menu-background-color);
           margin: 0px;
@@ -45,13 +47,13 @@ class ComponentMenu extends LitElement {
         }
 
         [templates] {
+          flex: 1;
+
           display: block;
           margin: 0;
           padding: 0;
           overflow-y: auto;
 
-          width: 100%;
-          height: 100%;
           background-color: var(--component-menu-background-color);
         }
 
@@ -114,7 +116,7 @@ class ComponentMenu extends LitElement {
         this.style.display = 'none'
         this.templates = []
       } else {
-        this.style.display = 'block'
+        this.style.display = 'flex'
         this.templates = this.groups.find(g => g.name === this.group).templates
       }
     }
