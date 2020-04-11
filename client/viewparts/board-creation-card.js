@@ -1,12 +1,17 @@
 import { LitElement, html, css } from 'lit-element'
 import { i18next, localize } from '@things-factory/i18n-base'
+import { openPopup } from '@things-factory/layout-base'
+
+import '@material/mwc-icon'
+
+import './board-creation-popup'
 
 export class BoardCreationCard extends localize(i18next)(LitElement) {
   static get properties() {
     return {
       /* default group id */
       defaultGroup: String,
-      groups: Array,
+      groups: Array
     }
   }
 
@@ -14,170 +19,76 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
     return [
       css`
         :host {
-          position: relative;
-
-          padding: 0;
-          margin: 0;
-          height: 100%;
-
-          -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-          -webkit-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-        }
-
-        :host(.flipped) {
-          -webkit-transform: var(--card-list-flip-transform);
-          transform: var(--card-list-flip-transform);
-        }
-
-        [front],
-        [back] {
-          position: absolute;
-
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          padding: 0;
-
+          display: flex;
           border: var(--card-list-create-border);
           border-radius: var(--card-list-create-border-radius);
 
           background-color: #fff;
 
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+          align-content: center;
+          justify-content: center;
         }
 
-        [front] {
+        div {
           text-align: center;
           font-size: 0.8em;
           color: var(--card-list-create-color);
           text-transform: capitalize;
         }
 
-        [front] mwc-icon {
-          margin-top: 15%;
+        mwc-icon {
           display: block;
           font-size: 3.5em;
           color: var(--card-list-create-icon-color);
         }
-
-        [back] {
-          -webkit-transform: var(--card-list-flip-transform);
-          transform: var(--card-list-flip-transform);
-        }
-
-        [back] form {
-          padding: var(--card-list-create-form-padding);
-          display: flex;
-          flex-flow: row wrap;
-        }
-
-        [back] form label {
-          flex: 1 1 25%;
-          font: var(--card-list-create-label-font);
-          color: var(--card-list-create-label-color);
-        }
-
-        [back] form input,
-        [back] form select {
-          flex: 1 1 60%;
-          width: 10px;
-          background-color: #fff;
-          border: var(--card-list-create-input-border);
-          border-radius: var(--card-list-create-input-border-radius);
-          padding: var(--card-list-create-input-padding);
-          font: var(--card-list-create-input-font);
-          color: var(--card-list-create-input-color);
-        }
-
-        form * {
-          margin: var(--card-list-create-margin);
-        }
-
-        input[type='submit'] {
-          background-color: var(--button-background-color) !important;
-          margin: var(--button-margin);
-          font: var(--button-font);
-          color: var(--button-color) !important;
-          border-radius: var(--button-radius);
-          border: var(--button-border);
-        }
-      `,
+      `
     ]
   }
 
   render() {
-    var groups = this.groups || []
+    return html`<div @click=${e => this.onClick()}><mwc-icon>add_circle_outline</mwc-icon>create board</div> `
+  }
 
-    return html`
-      <div @click=${(e) => this.onClickFlip(e)} front><mwc-icon>add_circle_outline</mwc-icon>create board</div>
+  onClick(e) {
+    if (this.popup) {
+      delete this.popup
+    }
 
-      <div @click=${(e) => this.onClickFlip(e)} back>
-        <form @submit=${(e) => this.onClickSubmit(e)}>
-          <label>${i18next.t('label.name')}</label>
-          <input type="text" name="name" />
+    /*
+     * 기존 설정된 이미지가 선택된 상태가 되게 하기 위해서는 selector에 value를 전달해줄 필요가 있음.
+     * 주의. value는 object일 수도 있고, string일 수도 있다.
+     * string인 경우에는 해당 보드의 id로 해석한다.
+     */
+    var template = html`
+      <board-creation-popup
+        .defaultGroup=${this.defaultGroup}
+        .groups=${this.groups}
+        @create-board=${async e => {
+          var { name, description, groupId } = e.detail
 
-          <label>${i18next.t('label.description')}</label>
-          <input type="text" name="description" />
+          this.dispatchEvent(
+            new CustomEvent('create-board', {
+              detail: {
+                name,
+                description,
+                groupId
+              }
+            })
+          )
 
-          <label>${i18next.t('label.group')}</label>
-          <select .value=${this.defaultGroup} name="groupId">
-            ${groups.map(
-              (group) => html`
-                <option value=${group.id} ?selected=${this.defaultGroup == group.id}>${group.name}</option>
-              `
-            )}
-          </select>
-
-          <input type="submit" value=${i18next.t('button.create')} />
-        </form>
-      </div>
+          this.popup && this.popup.close()
+        }}
+      ></board-creation-popup>
     `
+
+    this.popup = openPopup(template, {
+      backdrop: true,
+      size: 'large',
+      title: i18next.t('title.create-board')
+    })
   }
 
-  onClickFlip(e) {
-    if (e.currentTarget.hasAttribute('front') || e.target.hasAttribute('back')) {
-      this.classList.toggle('flipped')
-    }
-
-    e.stopPropagation()
-  }
-
-  onClickSubmit(e) {
-    e.preventDefault()
-    e.stopPropagation()
-
-    var form = e.target
-
-    var name = form.elements['name'].value
-    var description = form.elements['description'].value
-    var groupId = form.elements['groupId'].value
-
-    if (!name || !groupId) {
-      return
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('create-board', {
-        detail: {
-          name,
-          description,
-          groupId,
-        },
-      })
-    )
-  }
-
-  reset() {
-    var form = this.shadowRoot.querySelector('form')
-    if (form) {
-      form.reset()
-    }
-
-    this.classList.remove('flipped')
-  }
+  reset() {}
 }
 
 customElements.define('board-creation-card', BoardCreationCard)
