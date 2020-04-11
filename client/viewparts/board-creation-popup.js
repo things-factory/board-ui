@@ -30,6 +30,10 @@ export class BoardCreationPopup extends localize(i18next)(LitElement) {
         :host > * {
           margin: 10px;
         }
+
+        :host > mwc-button {
+          margin-top: auto;
+        }
       `
     ]
   }
