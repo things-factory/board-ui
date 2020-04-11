@@ -27,6 +27,8 @@
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
+    "@material/mwc-list": "^0.14.1",
+    "@material/mwc-select": "^0.14.1",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-icons": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
