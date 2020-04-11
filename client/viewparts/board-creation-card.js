@@ -6,7 +6,7 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
     return {
       /* default group id */
       defaultGroup: String,
-      groups: Array
+      groups: Array,
     }
   }
 
@@ -104,7 +104,7 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
           border-radius: var(--button-radius);
           border: var(--button-border);
         }
-      `
+      `,
     ]
   }
 
@@ -112,10 +112,10 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
     var groups = this.groups || []
 
     return html`
-      <div @click=${e => this.onClickFlip(e)} front><mwc-icon>add_circle_outline</mwc-icon>create board</div>
+      <div @click=${(e) => this.onClickFlip(e)} front><mwc-icon>add_circle_outline</mwc-icon>create board</div>
 
-      <div @click=${e => this.onClickFlip(e)} back>
-        <form @submit=${e => this.onClickSubmit(e)}>
+      <div @click=${(e) => this.onClickFlip(e)} back>
+        <form @submit=${(e) => this.onClickSubmit(e)}>
           <label>${i18next.t('label.name')}</label>
           <input type="text" name="name" />
 
@@ -125,7 +125,7 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
           <label>${i18next.t('label.group')}</label>
           <select .value=${this.defaultGroup} name="groupId">
             ${groups.map(
-              group => html`
+              (group) => html`
                 <option value=${group.id} ?selected=${this.defaultGroup == group.id}>${group.name}</option>
               `
             )}
@@ -155,13 +155,17 @@ export class BoardCreationCard extends localize(i18next)(LitElement) {
     var description = form.elements['description'].value
     var groupId = form.elements['groupId'].value
 
+    if (!name || !groupId) {
+      return
+    }
+
     this.dispatchEvent(
       new CustomEvent('create-board', {
         detail: {
           name,
           description,
-          groupId
-        }
+          groupId,
+        },
       })
     )
   }
