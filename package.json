@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -42,9 +42,7 @@
     "@polymer/paper-radio-button": "^3.0.1",
     "@polymer/paper-radio-group": "^3.0.1",
     "@polymer/paper-slider": "^3.0.1",
-    "@things-factory/attachment-ui": "^2.0.0",
     "@things-factory/barcode-base": "^2.0.0",
-    "@things-factory/font-ui": "^2.0.0",
     "@things-factory/grist-ui": "^2.0.0",
     "@things-factory/i18n-base": "^2.0.0",
     "@things-factory/modeller-ui": "^2.0.0",
