@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/board-ui",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -47,13 +47,10 @@
     "@things-factory/font-ui": "^2.0.0",
     "@things-factory/grist-ui": "^2.0.0",
     "@things-factory/i18n-base": "^2.0.0",
-    "codemirror": "^5.48.0",
-    "codemirror-graphql": "^0.11.6",
+    "@things-factory/modeller-ui": "^2.0.0",
     "file-saver": "^2.0.1",
     "puppeteer": "^1.19.0",
-    "screenfull": "^4.2.0",
-    "sortablejs": "^1.10.0-rc2",
-    "tinycolor2": "^1.4.1"
+    "sortablejs": "^1.10.0-rc2"
   },
   "devDependencies": {
     "@things-factory/board-app": "^2.0.0",
