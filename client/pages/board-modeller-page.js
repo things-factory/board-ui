@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { saveAs } from 'file-saver'
 
 import { store, PageView, client } from '@things-factory/shell'
-import { togglefullscreen } from '@things-factory/utils'
+import { togglefullscreen, isMacOS } from '@things-factory/utils'
 
 import { provider } from '../board-provider'
 
@@ -16,8 +16,6 @@ import '../board-modeller/edit-toolbar'
 
 import './things-scene-components.import'
 import components from './things-scene-components-with-tools.import'
-
-import { isMacOS } from '../board-modeller/is-macos'
 
 const NOOP = () => {}
 
