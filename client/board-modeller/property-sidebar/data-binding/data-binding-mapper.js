@@ -8,9 +8,9 @@ import '@polymer/paper-radio-button/paper-radio-button'
 import '@polymer/paper-radio-group/paper-radio-group'
 
 import '@things-factory/i18n-base'
-import '../../editors/things-editor-code'
-import '../../editors/things-editor-value-map'
-import '../../editors/things-editor-value-range'
+import '@things-factory/modeller-ui/client/editors/things-editor-code'
+import '@things-factory/modeller-ui/client/editors/things-editor-value-map'
+import '@things-factory/modeller-ui/client/editors/things-editor-value-range'
 
 /**
 element for mapping data value editing
@@ -156,13 +156,7 @@ export default class DataBindingMapper extends LitElement {
         <option value="(self)"></option>
         <option value="(key)"></option>
         ${this._componentIds.length
-          ? html`
-              ${this._componentIds.map(
-                id => html`
-                  <option value=${id}></option>
-                `
-              )}
-            `
+          ? html` ${this._componentIds.map(id => html` <option value=${id}></option> `)} `
           : html``}
       </datalist>
 
@@ -170,9 +164,7 @@ export default class DataBindingMapper extends LitElement {
       <select value-key="property" .value=${this.mapping.property}>
         ${this.properties.map(
           item =>
-            html`
-              <option .value=${item.name} ?selected=${item.name == this.mapping.property}>${item.label}</option>
-            `
+            html` <option .value=${item.name} ?selected=${item.name == this.mapping.property}>${item.label}</option> `
         )}
       </select>
 

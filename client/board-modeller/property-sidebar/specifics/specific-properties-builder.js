@@ -3,7 +3,7 @@
  */
 
 import { LitElement } from 'lit-element'
-import '../../editors/things-editor-property'
+import '@things-factory/modeller-ui/client/editors/things-editor-property'
 
 /**
 모든 에디터들은 change 이벤트를 지원해야 한다. 또한, 모든 에디터들은 value속성에 값을 가져야 한다.

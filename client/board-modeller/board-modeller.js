@@ -5,7 +5,7 @@ import '@material/mwc-fab'
 import '@polymer/paper-dialog/paper-dialog'
 import '../board-viewer/board-viewer'
 
-import './editors/things-scene-viewer/things-scene-viewer'
+import './scene-viewer/things-scene-viewer'
 
 import './component-toolbar/component-toolbar'
 import './property-sidebar/property-sidebar'

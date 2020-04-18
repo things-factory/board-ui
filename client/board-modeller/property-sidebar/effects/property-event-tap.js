@@ -72,11 +72,7 @@ class PropertyEventTap extends LitElement {
             />
 
             <datalist id="target-list">
-              ${this._getTargetList(action).map(
-                item => html`
-                  <option .value=${item}></option>
-                `
-              )}
+              ${this._getTargetList(action).map(item => html` <option .value=${item}></option> `)}
             </datalist>
           `}
       ${action == 'data-set' || action == 'value-set'

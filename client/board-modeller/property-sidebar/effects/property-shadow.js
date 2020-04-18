@@ -5,7 +5,7 @@
 import { LitElement, html, css } from 'lit-element'
 
 import '@things-factory/i18n-base'
-import '../../editors/things-editor-color'
+import '@things-factory/modeller-ui/client/editors/things-editor-color'
 
 /**
  * 컴포넌트의 그림자 속성을 편집하는 element

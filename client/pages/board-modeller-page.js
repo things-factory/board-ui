@@ -9,6 +9,7 @@ import { togglefullscreen, isMacOS } from '@things-factory/utils'
 
 import { provider } from '../board-provider'
 
+import { ADD_MODELLER_EDITORS } from '@things-factory/modeller-ui'
 import { ADD_BOARD_COMPONENTS } from '../actions/board'
 
 import '../board-modeller/board-modeller'
@@ -26,6 +27,24 @@ export class BoardModellerPage extends connect(store)(PageView) {
     store.dispatch({
       type: ADD_BOARD_COMPONENTS,
       components
+    })
+
+    /* 컴포넌트에서 정의된 에디터들을 MODELLER_EDITORS에 등록 */
+    var addedEditors = {}
+    for (let component in components) {
+      let { editors } = components[component]
+
+      editors &&
+        editors.forEach(editor => {
+          let { type, element } = editor
+
+          addedEditors[type] = element
+        })
+    }
+
+    store.dispatch({
+      type: ADD_MODELLER_EDITORS,
+      editors: addedEditors
     })
 
     this.boardName = ''
@@ -189,7 +208,7 @@ export class BoardModellerPage extends connect(store)(PageView) {
 
   stateChanged(state) {
     this.baseUrl = state.route.rootPath
-    this.propertyEditor = state.board.editors
+    this.propertyEditor = state.modeller.editors
 
     this.componentGroupList = state.board.templates
     this.fonts = state.font

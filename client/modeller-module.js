@@ -1,2 +1,3 @@
-export { default as ThingsEditorProperty } from './board-modeller/editors/things-editor-property'
-export { ThingsEditorPropertyStyles } from './board-modeller/editors/things-editor-property-styles'
+console.warn('deprecated, use @things-factory/modeller-ui')
+
+export { ThingsEditorProperty, ThingsEditorPropertyStyles } from '@things-factory/modeller-ui'

@@ -5,7 +5,7 @@
 import { LitElement, html } from 'lit-element'
 
 import '@things-factory/i18n-base'
-import '../../editors/things-editor-angle-input'
+import '@things-factory/modeller-ui/client/editors/things-editor-angle-input'
 
 import { EffectsSharedStyle } from './effects-shared-style'
 

@@ -4,11 +4,11 @@
 
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu'
 import { css, html } from 'lit-element'
-import '../../editors/things-editor-angle-input'
-import '../../editors/things-editor-buttons-radio'
-import '../../editors/things-editor-color'
-import '../../editors/things-editor-color-style'
-import '../../editors/things-editor-font-selector'
+import '@things-factory/modeller-ui/client/editors/things-editor-angle-input'
+import '@things-factory/modeller-ui/client/editors/things-editor-buttons-radio'
+import '@things-factory/modeller-ui/client/editors/things-editor-color'
+import '@things-factory/modeller-ui/client/editors/things-editor-color-style'
+import '@things-factory/modeller-ui/client/editors/things-editor-font-selector'
 import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
 

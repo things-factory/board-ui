@@ -1,4 +1,4 @@
-import { ADD_BOARD_COMPONENTS, ADD_BOARD_EDITORS } from '../actions/board.js'
+import { ADD_BOARD_COMPONENTS } from '../actions/board.js'
 
 import rect from '../../assets/images/components/rect.png'
 import ellipse from '../../assets/images/components/ellipse.png'
@@ -451,34 +451,6 @@ const TEMPLATES = {
 
 const INITIAL_STATE = {
   components: [],
-  editors: {
-    legend: 'property-editor-legend',
-    number: 'property-editor-number',
-    password: 'property-editor-password',
-    angle: 'property-editor-angle',
-    string: 'property-editor-string',
-    textarea: 'property-editor-textarea',
-    javascript: 'property-editor-textarea',
-    graphql: 'property-editor-graphql',
-    checkbox: 'property-editor-checkbox',
-    select: 'property-editor-select',
-    color: 'property-editor-color',
-    'solid-color-stops': 'property-editor-solid-colorstops',
-    'gradient-color-stops': 'property-editor-gradient-colorstops',
-    'multiple-color': 'property-editor-multiple-color',
-    'editor-table': 'property-editor-table',
-    'gltf-selector': 'property-editor-attachment-selector',
-    'attachment-selector': 'property-editor-attachment-selector',
-    'image-selector': 'property-editor-image-selector',
-    'board-selector': 'property-editor-board-selector',
-    'font-selector': 'property-editor-font-selector',
-    'id-input': 'property-editor-id',
-    options: 'property-editor-options',
-    date: 'property-editor-date',
-    map: 'property-editor-value-map',
-    range: 'property-editor-value-range',
-    'key-values': 'property-editor-key-values'
-  },
   templates: [
     'line',
     'shape',
@@ -503,32 +475,13 @@ const INITIAL_STATE = {
 
 const board = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ADD_BOARD_EDITORS:
-      let editors = {
-        ...state.editors,
-        ...(action.editors || {})
-      }
-
-      return {
-        ...state,
-        editors
-      }
-
     case ADD_BOARD_COMPONENTS:
       let components = action.components
 
-      let addedEditors = { ...state.editors }
       let addedTemplates = [...state.templates]
 
       for (let component in components) {
-        let { editors, templates } = components[component]
-
-        editors &&
-          editors.forEach(editor => {
-            let { type, element } = editor
-
-            addedEditors[type] = element
-          })
+        let { templates } = components[component]
 
         templates &&
           templates.forEach(template => {
@@ -545,7 +498,6 @@ const board = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         components: [...state.components, ...action.components],
-        editors: addedEditors,
         templates: addedTemplates
       }
 

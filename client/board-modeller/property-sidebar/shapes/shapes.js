@@ -4,8 +4,8 @@
 
 import '@things-factory/i18n-base'
 import { css, html } from 'lit-element'
-import '../../editors/things-editor-angle-input'
-import '../../editors/things-editor-buttons-radio'
+import '@things-factory/modeller-ui/client/editors/things-editor-angle-input'
+import '@things-factory/modeller-ui/client/editors/things-editor-buttons-radio'
 import { AbstractProperty } from '../abstract-property'
 import { PropertySharedStyle } from '../property-shared-style'
 import { BoxPaddingEditorStyles } from './box-padding-editor-styles'
