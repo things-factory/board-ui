@@ -476,7 +476,8 @@ const INITIAL_STATE = {
     options: 'property-editor-options',
     date: 'property-editor-date',
     map: 'property-editor-value-map',
-    range: 'property-editor-value-range'
+    range: 'property-editor-value-range',
+    'key-values': 'property-editor-key-values'
   },
   templates: [
     'line',

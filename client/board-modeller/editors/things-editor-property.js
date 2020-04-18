@@ -18,6 +18,7 @@ import './things-editor-options'
 import './things-editor-table'
 import './things-editor-value-map'
 import './things-editor-value-range'
+import './things-editor-key-values'
 
 import { ThingsEditorPropertyStyles } from './things-editor-property-styles'
 
@@ -112,9 +113,7 @@ class PropertyEditorLegend extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <legend>${props.property.label}</legend>
-    `
+    return html` <legend>${props.property.label}</legend> `
   }
 }
 
@@ -196,9 +195,7 @@ class PropertyEditorString extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <input type="text" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} />
-    `
+    return html` <input type="text" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} /> `
   }
 }
 
@@ -214,9 +211,7 @@ class PropertyEditorPassword extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <input type="password" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} />
-    `
+    return html` <input type="password" id="editor" .value=${props.value} placeholder=${props.placeholder || ''} /> `
   }
 }
 
@@ -232,9 +227,7 @@ class PropertyEditorTextArea extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-code id="editor" .value=${props.value} fullwidth> </things-editor-code>
-    `
+    return html` <things-editor-code id="editor" .value=${props.value} fullwidth> </things-editor-code> `
   }
 }
 
@@ -250,9 +243,7 @@ class PropertyEditorGraphQL extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-code id="editor" mode="graphql" .value=${props.value} fullwidth> </things-editor-code>
-    `
+    return html` <things-editor-code id="editor" mode="graphql" .value=${props.value} fullwidth> </things-editor-code> `
   }
 }
 
@@ -272,9 +263,7 @@ class PropertyEditorCheckbox extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <input type="checkbox" id="editor" .checked=${props.value} placeholder=${props.placeholder || ''} />
-    `
+    return html` <input type="checkbox" id="editor" .checked=${props.value} placeholder=${props.placeholder || ''} /> `
   }
 }
 
@@ -411,9 +400,7 @@ class PropertyEditorMultipleColor extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-multiple-color id="editor" .values=${props.value}></things-editor-multiple-color>
-    `
+    return html` <things-editor-multiple-color id="editor" .values=${props.value}></things-editor-multiple-color> `
   }
 }
 
@@ -517,9 +504,7 @@ class PropertyEditorDate extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <input type="date" id="editor" .value=${props.value} />
-    `
+    return html` <input type="date" id="editor" .value=${props.value} /> `
   }
 }
 
@@ -539,9 +524,7 @@ class PropertyEditorOptions extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-options id="editor" .options=${props.value} fullwidth></things-editor-options>
-    `
+    return html` <things-editor-options id="editor" .options=${props.value} fullwidth></things-editor-options> `
   }
 }
 
@@ -557,9 +540,7 @@ class PropertyEditorTable extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-table id="editor" .property=${props.property} fullwidth></things-editor-table>
-    `
+    return html` <things-editor-table id="editor" .property=${props.property} fullwidth></things-editor-table> `
   }
 }
 
@@ -575,9 +556,7 @@ class PropertyEditorId extends ThingsEditorProperty {
   }
 
   editorTemplate(props) {
-    return html`
-      <things-editor-id id="editor" .value=${props.value} .property=${props.property}></things-editor-id>
-    `
+    return html` <things-editor-id id="editor" .value=${props.value} .property=${props.property}></things-editor-id> `
   }
 }
 
@@ -615,3 +594,15 @@ class PropertyEditorValueRange extends ThingsEditorProperty {
 }
 
 customElements.define('property-editor-value-range', PropertyEditorValueRange)
+
+class PropertyEditorKeyValues extends ThingsEditorProperty {
+  static get styles() {
+    return [ThingsEditorPropertyStyles]
+  }
+
+  editorTemplate(props) {
+    return html` <things-editor-key-values id="editor" .value=${props.value} fullwidth></things-editor-key-values> `
+  }
+}
+
+customElements.define('property-editor-key-values', PropertyEditorKeyValues)
