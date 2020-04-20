@@ -124,11 +124,13 @@ class ComponentToolbar extends LitElement {
     return html`
       <span id="shift" class="pressed" @click="${e => this._onClickShift(e)}"> </span>
 
-      ${this.componentGroupList.map(
-        item => html`
-          <span data-group=${item.name} @click=${e => this._onClickGroup(e)}> </span>
-        `
-      )}
+      ${this.componentGroupList
+        .filter(group => group.templates?.length > 0)
+        .map(
+          item => html`
+            <span data-group=${item.name} @click=${e => this._onClickGroup(e)}> </span>
+          `
+        )}
 
       <component-menu
         tabindex="-1"
