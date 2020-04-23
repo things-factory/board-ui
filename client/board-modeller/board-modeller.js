@@ -234,6 +234,8 @@ export class BoardModeller extends LitElement {
   onTapSave() {
     this.dispatchEvent(new CustomEvent('save-model', { bubbles: true, composed: true, detail: { model: this.model } }))
   }
+
+  onContextMenu() {}
 }
 
 customElements.define('board-modeller', BoardModeller)
