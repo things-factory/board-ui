@@ -16,6 +16,8 @@ export const style = css`
 
     width: 100%; /* 전체화면보기를 위해서 필요함. */
     height: 100%;
+
+    outline: 0;
   }
 
   /* navigation buttons */
