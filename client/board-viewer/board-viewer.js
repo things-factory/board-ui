@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element'
+import { LitElement, html, css } from 'lit-element'
 
 import '@material/mwc-fab'
 import '@material/mwc-icon'
@@ -42,7 +42,17 @@ export class BoardViewer extends LitElement {
   }
 
   static get styles() {
-    return [style]
+    return [
+      style,
+      css`
+        @media print {
+          mwc-fab,
+          mwc-con {
+            display: none;
+          }
+        }
+      `
+    ]
   }
 
   render() {
@@ -449,9 +459,10 @@ export class BoardViewer extends LitElement {
 
     const x = mql => {
       if (mql.matches) {
-        viewTarget = this.renderRoot.getElementById('target')
-
-        this.renderRoot.replaceChild(printTarget, viewTarget)
+        if (!viewTarget) {
+          viewTarget = this.renderRoot.getElementById('target')
+          this.renderRoot.replaceChild(printTarget, viewTarget)
+        }
       } else {
         this.renderRoot.replaceChild(viewTarget, printTarget)
         printTarget.remove()
