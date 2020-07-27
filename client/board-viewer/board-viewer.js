@@ -31,13 +31,13 @@ export class BoardViewer extends LitElement {
       hideFullscreen: {
         type: Boolean,
         reflect: true,
-        attribute: 'hide-fullscreen',
+        attribute: 'hide-fullscreen'
       },
       hideNavigation: {
         type: Boolean,
         reflect: true,
-        attribute: 'hide-navigation',
-      },
+        attribute: 'hide-navigation'
+      }
     }
   }
 
@@ -52,9 +52,9 @@ export class BoardViewer extends LitElement {
             <mwc-fab
               id="fullscreen"
               .icon=${document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen'}
-              @click=${(e) => this.onTapFullscreen(e)}
-              @mouseover=${(e) => this.transientShowButtons(true)}
-              @mouseout=${(e) => this.transientShowButtons()}
+              @click=${e => this.onTapFullscreen(e)}
+              @mouseover=${e => this.transientShowButtons(true)}
+              @mouseout=${e => this.transientShowButtons()}
               title="fullscreen"
             ></mwc-fab>
           `
@@ -64,9 +64,9 @@ export class BoardViewer extends LitElement {
       ? html`
           <mwc-icon
             id="prev"
-            @click=${(e) => this.onTapPrev(e)}
-            @mouseover=${(e) => this.transientShowButtons(true)}
-            @mouseout=${(e) => this.transientShowButtons()}
+            @click=${e => this.onTapPrev(e)}
+            @mouseover=${e => this.transientShowButtons(true)}
+            @mouseout=${e => this.transientShowButtons()}
             hidden
             >keyboard_arrow_left</mwc-icon
           >
@@ -77,9 +77,9 @@ export class BoardViewer extends LitElement {
       ? html`
           <mwc-icon
             id="next"
-            @click=${(e) => this.onTapNext(e)}
-            @mouseover=${(e) => this.transientShowButtons(true)}
-            @mouseout=${(e) => this.transientShowButtons()}
+            @click=${e => this.onTapNext(e)}
+            @mouseover=${e => this.transientShowButtons(true)}
+            @mouseout=${e => this.transientShowButtons()}
             hidden
             >keyboard_arrow_right</mwc-icon
           >
@@ -91,8 +91,8 @@ export class BoardViewer extends LitElement {
 
       <div
         id="target"
-        @touchstart=${(e) => this.transientShowButtons()}
-        @mousemove=${(e) => this.transientShowButtons()}
+        @touchstart=${e => this.transientShowButtons()}
+        @mousemove=${e => this.transientShowButtons()}
       ></div>
 
       ${next} ${fullscreen}
@@ -106,7 +106,7 @@ export class BoardViewer extends LitElement {
 
     this.shadowRoot.addEventListener(
       'close-scene',
-      (e) => {
+      e => {
         e.preventDefault()
         this.onTapPrev()
       },
@@ -133,10 +133,10 @@ export class BoardViewer extends LitElement {
 
     var scene = create({
       model: {
-        ...this.board.model,
+        ...this.board.model
       },
       mode: 0,
-      refProvider: this.provider,
+      refProvider: this.provider
     })
 
     if (this.baseUrl) {
@@ -162,10 +162,10 @@ export class BoardViewer extends LitElement {
     }
 
     // delete queued scenes
-    this.forward.forEach((scene) => scene.release())
+    this.forward.forEach(scene => scene.release())
     this.forward = []
 
-    this.backward.forEach((scene) => scene.release())
+    this.backward.forEach(scene => scene.release())
     this.backward = []
   }
 
@@ -195,12 +195,12 @@ export class BoardViewer extends LitElement {
       delete this.scene
 
       // delete queued scenes
-      this.forward.forEach((scene) => {
+      this.forward.forEach(scene => {
         scene.release()
       })
       this.forward = []
 
-      this.backward.forEach((scene) => {
+      this.backward.forEach(scene => {
         scene.release()
       })
       this.backward = []
@@ -249,7 +249,7 @@ export class BoardViewer extends LitElement {
         this.backward.push(old_scene)
       }
 
-      this.forward.forEach((scene) => {
+      this.forward.forEach(scene => {
         scene.release()
       })
 
@@ -291,15 +291,15 @@ export class BoardViewer extends LitElement {
 
     if (!this._fade_animations) {
       this._fade_animations = buttons
-        .filter((button) => button)
-        .map((button) => {
+        .filter(button => button)
+        .map(button => {
           let animation = button.animate(
             [
               {
                 opacity: 1,
-                easing: 'ease-in',
+                easing: 'ease-in'
               },
-              { opacity: 0 },
+              { opacity: 0 }
             ],
             { delay: 1000, duration: 2000 }
           )
@@ -316,7 +316,7 @@ export class BoardViewer extends LitElement {
     this.prev.hidden = this.backward.length <= 0
     this.fullscreen && (this.fullscreen.hidden = false)
 
-    this._fade_animations.forEach((animation) => {
+    this._fade_animations.forEach(animation => {
       animation.cancel()
       if (stop) return
 
@@ -375,8 +375,8 @@ export class BoardViewer extends LitElement {
           detail: {
             level: 'error',
             message: ex,
-            ex,
-          },
+            ex
+          }
         })
       )
     }
@@ -397,7 +397,7 @@ export class BoardViewer extends LitElement {
     window.dispatchEvent(new Event('popstate'))
   }
 
-  async getSceneImageData() {
+  async getSceneImageData(base64 = false) {
     if (!this.scene) {
       return
     }
@@ -427,13 +427,43 @@ export class BoardViewer extends LitElement {
     root.set('translate', translate)
     root.set('scale', scale)
 
-    var data = canvas.getContext('2d').getImageData(0, 0, width, height).data
+    var data = base64 ? canvas.toDataURL() : context.getImageData(0, 0, width, height).data
 
     return {
       width,
       height,
-      data,
+      data
     }
+  }
+
+  async printTrick() {
+    var oldTarget
+    var newTarget
+    var { data: image } = await this.getSceneImageData(true)
+
+    newTarget = document.createElement('img')
+    newTarget.id = 'target'
+    newTarget.src = image
+    newTarget.style.width = '100%'
+    newTarget.style.height = '100%'
+
+    const x = mql => {
+      if (mql.matches) {
+        oldTarget = this.renderRoot.getElementById('target')
+
+        this.renderRoot.replaceChild(newTarget, oldTarget)
+      } else {
+        this.renderRoot.replaceChild(oldTarget, newTarget)
+        mediaQueryList.removeListener(x)
+      }
+    }
+
+    if (window.matchMedia) {
+      var mediaQueryList = window.matchMedia('print')
+      mediaQueryList.addListener(x)
+    }
+
+    // await sleep(500)
   }
 }
 

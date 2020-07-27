@@ -173,6 +173,10 @@ export class BoardViewerPage extends connect(store)(PageView) {
 
     return buildLabelPrintCommand(data, width, height, labelRotation)
   }
+
+  async printTrick() {
+    await this.renderRoot.querySelector('board-viewer').printTrick()
+  }
 }
 
 customElements.define('board-viewer-page', BoardViewerPage)
