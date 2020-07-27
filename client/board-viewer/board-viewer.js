@@ -437,23 +437,24 @@ export class BoardViewer extends LitElement {
   }
 
   async printTrick() {
-    var oldTarget
-    var newTarget
+    var viewTarget
+    var printTarget
     var { data: image } = await this.getSceneImageData(true)
 
-    newTarget = document.createElement('img')
-    newTarget.id = 'target'
-    newTarget.src = image
-    newTarget.style.width = '100%'
-    newTarget.style.height = '100%'
+    printTarget = document.createElement('img')
+    printTarget.id = 'target'
+    printTarget.src = image
+    printTarget.style.width = '100%'
+    printTarget.style.height = '100%'
 
     const x = mql => {
       if (mql.matches) {
-        oldTarget = this.renderRoot.getElementById('target')
+        viewTarget = this.renderRoot.getElementById('target')
 
-        this.renderRoot.replaceChild(newTarget, oldTarget)
+        this.renderRoot.replaceChild(printTarget, viewTarget)
       } else {
-        this.renderRoot.replaceChild(oldTarget, newTarget)
+        this.renderRoot.replaceChild(viewTarget, printTarget)
+        printTarget.remove()
         mediaQueryList.removeListener(x)
       }
     }
@@ -462,8 +463,6 @@ export class BoardViewer extends LitElement {
       var mediaQueryList = window.matchMedia('print')
       mediaQueryList.addListener(x)
     }
-
-    // await sleep(500)
   }
 }
 
