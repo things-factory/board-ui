@@ -446,10 +446,13 @@ export class BoardViewer extends LitElement {
     }
   }
 
-  async printTrick() {
+  async printTrick(image) {
     var viewTarget
     var printTarget
-    var { data: image } = await this.getSceneImageData(true)
+
+    if (!image) {
+      image = (await this.getSceneImageData(true)).data
+    }
 
     printTarget = document.createElement('img')
     printTarget.id = 'target'

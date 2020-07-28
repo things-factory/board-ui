@@ -174,8 +174,8 @@ export class BoardViewerPage extends connect(store)(PageView) {
     return buildLabelPrintCommand(data, width, height, labelRotation)
   }
 
-  async printTrick() {
-    await this.renderRoot.querySelector('board-viewer').printTrick()
+  async printTrick(image) {
+    await this.renderRoot.querySelector('board-viewer').printTrick(image)
   }
 }
 
